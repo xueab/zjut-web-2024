@@ -4,6 +4,7 @@
   <groupId>org.example</groupId>
   <artifactId>webwork</artifactId>
   <packaging>war</packaging>
+<<<<<<< HEAD
     <dependencies>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
@@ -21,4 +22,14 @@
 
 
     <version>1.0-SNAPSHOT</version>
+=======
+  <version>1.0-SNAPSHOT</version>
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+  </dependencies>
+>>>>>>> upstream/main
 </project>
