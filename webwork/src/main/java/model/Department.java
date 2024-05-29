@@ -4,6 +4,14 @@ public class Department {
     private int deptId; // 部门ID
     private String deptName; // 部门名称
 
+    public Department() {
+    }
+
+    public Department(int deptId, String deptName) {
+        this.deptId = deptId;
+        this.deptName = deptName;
+    }
+
     // Getters and Setters
     public int getDeptId() {
         return deptId;
