@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class SpecialDeduction {
     private int deductionId; // 扣除ID
-    private int empId; // 员工ID
+    private int empNo; // 员工编号
     private int year; // 年份
     private BigDecimal educationDeduction; // 子女教育扣除
     private BigDecimal continuedEducationDeduction; // 继续教育扣除
@@ -13,6 +13,25 @@ public class SpecialDeduction {
     private BigDecimal housingRentDeduction; // 住房租金扣除
     private BigDecimal elderlySupportDeduction; // 赡养老人扣除
     private BigDecimal childcareDeduction; // 婴幼儿照护扣除
+
+    public SpecialDeduction() {
+    }
+
+    public SpecialDeduction(int deductionId, int empNo, int year, BigDecimal educationDeduction,
+                            BigDecimal continuedEducationDeduction, BigDecimal seriousIllnessDeduction, BigDecimal housingLoanInterestDeduction,
+                            BigDecimal housingRentDeduction, BigDecimal elderlySupportDeduction, BigDecimal childcareDeduction)
+    {
+        this.deductionId = deductionId;
+        this.empNo = empNo;
+        this.year = year;
+        this.educationDeduction = educationDeduction;
+        this.continuedEducationDeduction = continuedEducationDeduction;
+        this.seriousIllnessDeduction = seriousIllnessDeduction;
+        this.housingLoanInterestDeduction = housingLoanInterestDeduction;
+        this.housingRentDeduction = housingRentDeduction;
+        this.elderlySupportDeduction = elderlySupportDeduction;
+        this.childcareDeduction = childcareDeduction;
+    }
 
     // Getters and Setters
     public int getDeductionId() {
@@ -23,12 +42,12 @@ public class SpecialDeduction {
         this.deductionId = deductionId;
     }
 
-    public int getEmpId() {
-        return empId;
+    public int getEmpNo() {
+        return empNo;
     }
 
-    public void setEmpId(int empId) {
-        this.empId = empId;
+    public void setEmpNo(int empNo) {
+        this.empNo = empNo;
     }
 
     public int getYear() {

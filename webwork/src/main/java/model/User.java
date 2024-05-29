@@ -11,6 +11,20 @@ public class User {
     private int failedLoginAttempts; // 登录失败次数
     private Date accountLockedUntil; // 账户锁定截止时间
 
+
+    public User() {
+    }
+
+    public User(int userId, String username, String password, String role, Date lastPasswordChange, int failedLoginAttempts, Date accountLockedUntil) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.lastPasswordChange = lastPasswordChange;
+        this.failedLoginAttempts = failedLoginAttempts;
+        this.accountLockedUntil = accountLockedUntil;
+    }
+
     // Getters and Setters
     public int getUserId() {
         return userId;

@@ -1,27 +1,30 @@
 package model;
 
 public class Dependent {
-    private int dependentId; // 子女和老人信息ID
-    private int empId; // 员工ID
+    private int empNo; // 员工编号
     private String name; // 子女或老人姓名
     private String idNumber; // 身份证号
     private String relationship; // 关系（如子女、老人）
 
+
+    public Dependent() {
+    }
+
+    public Dependent(int empNo, String name, String idNumber, String relationship) {
+        this.empNo = empNo;
+        this.name = name;
+        this.idNumber = idNumber;
+        this.relationship = relationship;
+    }
+
     // Getters and Setters
-    public int getDependentId() {
-        return dependentId;
+
+    public int getEmpNo() {
+        return empNo;
     }
 
-    public void setDependentId(int dependentId) {
-        this.dependentId = dependentId;
-    }
-
-    public int getEmpId() {
-        return empId;
-    }
-
-    public void setEmpId(int empId) {
-        this.empId = empId;
+    public void setEmpNo(int empNo) {
+        this.empNo = empNo;
     }
 
     public String getName() {

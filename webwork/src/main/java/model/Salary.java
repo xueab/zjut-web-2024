@@ -3,8 +3,7 @@ package model;
 import java.math.BigDecimal;
 
 public class Salary {
-    private int salaryId; // 工资ID
-    private int empId; // 员工ID
+    private int empNo; // 员工编号
     private int year; // 工资所属年份
     private int month; // 工资所属月份
     private BigDecimal basicSalary; // 基本工资
@@ -18,21 +17,37 @@ public class Salary {
     private BigDecimal deduction; // 其他扣除项
     private BigDecimal netSalary; // 实发工资
 
+    public Salary() {
+    }
+
+    public Salary(int empNo, int year, int month, BigDecimal basicSalary, BigDecimal positionAllowance,
+                  BigDecimal lunchAllowance, BigDecimal overtimePay, BigDecimal fullAttendanceBonus, BigDecimal socialSecurity,
+                  BigDecimal housingFund, BigDecimal personalTax, BigDecimal deduction, BigDecimal netSalary)
+    {
+        this.empNo = empNo;
+        this.year = year;
+        this.month = month;
+        this.basicSalary = basicSalary;
+        this.positionAllowance = positionAllowance;
+        this.lunchAllowance = lunchAllowance;
+        this.overtimePay = overtimePay;
+        this.fullAttendanceBonus = fullAttendanceBonus;
+        this.socialSecurity = socialSecurity;
+        this.housingFund = housingFund;
+        this.personalTax = personalTax;
+        this.deduction = deduction;
+        this.netSalary = netSalary;
+    }
+
+
     // Getters and Setters
-    public int getSalaryId() {
-        return salaryId;
+
+    public int getEmpNo() {
+        return empNo;
     }
 
-    public void setSalaryId(int salaryId) {
-        this.salaryId = salaryId;
-    }
-
-    public int getEmpId() {
-        return empId;
-    }
-
-    public void setEmpId(int empId) {
-        this.empId = empId;
+    public void setEmpNo(int empNo) {
+        this.empNo = empNo;
     }
 
     public int getYear() {
