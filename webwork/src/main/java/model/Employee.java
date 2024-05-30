@@ -3,6 +3,7 @@ package model;
 public class Employee {
     private String empNo; // 员工编号
     private String name; // 员工姓名
+    private String depName;//部门名称
     private String position; // 岗位
     private String idNumber; // 身份证号
     private String phone; // 手机号
@@ -11,16 +12,15 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String empNo, String name, String position, String idNumber, String phone, String address) {
+    public Employee(String empNo, String name, String depName, String position, String idNumber, String phone, String address) {
         this.empNo = empNo;
         this.name = name;
+        this.depName = depName;
         this.position = position;
         this.idNumber = idNumber;
         this.phone = phone;
         this.address = address;
     }
-
-    // Getters and Setters
 
     public String getEmpNo() {
         return empNo;
@@ -36,6 +36,14 @@ public class Employee {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDepName() {
+        return depName;
+    }
+
+    public void setDepName(String depName) {
+        this.depName = depName;
     }
 
     public String getPosition() {
