@@ -26,6 +26,7 @@ public class LeaderServlet extends HttpServlet {
         int userId = Integer.parseInt(req.getParameter("userId"));
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+        // 加密
         password = encrypt(password);
         String role = req.getParameter("role");
         Date lastPasswordChange = new Date(req.getParameter("lastPasswordChange"));

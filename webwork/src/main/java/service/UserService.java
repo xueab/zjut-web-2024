@@ -1,5 +1,6 @@
 package service;
 
+import dao.UserDao;
 import model.User;
 
 public class UserService {
