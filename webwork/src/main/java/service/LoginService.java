@@ -13,7 +13,7 @@ public class LoginService {
     public boolean checkUser(String name, String password) throws UnsupportedEncodingException {
         UserDao user = new UserDao();
         List<User> list = user.selectUser();
-
+        // 加密
         password = encrypt(password);
 
         for (User s : list) {
