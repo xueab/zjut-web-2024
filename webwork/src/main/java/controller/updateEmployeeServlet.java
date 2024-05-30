@@ -1,7 +1,6 @@
 package controller;
 
 import model.Employee;
-import service.Employee;
 import service.EmployeeService;
 
 import javax.servlet.ServletException;
@@ -19,12 +18,13 @@ public class updateEmployeeServlet extends HttpServlet {
         EmployeeService e = new EmployeeService();
         String empNo = req.getParameter("empNo");
         String name = req.getParameter("name");
+        String depName = req.getParameter("depName");
         String position = req.getParameter("position");
         String idNumber = req.getParameter("idNumber");
         String phone = req.getParameter("phone");
         String address = req.getParameter("address");
 
-        Employee employee = new Employee(empNo, name, position, idNumber, phone, address);
+        Employee employee = new Employee(empNo, name, depName, position, idNumber, phone, address);
 
         e.updateEmployee(employee);
 
