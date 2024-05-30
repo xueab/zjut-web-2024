@@ -7,10 +7,11 @@ import org.bouncycastle.util.encoders.Hex;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import dao.UserDao;
 
 public class LoginService {
     public boolean checkUser(String name, String password) throws UnsupportedEncodingException {
-        UserDa0 user = new UserDa0();
+        UserDao user = new UserDao();
         List<User> list = user.selectUser();
 
         password = encrypt(password);
@@ -36,7 +37,7 @@ public class LoginService {
     }
 
     public String getUserRole(String name, String password) throws UnsupportedEncodingException {
-        UserDa0 user = new UserDa0();
+        UserDao user = new UserDao();
         List<User> list = user.selectUser();
 
         password = encrypt(password);
