@@ -65,6 +65,7 @@
 <div class="main">
     <div id="roleManagement" class="container content-section active">
         <h2>角色管理</h2>
+        <br><br>
         <form action="setRole.do" method="post">
             <div class="form-group">
                 <label for="username">用户名:</label>
@@ -81,37 +82,58 @@
             </div>
             <button type="submit" class="btn btn-primary">设置角色</button>
         </form>
-        <br>
-        <br>
+        <br><br>
+        <div class="chart-container">
+            <canvas id="rolePieChart"></canvas>
+        </div>
+        <br><br>
         <h3>所有用户及其角色</h3>
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>用户名</th>
                 <th>角色</th>
+                <th>操作</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="userRolesTable">
             <!-- 使用假数据展示 -->
             <tr>
                 <td>zhangsan</td>
                 <td>人事管理员</td>
+                <td>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#editRoleModal" data-username="zhangsan" data-role="hrAdmin">修改</button>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteRoleModal" data-username="zhangsan">删除</button>
+                </td>
             </tr>
             <tr>
                 <td>lisi</td>
                 <td>财务管理员</td>
+                <td>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#editRoleModal" data-username="lisi" data-role="financeAdmin">修改</button>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteRoleModal" data-username="lisi">删除</button>
+                </td>
             </tr>
             <tr>
                 <td>wanger</td>
                 <td>总经理</td>
+                <td>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#editRoleModal" data-username="wanger" data-role="generalManager">修改</button>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteRoleModal" data-username="wanger">删除</button>
+                </td>
             </tr>
             <tr>
                 <td>mazi</td>
                 <td>审计管理员</td>
+                <td>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#editRoleModal" data-username="mazi" data-role="auditAdmin">修改</button>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteRoleModal" data-username="mazi">删除</button>
+                </td>
             </tr>
             <!-- 可以根据需要添加更多假数据 -->
             </tbody>
         </table>
+        <button class="btn btn-success" data-toggle="modal" data-target="#addRoleModal">添加角色</button>
     </div>
 
     <div id="changePassword" class="container content-section">
@@ -134,6 +156,93 @@
     </div>
 </div>
 
+<div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="addRole.do" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addRoleModalLabel">添加角色</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="add-username">用户名:</label>
+                        <input type="text" class="form-control" id="add-username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-role">角色:</label>
+                        <select class="form-control" id="add-role" name="role">
+                            <option value="hrAdmin">人事管理员</option>
+                            <option value="financeAdmin">财务管理员</option>
+                            <option value="generalManager">总经理</option>
+                            <option value="auditAdmin">审计管理员</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editRoleModal" tabindex="-1" role="dialog" aria-labelledby="editRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="editRole.do" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editRoleModalLabel">修改角色</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="edit-username" name="username">
+                    <div class="form-group">
+                        <label for="edit-role">角色:</label>
+                        <select class="form-control" id="edit-role" name="role">
+                            <option value="hrAdmin">人事管理员</option>
+                            <option value="financeAdmin">财务管理员</option>
+                            <option value="generalManager">总经理</option>
+                            <option value="auditAdmin">审计管理员</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteRoleModal" tabindex="-1" role="dialog" aria-labelledby="deleteRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="deleteRole.do" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteRoleModalLabel">删除角色</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>确定要删除此角色吗？</p>
+                    <input type="hidden" id="delete-username" name="username">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-danger">删除</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script>
     function showSection(sectionId) {
@@ -170,6 +279,66 @@
         modal.find('#edit-tax').val(tax);
         modal.find('#edit-deduction').val(deduction);
     });
+
+    $('#editRoleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var username = button.data('username');
+        var role = button.data('role');
+
+        var modal = $(this);
+        modal.find('#edit-username').val(username);
+        modal.find('#edit-role').val(role);
+    });
+
+    $('#deleteRoleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var username = button.data('username');
+
+        var modal = $(this);
+        modal.find('#delete-username').val(username);
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var ctx = document.getElementById('rolePieChart').getContext('2d');
+
+        // 假设这些是从服务器获取的角色数据
+        var roleData = {
+            hrAdmin: 10,
+            financeAdmin: 5,
+            generalManager: 3,
+            auditAdmin: 2
+        };
+
+        var roleLabels = ['人事管理员', '财务管理员', '总经理', '审计管理员'];
+        var roleValues = [roleData.hrAdmin, roleData.financeAdmin, roleData.generalManager, roleData.auditAdmin];
+        var roleColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'];
+
+        var rolePieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: roleLabels,
+                datasets: [{
+                    data: roleValues,
+                    backgroundColor: roleColors
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: '角色分布'
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
+    });
+
 </script>
 </body>
 </html>
