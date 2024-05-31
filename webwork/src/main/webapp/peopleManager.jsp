@@ -9,6 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -20,7 +21,7 @@
             z-index: 1;
             top: 0;
             left: 0;
-            background: linear-gradient(to bottom, #5F9EA0, #4682B4, #87CEEB, #B0E0E6, #E0FFFF); /* 渐变效果 */
+            background: linear-gradient(to bottom, #5F9EA0, #4682B4, #87CEEB, #B0E0E6, #E0FFFF);
             padding-top: 20px;
             color: white;
         }
@@ -28,7 +29,7 @@
             padding: 10px 15px;
             text-decoration: none;
             font-size: 18px;
-            color: white; /* 文字颜色 */
+            color: white;
             display: block;
         }
         .sidebar a i {
@@ -36,7 +37,7 @@
         }
         .sidebar a:hover {
             background-color: rgba(255, 255, 255, 0.2);
-            color: white; /* 悬停时文字颜色 */
+            color: white;
         }
         .main {
             margin-left: 260px;
@@ -53,6 +54,10 @@
         }
         .active {
             display: block;
+        }
+        .chart-container {
+            width: 50%;
+            margin: auto;
         }
     </style>
 </head>
