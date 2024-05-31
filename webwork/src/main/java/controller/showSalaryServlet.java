@@ -11,7 +11,7 @@ import java.io.IOException;
 
 
 // 显示工资占比
-@WebServlet("showSalaryServlet")
+@WebServlet("/showSalaryServlet")
 public class showSalaryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

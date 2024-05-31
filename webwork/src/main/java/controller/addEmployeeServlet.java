@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 // 添加员工
-@WebServlet("addEmployeeServlet")
+@WebServlet("/addEmployeeServlet")
 public class addEmployeeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

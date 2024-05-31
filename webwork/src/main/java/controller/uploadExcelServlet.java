@@ -18,7 +18,7 @@ import java.io.InputStream;
 
 
 // 上传excel
-@WebServlet("uploadExcelServlet")
+@WebServlet("/uploadExcelServlet")
 public class uploadExcelServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

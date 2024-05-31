@@ -31,4 +31,23 @@ public class UserDao extends BaseDao {
         return list;
     }
 
+    public void add(User user) {
+        String sql = "insert into user (user_id,username,password,role,last_password_change,failed_login_attempts,account_locked_until) values(?,?,?,?,?,?,?)";
+        this.executeUpdate(sql,user.getUserId(),user.getUsername(),user.getPassword(),user.getRole(),user.getLastPasswordChange(),
+                user.getFailedLoginAttempts(),user.getAccountLockedUntil());
+        return ;
+    }
+
+    public void update(User user) {
+        String sql = "update user set username = ?,password = ?,role = ?,last_password_change = ?,failed_login_attempts = ?,account_locked_until = ?" +
+                "where user_id = ?";
+        this.executeUpdate(sql,user.getUsername(),user.getPassword(),user.getRole(),user.getLastPasswordChange(),user.getFailedLoginAttempts(),
+                user.getAccountLockedUntil(),user.getUserId());
+        return;
+    }
+    public void delete(User user) {
+        String sql = "delete from user where user_id = ?";
+        this.executeUpdate(sql,user.getUserId());
+        return ;
+    }
 }

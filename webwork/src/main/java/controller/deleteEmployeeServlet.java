@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 // 删除员工信息
-@WebServlet("deleteEmployeeServlet")
+@WebServlet("/deleteEmployeeServlet")
 public class deleteEmployeeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

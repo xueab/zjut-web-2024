@@ -3,7 +3,6 @@ package model;
 import java.math.BigDecimal;
 
 public class SpecialDeduction {
-    private int deductionId; // 扣除ID
     private int empNo; // 员工编号
     private int year; // 年份
     private BigDecimal educationDeduction; // 子女教育扣除
@@ -17,11 +16,9 @@ public class SpecialDeduction {
     public SpecialDeduction() {
     }
 
-    public SpecialDeduction(int deductionId, int empNo, int year, BigDecimal educationDeduction,
-                            BigDecimal continuedEducationDeduction, BigDecimal seriousIllnessDeduction, BigDecimal housingLoanInterestDeduction,
-                            BigDecimal housingRentDeduction, BigDecimal elderlySupportDeduction, BigDecimal childcareDeduction)
-    {
-        this.deductionId = deductionId;
+    public SpecialDeduction(int empNo, int year, BigDecimal educationDeduction, BigDecimal continuedEducationDeduction,
+                            BigDecimal seriousIllnessDeduction, BigDecimal housingLoanInterestDeduction, BigDecimal housingRentDeduction,
+                            BigDecimal elderlySupportDeduction, BigDecimal childcareDeduction) {
         this.empNo = empNo;
         this.year = year;
         this.educationDeduction = educationDeduction;
@@ -31,15 +28,6 @@ public class SpecialDeduction {
         this.housingRentDeduction = housingRentDeduction;
         this.elderlySupportDeduction = elderlySupportDeduction;
         this.childcareDeduction = childcareDeduction;
-    }
-
-    // Getters and Setters
-    public int getDeductionId() {
-        return deductionId;
-    }
-
-    public void setDeductionId(int deductionId) {
-        this.deductionId = deductionId;
     }
 
     public int getEmpNo() {

@@ -8,13 +8,8 @@
       </list>
     </option>
   </component>
-<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" languageLevel="JDK_20" default="true" project-jdk-name="openjdk-22" project-jdk-type="JavaSDK">
 =======
-<<<<<<< HEAD
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
-=======
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_22" default="true" project-jdk-name="openjdk-22" project-jdk-type="JavaSDK">
 >>>>>>> upstream/main
 >>>>>>> f95c97c5334b92c78216ad38a68462bfd0d85740
     <output url="file://$PROJECT_DIR$/out" />
