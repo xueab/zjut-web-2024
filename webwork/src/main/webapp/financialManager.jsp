@@ -101,7 +101,8 @@
             <td>500</td>
             <td>1500</td>
             <td>200</td>
-            <td><button class="btn btn-warning" data-toggle="modal" data-target="#editSalaryModal" data-id="1" data-name="张三" data-position="软件工程师" data-basic="10000" data-allowance="2000" data-lunch="300" data-overtime="500" data-full="1000" data-social="800" data-housing="500" data-tax="1500" data-deduction="200">编辑</button></td>
+            <td><button class="btn btn-warning" data-toggle="modal" data-target="#editSalaryModal" data-id="1" data-name="张三" data-position="软件工程师" data-basic="10000" data-allowance="2000" data-lunch="300" data-overtime="500" data-full="1000" data-social="800" data-housing="500" data-tax="1500" data-deduction="200">编辑</button>
+                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteSalaryModal" data-id="1">删除</button></td>
         </tr>
         <tr>
             <td>2</td>
@@ -116,10 +117,12 @@
             <td>600</td>
             <td>1700</td>
             <td>300</td>
-            <td><button class="btn btn-warning" data-toggle="modal" data-target="#editSalaryModal" data-id="2" data-name="李四" data-position="产品经理" data-basic="12000" data-allowance="2500" data-lunch="400" data-overtime="600" data-full="1200" data-social="900" data-housing="600" data-tax="1700" data-deduction="300">编辑</button></td>
+            <td><button class="btn btn-warning" data-toggle="modal" data-target="#editSalaryModal" data-id="2" data-name="李四" data-position="产品经理" data-basic="12000" data-allowance="2500" data-lunch="400" data-overtime="600" data-full="1200" data-social="900" data-housing="600" data-tax="1700" data-deduction="300">编辑</button>
+                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteSalaryModal" data-id="2">删除</button></td>
         </tr>
         </tbody>
     </table>
+    <button class="btn btn-success" data-toggle="modal" data-target="#addSalaryModal">添加记录</button>
 </div>
 
 <div id="changePassword" class="container content-section">
@@ -139,6 +142,75 @@
         </div>
         <button type="submit" class="btn btn-primary">修改密码</button>
     </form>
+</div>
+
+<div class="modal fade" id="addSalaryModal" tabindex="-1" role="dialog" aria-labelledby="addSalaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="addSalary.do" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addSalaryModalLabel">添加工资</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="addEmployeeId">员工ID:</label>
+                        <input type="text" class="form-control" id="addEmployeeId" name="id" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addEmployeeName">姓名:</label>
+                        <input type="text" class="form-control" id="addEmployeeName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addEmployeePosition">职位:</label>
+                        <input type="text" class="form-control" id="addEmployeePosition" name="position" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addBasicSalary">基本工资:</label>
+                        <input type="number" class="form-control" id="addBasicSalary" name="basicSalary" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addAllowance">岗位津贴:</label>
+                        <input type="number" class="form-control" id="addAllowance" name="allowance" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addLunchSubsidy">午餐补贴:</label>
+                        <input type="number" class="form-control" id="addLunchSubsidy" name="lunchSubsidy" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addOvertimeSalary">加班工资:</label>
+                        <input type="number" class="form-control" id="addOvertimeSalary" name="overtimeSalary" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addFullAttendanceSalary">全勤工资:</label>
+                        <input type="number" class="form-control" id="addFullAttendanceSalary" name="fullAttendanceSalary" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addSocialSecurity">社保:</label>
+                        <input type="number" class="form-control" id="addSocialSecurity" name="socialSecurity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addHousingFund">公积金:</label>
+                        <input type="number" class="form-control" id="addHousingFund" name="housingFund" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addPersonalIncomeTax">个人所得税:</label>
+                        <input type="number" class="form-control" id="addPersonalIncomeTax" name="personalIncomeTax" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addOtherDeductions">其他扣款:</label>
+                        <input type="number" class="form-control" id="addOtherDeductions" name="otherDeductions" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="editSalaryModal" tabindex="-1" role="dialog" aria-labelledby="editSalaryModalLabel" aria-hidden="true">
@@ -207,6 +279,29 @@
     </div>
 </div>
 
+<div class="modal fade" id="deleteSalaryModal" tabindex="-1" role="dialog" aria-labelledby="deleteSalaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="deleteSalary.do" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteSalaryModalLabel">删除工资</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>确定要删除该员工的工资信息吗?</p>
+                    <input type="hidden" id="deleteSalaryId" name="id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-danger">删除</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     // 当点击侧边栏链接时显示相应的内容部分
     function showSection(sectionId) {
@@ -255,6 +350,13 @@
             tableBody.append(row);
         });
     }
+
+    $('#deleteSalaryModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
+        var modal = $(this);
+        modal.find('#deleteSalaryId').val(id);
+    });
 
     $('#editSalaryModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget); // 触发模态框的按钮
