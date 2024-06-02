@@ -62,83 +62,55 @@
     </style>
 </head>
 <body>
+<%
+    String username = request.getParameter("username");
+%>//读入登录账号的username属性
 <div class="sidebar">
-    <a href="#" onclick="showSection('roleManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
+    <a href="#" onclick="showSection('employeeManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
     <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
 </div>
 
 <div class="main">
-    <div id="roleManagement" class="container content-section active">
-        <h2>角色管理</h2>
+    <div id="employeeManagement" class="container content-section active">
+        <h2>员工管理</h2>
         <br><br>
-        <form action="setRole.do" method="post">
-            <div class="form-group">
-                <label for="username">用户名:</label>
-                <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="role">角色:</label>
-                <select class="form-control" id="role" name="role">
-                    <option value="hrAdmin">人事管理员</option>
-                    <option value="financeAdmin">财务管理员</option>
-                    <option value="generalManager">总经理</option>
-                    <option value="auditAdmin">审计管理员</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">设置角色</button>
-        </form>
+        <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal">显示饼状图</button>
         <br><br>
-        <div class="chart-container">
-            <canvas id="rolePieChart"></canvas>
-        </div>
         <br><br>
-        <h3>所有用户及其角色</h3>
+        <h3>所有员工</h3>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>用户名</th>
-                <th>角色</th>
+                <th>姓名</th>
+                <th>员工编号</th>
+                <th>部门</th>
+                <th>岗位</th>
+                <th>职务</th>
+                <th>身份证号</th>
+                <th>手机号</th>
+                <th>住址</th>
                 <th>操作</th>
             </tr>
             </thead>
-            <tbody id="userRolesTable">
-            <!-- 使用假数据展示 -->
-            <tr>
-                <td>zhangsan</td>
-                <td>人事管理员</td>
-                <td>
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#editRoleModal" data-username="zhangsan" data-role="hrAdmin">修改</button>
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteRoleModal" data-username="zhangsan">删除</button>
-                </td>
-            </tr>
-            <tr>
-                <td>lisi</td>
-                <td>财务管理员</td>
-                <td>
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#editRoleModal" data-username="lisi" data-role="financeAdmin">修改</button>
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteRoleModal" data-username="lisi">删除</button>
-                </td>
-            </tr>
-            <tr>
-                <td>wanger</td>
-                <td>总经理</td>
-                <td>
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#editRoleModal" data-username="wanger" data-role="generalManager">修改</button>
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteRoleModal" data-username="wanger">删除</button>
-                </td>
-            </tr>
-            <tr>
-                <td>mazi</td>
-                <td>审计管理员</td>
-                <td>
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#editRoleModal" data-username="mazi" data-role="auditAdmin">修改</button>
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteRoleModal" data-username="mazi">删除</button>
-                </td>
-            </tr>
-            <!-- 可以根据需要添加更多假数据 -->
+            <tbody id="employeeRolesTable">
+            <c:forEach var="employeeRole" items="${list}">
+                <tr>
+                    <td>${employeeRole.name}</td>
+                    <td>${employeerRole.empno}</td>
+                    <td>${employeerRole.depName}</td>
+                    <td>${employeerRole.position}</td>
+                    <td>${employeerRole.idNumber}</td>
+                    <td>${employeerRole.phone}</td>
+                    <td>${employeerRole.address}</td>
+                    <td>
+                        <button class="btn btn-warning" data-toggle="modal" data-target="#editemployeeModal" data-name="${employeeRole.name}" data-empno="${employeeRole.empno}" data-depName="${employeeRole.depName}" data-position="${employeeRole.position}" data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}" data-address="${employeeRole.address}">修改</button>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteemployeeModal" data-username="${employeeRole.name}">删除</button>
+                    </td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
-        <button class="btn btn-success" data-toggle="modal" data-target="#addRoleModal">添加角色</button>
+        <button class="btn btn-success" data-toggle="modal" data-target="#addemployeeModal">添加员工</button>
     </div>
 
     <div id="changePassword" class="container content-section">
@@ -161,87 +133,71 @@
     </div>
 </div>
 
-<div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addemployeeModal" tabindex="-1" role="dialog" aria-labelledby="addemployeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="addRole.do" method="post">
+            <form action="addempoyee.do" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addRoleModalLabel">添加角色</h5>
+                    <h5 class="modal-title" id="addemployeeModalLabel">添加员工</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="add-username">用户名:</label>
-                        <input type="text" class="form-control" id="add-username" name="username" required>
+                        <label for="addemployeename">姓名:</label>
+                        <input type="text" class="form-control" id="addemployeename" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="add-role">角色:</label>
-                        <select class="form-control" id="add-role" name="role">
-                            <option value="hrAdmin">人事管理员</option>
-                            <option value="financeAdmin">财务管理员</option>
-                            <option value="generalManager">总经理</option>
-                            <option value="auditAdmin">审计管理员</option>
-                        </select>
+                        <label for="addemployeeempno">编号:</label>
+                        <input type="text" class="form-control" id="addemployeeempno" name="empno" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addemployeedepName">部门:</label>
+                        <input type="text" class="form-control" id="addemployeedepName" name="depName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addemployeeposition">职务:</label>
+                        <input type="text" class="form-control" id="addemployeeposition" name="position" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addemployeeidNumber">身份证号:</label>
+                        <input type="text" class="form-control" id="addemployeeidNumber" name="idNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addemployeephone">电话号码:</label>
+                        <input type="text" class="form-control" id="addemployeephone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addemployeeaddress">地址:</label>
+                        <input type="text" class="form-control" id="addemployeeaddress" name="address" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                    <button type="submit" class="btn btn-primary">提交</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editRoleModal" tabindex="-1" role="dialog" aria-labelledby="editRoleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteemployeeModal" tabindex="-1" role="dialog" aria-labelledby="deleteemployeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="editRole.do" method="post">
+            <form action="deleteemployee.do" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editRoleModalLabel">修改角色</h5>
+                    <h5 class="modal-title" id="deleteemployeeModalLabel">删除员工</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="edit-username" name="username">
-                    <div class="form-group">
-                        <label for="edit-role">角色:</label>
-                        <select class="form-control" id="edit-role" name="role">
-                            <option value="hrAdmin">人事管理员</option>
-                            <option value="financeAdmin">财务管理员</option>
-                            <option value="generalManager">总经理</option>
-                            <option value="auditAdmin">审计管理员</option>
-                        </select>
-                    </div>
+                    <p>确定要删除此员工吗？(输入员工编号）</p>
+                    <input type="hidden" id="deleteempno" name="empno">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                    <button type="submit" class="btn btn-primary">提交</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="deleteRoleModal" tabindex="-1" role="dialog" aria-labelledby="deleteRoleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form action="deleteRole.do" method="post">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteRoleModalLabel">删除角色</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>确定要删除此角色吗？</p>
-                    <input type="hidden" id="delete-username" name="username">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                     <button type="submit" class="btn btn-danger">删除</button>
                 </div>
             </form>
@@ -251,97 +207,37 @@
 
 <script>
     function showSection(sectionId) {
-        $('.content-section').removeClass('active');
-        $('#' + sectionId).addClass('active');
+        var sections = document.getElementsByClassName("content-section");
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].style.display = "none";
+        }
+        document.getElementById(sectionId).style.display = "block";
     }
 
-    $('#editSalaryModal').on('show.bs.modal', function (event) {
+    $('#editempolyeeModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var id = button.data('id');
         var name = button.data('name');
+        var empno = button.data('empno');
+        var depName = button.data('depName');
         var position = button.data('position');
-        var basic = button.data('basic');
-        var allowance = button.data('allowance');
-        var lunch = button.data('lunch');
-        var overtime = button.data('overtime');
-        var full = button.data('full');
-        var social = button.data('social');
-        var housing = button.data('housing');
-        var tax = button.data('tax');
-        var deduction = button.data('deduction');
-
+        var idNumber = button.data('idNumber');
+        var phone = button.data('phone');
+        var address = button.data('address');
         var modal = $(this);
-        modal.find('#edit-id').val(id);
-        modal.find('#edit-name').val(name);
-        modal.find('#edit-position').val(position);
-        modal.find('#edit-basic').val(basic);
-        modal.find('#edit-allowance').val(allowance);
-        modal.find('#edit-lunch').val(lunch);
-        modal.find('#edit-overtime').val(overtime);
-        modal.find('#edit-full').val(full);
-        modal.find('#edit-social').val(social);
-        modal.find('#edit-housing').val(housing);
-        modal.find('#edit-tax').val(tax);
-        modal.find('#edit-deduction').val(deduction);
-    });
-
-    $('#editRoleModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var username = button.data('username');
-        var role = button.data('role');
-
-        var modal = $(this);
-        modal.find('#edit-username').val(username);
-        modal.find('#edit-role').val(role);
+        modal.find('#editname').val(name);
+        modal.find('#editempno').val(empno);
+        modal.find('#editdepName').val(depName);
+        modal.find('#editposition').val(position);
+        modal.find('#editidNumber').val(idNumber);
+        modal.find('#editphone').val(phone);
+        modal.find('#editaddress').val(address);
     });
 
     $('#deleteRoleModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var username = button.data('username');
-
+        var empno = button.data('empno');
         var modal = $(this);
-        modal.find('#delete-username').val(username);
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        var ctx = document.getElementById('rolePieChart').getContext('2d');
-
-        // 假设这些是从服务器获取的角色数据
-        var roleData = {
-            hrAdmin: 10,
-            financeAdmin: 5,
-            generalManager: 3,
-            auditAdmin: 2
-        };
-
-        var roleLabels = ['人事管理员', '财务管理员', '总经理', '审计管理员'];
-        var roleValues = [roleData.hrAdmin, roleData.financeAdmin, roleData.generalManager, roleData.auditAdmin];
-        var roleColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'];
-
-        var rolePieChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: roleLabels,
-                datasets: [{
-                    data: roleValues,
-                    backgroundColor: roleColors
-                }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: '角色分布'
-                },
-                animation: {
-                    animateScale: true,
-                    animateRotate: true
-                }
-            }
-        });
+        modal.find('#deleteempno').val(empno);
     });
 
 </script>

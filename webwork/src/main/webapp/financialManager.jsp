@@ -57,17 +57,16 @@
     </style>
 </head>
 <body>
+<%
+    String username = request.getParameter("username");
+%>//读入账号登录的username属性
 <div class="sidebar">
     <a href="#" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
     <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
 </div>
 
-<div id="viewSalaries" class="container content-section active">
+<div id="viewSalaries" class="container content-section">
     <h2>查看工资</h2>
-    <!-- 搜索框 -->
-    <div class="form-group">
-        <input type="text" class="form-control" id="searchKeyword" placeholder="输入关键字搜索">
-    </div>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -86,40 +85,27 @@
             <th>操作</th>
         </tr>
         </thead>
-        <tbody id="employeeTableBody">
-        <!-- 这里是搜索结果，初始展示全部员工信息 -->
-        <tr>
-            <td>1</td>
-            <td>张三</td>
-            <td>软件工程师</td>
-            <td>10000</td>
-            <td>2000</td>
-            <td>300</td>
-            <td>500</td>
-            <td>1000</td>
-            <td>800</td>
-            <td>500</td>
-            <td>1500</td>
-            <td>200</td>
-            <td><button class="btn btn-warning" data-toggle="modal" data-target="#editSalaryModal" data-id="1" data-name="张三" data-position="软件工程师" data-basic="10000" data-allowance="2000" data-lunch="300" data-overtime="500" data-full="1000" data-social="800" data-housing="500" data-tax="1500" data-deduction="200">编辑</button>
-                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteSalaryModal" data-id="1">删除</button></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>李四</td>
-            <td>产品经理</td>
-            <td>12000</td>
-            <td>2500</td>
-            <td>400</td>
-            <td>600</td>
-            <td>1200</td>
-            <td>900</td>
-            <td>600</td>
-            <td>1700</td>
-            <td>300</td>
-            <td><button class="btn btn-warning" data-toggle="modal" data-target="#editSalaryModal" data-id="2" data-name="李四" data-position="产品经理" data-basic="12000" data-allowance="2500" data-lunch="400" data-overtime="600" data-full="1200" data-social="900" data-housing="600" data-tax="1700" data-deduction="300">编辑</button>
-                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteSalaryModal" data-id="2">删除</button></td>
-        </tr>
+        <tbody>
+        <c:forEach var="salary" items="${salaryList}">
+            <tr>
+                <td>${salary.id}</td>
+                <td>${salary.name}</td>
+                <td>${salary.position}</td>
+                <td>${salary.basicSalary}</td>
+                <td>${salary.allowance}</td>
+                <td>${salary.lunchSubsidy}</td>
+                <td>${salary.overtimeSalary}</td>
+                <td>${salary.fullAttendanceSalary}</td>
+                <td>${salary.socialSecurity}</td>
+                <td>${salary.housingFund}</td>
+                <td>${salary.personalIncomeTax}</td>
+                <td>${salary.otherDeductions}</td>
+                <td>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#editSalaryModal" data-id="${salary.id}" data-name="${salary.name}" data-position="${salary.position}" data-basic="${salary.basicSalary}" data-allowance="${salary.allowance}" data-lunch="${salary.lunchSubsidy}" data-overtime="${salary.overtimeSalary}" data-full="${salary.fullAttendanceSalary}" data-social="${salary.socialSecurity}" data-housing="${salary.housingFund}" data-tax="${salary.personalIncomeTax}" data-deduction="${salary.otherDeductions}">编辑</button>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteSalaryModal" data-id="${salary.id}">删除</button>
+                </td>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
     <button class="btn btn-success" data-toggle="modal" data-target="#addSalaryModal">添加记录</button>
@@ -149,7 +135,7 @@
         <div class="modal-content">
             <form action="addSalary.do" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addSalaryModalLabel">添加工资</h5>
+                    <h5 class="modal-title" id="addSalaryModalLabel">添加工资记录</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -271,8 +257,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                    <button type="submit" class="btn btn-primary">保存更改</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">保存修改</button>
                 </div>
             </form>
         </div>
@@ -305,8 +291,11 @@
 <script>
     // 当点击侧边栏链接时显示相应的内容部分
     function showSection(sectionId) {
-        $('.content-section').removeClass('active');
-        $('#' + sectionId).addClass('active');
+        var sections = document.getElementsByClassName("content-section");
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].style.display = "none";
+        }
+        document.getElementById(sectionId).style.display = "block";
     }
 
     // 当搜索框中的内容发生变化时，执行搜索函数
@@ -354,12 +343,13 @@
     $('#deleteSalaryModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var id = button.data('id');
+
         var modal = $(this);
-        modal.find('#deleteSalaryId').val(id);
+        modal.find('.modal-body #salaryId').val(id);
     });
 
-    $('#editSalaryModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget); // 触发模态框的按钮
+    $('#editSalaryModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
         var id = button.data('id');
         var name = button.data('name');
         var position = button.data('position');
@@ -374,18 +364,18 @@
         var deduction = button.data('deduction');
 
         var modal = $(this);
-        modal.find('#edit-id').val(id);
-        modal.find('#edit-name').val(name);
-        modal.find('#edit-position').val(position);
-        modal.find('#edit-basic').val(basic);
-        modal.find('#edit-allowance').val(allowance);
-        modal.find('#edit-lunch').val(lunch);
-        modal.find('#edit-overtime').val(overtime);
-        modal.find('#edit-full').val(full);
-        modal.find('#edit-social').val(social);
-        modal.find('#edit-housing').val(housing);
-        modal.find('#edit-tax').val(tax);
-        modal.find('#edit-deduction').val(deduction);
+        modal.find('.modal-body #salaryId').val(id);
+        modal.find('.modal-body #name').val(name);
+        modal.find('.modal-body #position').val(position);
+        modal.find('.modal-body #basicSalary').val(basic);
+        modal.find('.modal-body #allowance').val(allowance);
+        modal.find('.modal-body #lunchSubsidy').val(lunch);
+        modal.find('.modal-body #overtimeSalary').val(overtime);
+        modal.find('.modal-body #fullAttendanceSalary').val(full);
+        modal.find('.modal-body #socialSecurity').val(social);
+        modal.find('.modal-body #housingFund').val(housing);
+        modal.find('.modal-body #personalIncomeTax').val(tax);
+        modal.find('.modal-body #otherDeductions').val(deduction);
     });
 </script>
 </body>

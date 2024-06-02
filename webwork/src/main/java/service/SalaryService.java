@@ -21,7 +21,7 @@ public class SalaryService {
         // 总人数
         int count = salaryDao.count();
 
-        return n / count;
+        return (double) n / count;
     }
     public void uploadExcel(InputStream excelFileStream) throws IOException {
         // 读取Excel文件
