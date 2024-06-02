@@ -21,31 +21,28 @@ public class LoginServlet extends HttpServlet {
         if (s.checkUser(username, password)) {
             // 确定用户角色
             String role = s.getUserRole(username, password);
+            String redirectURL = "";
             if (role.equals("人事管理员")) {
                 // 重定向到人事管理员界面
-                resp.sendRedirect("peoplemange.jsp");
-            }
-            else if (role.equals("财务管理员")) {
+                redirectURL = "peoplemange.jsp";
+            } else if (role.equals("财务管理员")) {
                 // 重定向到财务管理员界面
-                resp.sendRedirect("salaryMange.jsp");
-            }
-            else if (role.equals("总经理")) {
+                redirectURL = "salaryMange.jsp";
+            } else if (role.equals("总经理")) {
                 // 重定向到总经理界面
-                resp.sendRedirect("leader.jsp");
-            }
-            else if (role.equals("系统管理员")) {
+                redirectURL = "leader.jsp";
+            } else if (role.equals("系统管理员")) {
                 // 重定向到系统管理员界面
-                resp.sendRedirect("management.jsp");
+                redirectURL = "management.jsp";
             }
-            else if (role.equals("审计员")) {
-                //
-                //resp.sendRedirect("peopleMange.jsp");
+            // 在重定向URL中附加username参数
+            if (!redirectURL.isEmpty()) {
+                resp.sendRedirect(redirectURL + "?username=" + username);
             }
+        } else {
+            // 登录失败的处理逻辑（例如重定向到登录页面并显示错误信息）
+            resp.sendRedirect("login.jsp?error=invalid");
         }
-        else {
-
-        }
-
     }
 
     @Override
@@ -53,3 +50,4 @@ public class LoginServlet extends HttpServlet {
         doGet(req, resp);
     }
 }
+//添加了向重定向页面传入username的功能
