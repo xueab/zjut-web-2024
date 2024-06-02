@@ -84,7 +84,6 @@
                 <th>姓名</th>
                 <th>员工编号</th>
                 <th>部门</th>
-                <th>岗位</th>
                 <th>职务</th>
                 <th>身份证号</th>
                 <th>手机号</th>
@@ -96,12 +95,12 @@
             <c:forEach var="employeeRole" items="${list}">
                 <tr>
                     <td>${employeeRole.name}</td>
-                    <td>${employeerRole.empno}</td>
-                    <td>${employeerRole.depName}</td>
-                    <td>${employeerRole.position}</td>
-                    <td>${employeerRole.idNumber}</td>
-                    <td>${employeerRole.phone}</td>
-                    <td>${employeerRole.address}</td>
+                    <td>${employeeRole.empno}</td>
+                    <td>${employeeRole.depName}</td>
+                    <td>${employeeRole.position}</td>
+                    <td>${employeeRole.idNumber}</td>
+                    <td>${employeeRole.phone}</td>
+                    <td>${employeeRole.address}</td>
                     <td>
                         <button class="btn btn-warning" data-toggle="modal" data-target="#editemployeeModal" data-name="${employeeRole.name}" data-empno="${employeeRole.empno}" data-depName="${employeeRole.depName}" data-position="${employeeRole.position}" data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}" data-address="${employeeRole.address}">修改</button>
                         <button class="btn btn-danger" data-toggle="modal" data-target="#deleteemployeeModal" data-username="${employeeRole.name}">删除</button>
@@ -182,6 +181,55 @@
     </div>
 </div>
 
+<div class="modal fade" id="editemployeeModal" tabindex="-1" role="dialog" aria-labelledby="editemployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="editemployee.do" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editemployeeModalLabel">编辑员工</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="edit-name">姓名:</label>
+                        <input type="text" class="form-control" id="edit-name" name="name" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-empno">编号:</label>
+                        <input type="text" class="form-control" id="edit-empno" name="empno" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-depName">部门:</label>
+                        <input type="number" class="form-control" id="edit-depName" name="depName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-position">职务:</label>
+                        <input type="number" class="form-control" id="edit-position" name="position" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-idNumber">身份证号:</label>
+                        <input type="number" class="form-control" id="edit-idNumber" name="idNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-phone">电话:</label>
+                        <input type="number" class="form-control" id="edit-phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-address">地址:</label>
+                        <input type="number" class="form-control" id="edit-address" name="address" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">保存修改</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="deleteemployeeModal" tabindex="-1" role="dialog" aria-labelledby="deleteemployeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -193,7 +241,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>确定要删除此员工吗？(输入员工编号）</p>
+                    <p>确定要删除此员工吗？</p>
                     <input type="hidden" id="deleteempno" name="empno">
                 </div>
                 <div class="modal-footer">
@@ -231,6 +279,26 @@
         modal.find('#editidNumber').val(idNumber);
         modal.find('#editphone').val(phone);
         modal.find('#editaddress').val(address);
+    });
+
+    $('#editemployeeModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var name = button.data('name');
+        var empno = button.data('empno');
+        var depName = button.data('depName');
+        var position = button.data('position');
+        var idNumber = button.data('idNumber');
+        var phone = button.data('phone');
+        var address = button.data('address');
+
+        var modal = $(this);
+        modal.find('.modal-body #name').val(name);
+        modal.find('.modal-body #empno').val(empno);
+        modal.find('.modal-body #depName').val(depName);
+        modal.find('.modal-body #position').val(position);
+        modal.find('.modal-body #idNumber').val(idNumber);
+        modal.find('.modal-body #phone').val(phone);
+        modal.find('.modal-body #address').val(address);
     });
 
     $('#deleteRoleModal').on('show.bs.modal', function (event) {
