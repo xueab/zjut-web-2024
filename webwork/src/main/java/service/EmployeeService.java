@@ -1,11 +1,12 @@
 package service;
 
+import dao.EmployeeDao;
 import model.Employee;
 
 import java.util.List;
 
 public class EmployeeService {
-    private EmployeeDao employee = new EmployeeDa0();
+    private EmployeeDao employee = new EmployeeDao();
     public double show(String deptname) {
         // 部门人数
         int n = employee.selectByName(deptname);

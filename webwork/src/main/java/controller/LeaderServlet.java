@@ -1,10 +1,7 @@
 package controller;
 
-import model.User;
-import org.bouncycastle.crypto.Digest;
-import org.bouncycastle.crypto.digests.SM3Digest;
-import org.bouncycastle.util.encoders.Hex;
-import service.UserService;
+import service.EmployeeService;
+import service.SalaryService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
 
 
 // 总经理
@@ -21,21 +16,38 @@ import java.util.Date;
 public class LeaderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserService user = new UserService();
+        EmployeeService e = new EmployeeService();
+        SalaryService s = new SalaryService();
 
-        int userId = Integer.parseInt(req.getParameter("userId"));
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
-        // 加密
-        password = encrypt(password);
-        String role = req.getParameter("role");
-        Date lastPasswordChange = new Date(req.getParameter("lastPasswordChange"));
-        int failedLoginAttempts = Integer.parseInt(req.getParameter("failedLoginAttempts"));
-        Date accountLockedUntil = new Date(req.getParameter("accountLockedUntil"));
 
-        User u = new User(userId, username, password, role, lastPasswordChange, failedLoginAttempts, accountLockedUntil);
+        // 获取部门占比
+        double d1 = e.show("a部门");
+        double d2 = e.show("b部门");
+        double d3 = e.show("c部门");
+        double d4 = e.show("d部门");
 
-        user.update(u);
+        req.setAttribute("a部门", d1);
+        req.setAttribute("b部门", d2);
+        req.setAttribute("c部门", d3);
+        req.setAttribute("d部门", d4);
+
+        // 获取工资占比
+
+        // 3k - 5k
+        double s1 = s.show(3000, 5000);
+        // 5k - 8k
+        double s2 = s.show(5000, 8000);
+        // 8k - 12k
+        double s3 = s.show(8000, 12000);
+        // 12k 以上
+        double s4 = s.show(12000, 20000);
+
+        req.setAttribute("3k-5k", s1);
+        req.setAttribute("5k-8k", s2);
+        req.setAttribute("8k-12k", s3);
+        req.setAttribute("12k以上", s4);
+
+        req.getRequestDispatcher("leader.jsp").forward(req, resp);
     }
 
     @Override
@@ -43,15 +55,5 @@ public class LeaderServlet extends HttpServlet {
         doGet(req, resp);
     }
 
-    public String encrypt(String password) throws UnsupportedEncodingException {
-        Digest digest = new SM3Digest();
-        // 对输入进行编码，SM3需要一个字节序列
-        byte[] inputBytes = password.getBytes("UTF-8");
-        // 进行摘要
-        byte[] outputBytes = new byte[digest.getDigestSize()];
-        digest.update(inputBytes, 0, inputBytes.length);
-        digest.doFinal(outputBytes, 0);
-        // 将字节数组转换为十六进制字符串
-        return Hex.toHexString(outputBytes);
-    }
+
 }
