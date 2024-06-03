@@ -45,9 +45,9 @@ public class UserDao extends BaseDao {
                 user.getAccountLockedUntil(),user.getUserId());
         return;
     }
-    public void delete(User user) {
+    public void delete(int user_id) {
         String sql = "delete from user where user_id = ?";
-        this.executeUpdate(sql,user.getUserId());
+        this.executeUpdate(sql,user_id);
         return ;
     }
 }
