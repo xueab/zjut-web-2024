@@ -12,7 +12,7 @@ import java.io.IOException;
 
 
 // 导出excel
-@WebServlet("exportExcelServlet")
+@WebServlet("/exportExcelServlet")
 public class exportExcelServlet extends HttpServlet {
 
     @Override

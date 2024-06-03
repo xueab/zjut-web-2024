@@ -21,6 +21,8 @@ import java.util.Properties;
 
 public class BaseDao {
 
+    public BaseDao() {
+    }
 
     //静态变量可以保证类被加载的时候已经为连接参数赋值，并且只会执行一次
     private static String url = "jdbc:mysql://localhost:3306/db1";

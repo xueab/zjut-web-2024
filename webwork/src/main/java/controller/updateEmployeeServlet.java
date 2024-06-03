@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 // 修改员工信息
-@WebServlet("updateEmployeeServlet")
+@WebServlet("/updateEmployeeServlet")
 public class updateEmployeeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

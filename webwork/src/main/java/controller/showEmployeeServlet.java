@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 // 显示各部门人数占比
-@WebServlet("showEmployeeServlet")
+@WebServlet("/showEmployeeServlet")
 public class showEmployeeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

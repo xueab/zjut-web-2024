@@ -12,7 +12,7 @@ import java.io.IOException;
 
 
 // 总经理
-@WebServlet("LeaderServlet")
+@WebServlet("/LeaderServlet")
 public class LeaderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
