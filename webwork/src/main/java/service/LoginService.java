@@ -27,7 +27,10 @@ public class LoginService {
     public String encrypt(String password) throws UnsupportedEncodingException {
         Digest digest = new SM3Digest();
         // 对输入进行编码，SM3需要一个字节序列
-        byte[] inputBytes = password.getBytes("UTF-8");
+        byte[] inputBytes = p
+
+
+        assword.getBytes("UTF-8");
         // 进行摘要
         byte[] outputBytes = new byte[digest.getDigestSize()];
         digest.update(inputBytes, 0, inputBytes.length);
