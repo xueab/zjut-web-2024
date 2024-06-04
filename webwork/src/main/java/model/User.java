@@ -11,7 +11,6 @@ public class User {
     private int failedLoginAttempts; // 登录失败次数
     private Date accountLockedUntil; // 账户锁定截止时间
 
-
     public User() {
     }
 

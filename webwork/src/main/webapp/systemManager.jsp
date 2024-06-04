@@ -158,6 +158,40 @@
     </div>
 </div>
 
+<div class="modal fade" id="editRoleModal" tabindex="-1" role="dialog" aria-labelledby="editRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="editRole.do" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editRoleModalLabel">设置角色</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editUsername">用户名：</label>
+                        <input type="text" class="form-control" id="editUsername" name="username" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="editRole">角色：</label>
+                        <select class="form-control" id="editRole" name="role">
+                            <option value="hrAdmin">人事管理员</option>
+                            <option value="financeAdmin">财务管理员</option>
+                            <option value="generalManager">总经理</option>
+                            <option value="auditAdmin">系统管理员</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="deleteRoleModal" tabindex="-1" role="dialog" aria-labelledby="deleteRoleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

@@ -91,12 +91,12 @@
             <c:forEach var="employeeRole" items="${list}">
                 <tr>
                     <td>${employeeRole.name}</td>
-                    <td>${employeerRole.empno}</td>
-                    <td>${employeerRole.depName}</td>
-                    <td>${employeerRole.position}</td>
-                    <td>${employeerRole.idNumber}</td>
-                    <td>${employeerRole.phone}</td>
-                    <td>${employeerRole.address}</td>
+                    <td>${employeeRole.empno}</td>
+                    <td>${employeeRole.depName}</td>
+                    <td>${employeeRole.position}</td>
+                    <td>${employeeRole.idNumber}</td>
+                    <td>${employeeRole.phone}</td>
+                    <td>${employeeRole.address}</td>
                 </tr>
             </c:forEach>
             </tbody>

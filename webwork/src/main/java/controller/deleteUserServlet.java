@@ -13,7 +13,7 @@ import java.util.Date;
 
 
 // 删除用户
-@WebServlet("deleteUserServlet")
+@WebServlet("/deleteUserServlet")
 public class deleteUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

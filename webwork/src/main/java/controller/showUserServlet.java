@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 // 显示用户
-@WebServlet("showUserServlet")
+@WebServlet("/showUserServlet")
 public class showUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

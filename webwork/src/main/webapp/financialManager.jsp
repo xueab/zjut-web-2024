@@ -67,6 +67,10 @@
 
 <div id="viewSalaries" class="container content-section">
     <h2>查看工资</h2>
+    <br>
+    <div class="form-group">
+        <input type="text" class="form-control" id="searchInput" placeholder="搜索员工姓名">
+    </div>
     <table class="table table-striped">
         <thead>
         <tr>

@@ -25,7 +25,7 @@ public class showEmployeeServlet extends HttpServlet {
         req.setAttribute("c部门", n3);
         req.setAttribute("d部门", n4);
         // 转发
-        req.getRequestDispatcher("/peoplemange.jsp").forward(req, resp);
+        req.getRequestDispatcher("/peopleManager.jsp").forward(req, resp);
     }
 
     @Override

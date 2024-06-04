@@ -21,7 +21,7 @@ public class selectAllEmployeeServlet extends HttpServlet {
 
         req.setAttribute("employee", list);
 
-        req.getRequestDispatcher("/peoplemange1.jsp").forward(req, resp);
+        req.getRequestDispatcher("/peopleManager.jsp").forward(req, resp);
     }
 
     @Override

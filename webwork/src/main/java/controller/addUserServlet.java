@@ -17,7 +17,7 @@ import java.util.Date;
 
 
 // 添加用户
-@WebServlet("addUserServlet")
+@WebServlet("/addUserServlet")
 public class addUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

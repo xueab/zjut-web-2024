@@ -18,7 +18,7 @@ import java.util.Date;
 
 
 // 更新用户
-@WebServlet("systemManage")
+@WebServlet("/systemManage")
 public class updateUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
