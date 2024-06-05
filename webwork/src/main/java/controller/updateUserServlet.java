@@ -24,9 +24,9 @@ public class updateUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserService user = new UserService();
 
-        int userId = Integer.parseInt(req.getParameter("userId"));
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
+        int userId = Integer.parseInt(req.getParameter("edituserId"));
+        String username = req.getParameter("editusername");
+        String password = req.getParameter("editpassword");
         // 加密
         password = encrypt(password);
         String role = req.getParameter("role");
