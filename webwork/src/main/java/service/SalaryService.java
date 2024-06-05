@@ -129,4 +129,7 @@ public class SalaryService {
     public void delete(Salary salary) {
         salaryDao.delete(salary);
     }
+
+    public void update(Salary salary) {
+    }
 }

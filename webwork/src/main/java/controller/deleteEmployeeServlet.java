@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 // 删除员工信息
-@WebServlet("/deleteEmployeeServlet")
+@WebServlet("/deleteemployee.do")
 public class deleteEmployeeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EmployeeService e = new EmployeeService();
-        String empNo = req.getParameter("empNo");
-        String name = req.getParameter("name");
+        String empNo = req.getParameter("deleteempNo");
+        String name = req.getParameter("deletename");
 
         e.deleteEmployee(empNo, name);
 

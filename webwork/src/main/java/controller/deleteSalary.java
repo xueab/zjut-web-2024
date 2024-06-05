@@ -13,20 +13,20 @@ import java.math.BigDecimal;
 
 // 删除工资
 
-@WebServlet("/deleteSalaryServlet")
+@WebServlet("/deleteSalary.do")
 public class deleteSalary extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SalaryService s = new SalaryService();
 
-        int empNo = Integer.parseInt(req.getParameter("empNo"));
-        int year = Integer.parseInt(req.getParameter("year"));
-        int month = Integer.parseInt(req.getParameter("month"));
-        BigDecimal basicSalary = new BigDecimal(req.getParameter("basicSalary"));
-        BigDecimal overtimePay = new BigDecimal(req.getParameter("overtimePay"));
-        BigDecimal fullAttendanceBonus = new BigDecimal(req.getParameter("fullAttendanceBonus"));
-        BigDecimal personalTax = new BigDecimal(req.getParameter("personalTax"));
-        BigDecimal netSalary = new BigDecimal(req.getParameter("netSalary"));
+        int empNo = Integer.parseInt(req.getParameter("deleteempNo"));
+        int year = Integer.parseInt(req.getParameter("deleteyear"));
+        int month = Integer.parseInt(req.getParameter("deletemonth"));
+        BigDecimal basicSalary = new BigDecimal(req.getParameter("deletebasicSalary"));
+        BigDecimal overtimePay = new BigDecimal(req.getParameter("deleteovertimePay"));
+        BigDecimal fullAttendanceBonus = new BigDecimal(req.getParameter("deletefullAttendanceBonus"));
+        BigDecimal personalTax = new BigDecimal(req.getParameter("deletepersonalTax"));
+        BigDecimal netSalary = new BigDecimal(req.getParameter("deletenetSalary"));
 
         Salary salary = new Salary(empNo, year, month, basicSalary, overtimePay, fullAttendanceBonus, personalTax, netSalary);
 

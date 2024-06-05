@@ -64,7 +64,7 @@ public class LoginServlet extends HttpServlet {
                 List<Salary> list = salaryService.selectAll();
 //                for (Salary salary : list) {
 //                    System.out.println(salary.getEmpNo());
-//                
+//
                 req.setAttribute("salary", list);
                 req.getRequestDispatcher("/financialManager.jsp").forward(req, resp);
                 //resp.sendRedirect(redirectURL + "?username=" + username);
