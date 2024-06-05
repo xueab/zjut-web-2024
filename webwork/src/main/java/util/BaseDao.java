@@ -27,7 +27,8 @@ public class BaseDao {
     //静态变量可以保证类被加载的时候已经为连接参数赋值，并且只会执行一次
     private static String url = "jdbc:mysql://localhost:3306/db1";
     private static String user = "root";
-    private static String password = "xyk200406";
+    //private static String password = "xyk200406";
+    private static String password = "chx200466";
 
     protected PreparedStatement pstmt =null;
     protected Connection conn =null;

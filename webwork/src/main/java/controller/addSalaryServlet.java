@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 
 // 添加工资
 
-@WebServlet("addSalaryServlet")
+@WebServlet("/addSalaryServlet")
 public class addSalaryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

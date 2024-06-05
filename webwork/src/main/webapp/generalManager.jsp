@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri ="http://java.sun.com/jsp/jstl/core" %>
+<%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
+    <title>总经理</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -59,9 +61,9 @@
 <body>
 <%
     String username = request.getParameter("username");
-%>//读入登录账号的username属性
+%>
 <div class="sidebar">
-    <a href="#" onclick="showSection('roleManagement')"><i class="fas fa-user-shield"></i>查看员工</a>
+    <a href="#" onclick="showSection('employeeManagement')"><i class="fas fa-user-shield"></i>查看员工</a>
     <a href="#" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
     <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
 </div>
@@ -88,10 +90,10 @@
             </tr>
             </thead>
             <tbody id="employeeRolesTable">
-            <c:forEach var="employeeRole" items="${list}">
+            <c:forEach var="employeeRole" items="${employee}">
                 <tr>
                     <td>${employeeRole.name}</td>
-                    <td>${employeeRole.empno}</td>
+                    <td>${employeeRole.empNo}</td>
                     <td>${employeeRole.depName}</td>
                     <td>${employeeRole.position}</td>
                     <td>${employeeRole.idNumber}</td>
@@ -109,40 +111,31 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>员工ID</th>
-                <th>姓名</th>
-                <th>职位</th>
+                <th>员工编号</th>
+                <th>工资所属年份</th>
+                <th>工资所属月份</th>
                 <th>基本工资</th>
-                <th>岗位津贴</th>
-                <th>午餐补贴</th>
                 <th>加班工资</th>
-                <th>全勤工资</th>
-                <th>社保</th>
-                <th>公积金</th>
+                <th>全勤奖</th>
                 <th>个人所得税</th>
-                <th>迟到/请假扣款</th>
+                <th>实发工资</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="salary" items="${salaryList}">
+            <c:forEach var="salary" items="${salary}">
                 <tr>
-                    <td>${salary.id}</td>
-                    <td>${salary.name}</td>
-                    <td>${salary.position}</td>
+                    <td>${salary.empNo}</td>
+                    <td>${salary.year}</td>
+                    <td>${salary.month}</td>
                     <td>${salary.basicSalary}</td>
-                    <td>${salary.allowance}</td>
-                    <td>${salary.lunchSubsidy}</td>
-                    <td>${salary.overtimeSalary}</td>
-                    <td>${salary.fullAttendanceSalary}</td>
-                    <td>${salary.socialSecurity}</td>
-                    <td>${salary.housingFund}</td>
-                    <td>${salary.personalIncomeTax}</td>
-                    <td>${salary.otherDeductions}</td>
+                    <td>${salary.overtimePay}</td>
+                    <td>${salary.fullAttendanceBonus}</td>
+                    <td>${salary.personalTax}</td>
+                    <td>${salary.netSalary}</td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <button class="btn btn-success" data-toggle="modal" data-target="#addSalaryModal">添加记录</button>
     </div>
 
     <div id="changePassword" class="container content-section">
