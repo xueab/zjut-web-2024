@@ -11,32 +11,32 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-// 添加工资
+// 编辑工资
 
-@WebServlet("/addSalary.do")
-public class addSalaryServlet extends HttpServlet {
+@WebServlet("editSalary.do")
+public class updateSalaryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SalaryService s = new SalaryService();
 
-        int empNo = Integer.parseInt(req.getParameter("addempNo"));
-        int year = Integer.parseInt(req.getParameter("addyear"));
-        int month = Integer.parseInt(req.getParameter("addmonth"));
-        BigDecimal basicSalary = new BigDecimal(req.getParameter("addbasicSalary"));
-        BigDecimal overtimePay = new BigDecimal(req.getParameter("addovertimePay"));
-        BigDecimal fullAttendanceBonus = new BigDecimal(req.getParameter("addfullAttendanceBonus"));
-        BigDecimal personalTax = new BigDecimal(req.getParameter("addpersonalTax"));
-        BigDecimal netSalary = new BigDecimal(req.getParameter("addnetSalary"));
+        int empNo = Integer.parseInt(req.getParameter("empNo"));
+        int year = Integer.parseInt(req.getParameter("year"));
+        int month = Integer.parseInt(req.getParameter("month"));
+        BigDecimal basicSalary = new BigDecimal(req.getParameter("basicSalary"));
+        BigDecimal overtimePay = new BigDecimal(req.getParameter("overtimePay"));
+        BigDecimal fullAttendanceBonus = new BigDecimal(req.getParameter("fullAttendanceBonus"));
+        BigDecimal personalTax = new BigDecimal(req.getParameter("personalTax"));
+        BigDecimal netSalary = new BigDecimal(req.getParameter("netSalary"));
 
         Salary salary = new Salary(empNo, year, month, basicSalary, overtimePay, fullAttendanceBonus, personalTax, netSalary);
 
-        s.add(salary);
+        s.update(salary);
 
         resp.sendRedirect("/financialManager.jsp");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);
+        doPost(req, resp);
     }
 }

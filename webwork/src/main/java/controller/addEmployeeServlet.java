@@ -11,18 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 // 添加员工
-@WebServlet("/addEmployee.do")
+@WebServlet("/addemployee.do")
 public class addEmployeeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EmployeeService e = new EmployeeService();
-        String name = req.getParameter("name");
-        String empNo = req.getParameter("empNo");
-        String depName = req.getParameter("depName");
-        String position = req.getParameter("position");
-        String idNumber = req.getParameter("idNumber");
-        String phone = req.getParameter("phone");
-        String address = req.getParameter("address");
+        String name = req.getParameter("addname");
+        String empNo = req.getParameter("addempNo");
+        String depName = req.getParameter("adddepName");
+        String position = req.getParameter("addposition");
+        String idNumber = req.getParameter("addidNumber");
+        String phone = req.getParameter("addphone");
+        String address = req.getParameter("addaddress");
 
         Employee employee = new Employee(empNo, name, depName, position, idNumber, phone, address);
 

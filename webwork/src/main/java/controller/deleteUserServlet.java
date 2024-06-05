@@ -13,13 +13,13 @@ import java.util.Date;
 
 
 // 删除用户
-@WebServlet("/deleteUserServlet")
+@WebServlet("/deleteRole.do")
 public class deleteUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserService user = new UserService();
 
-        int userId = Integer.parseInt(req.getParameter("userId"));
+        int userId = Integer.parseInt(req.getParameter("deleteuserId"));
 
         user.delete(userId);
 
