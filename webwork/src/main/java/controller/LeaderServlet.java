@@ -47,7 +47,7 @@ public class LeaderServlet extends HttpServlet {
         req.setAttribute("8k-12k", s3);
         req.setAttribute("12k以上", s4);
 
-        req.getRequestDispatcher("leader.jsp").forward(req, resp);
+        req.getRequestDispatcher("/generalManager.jsp").forward(req, resp);
     }
 
     @Override

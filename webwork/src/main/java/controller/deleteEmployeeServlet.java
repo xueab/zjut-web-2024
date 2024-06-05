@@ -19,6 +19,9 @@ public class deleteEmployeeServlet extends HttpServlet {
         String name = req.getParameter("name");
 
         e.deleteEmployee(empNo, name);
+
+        // 重定向
+        resp.sendRedirect("/peopleManager.jsp");
     }
 
     @Override
