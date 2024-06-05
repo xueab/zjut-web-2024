@@ -25,7 +25,6 @@ public class addEmployeeServlet extends HttpServlet {
         String address = req.getParameter("addaddress");
 
         Employee employee = new Employee(empNo, name, depName, position, idNumber, phone, address);
-
         e.addEmployee(employee);
 
         // 重定向

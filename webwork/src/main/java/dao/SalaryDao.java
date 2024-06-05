@@ -69,6 +69,12 @@ public class SalaryDao extends BaseDao {
         return;
     }
 
+    public void update(Salary salary) {
+        String sql = "update salary set basic_salary = ?,overtime_pay = ?,full_attendance_bonus = ?,personal_tax = ? ,net_salary = ? where emp_no = ? and year = ? and month = ?";
+        this.executeUpdate(sql,salary.getBasicSalary(),salary.getOvertimePay(),salary.getFullAttendanceBonus(),
+                salary.getPersonalTax(),salary.getNetSalary(),salary.getEmpNo(),salary.getYear(),salary.getMonth());
+        return;
+    }
 
     public void delete(Salary salary) {
         String sql = "delete from salary where emp_no=? and year=? and month=?";

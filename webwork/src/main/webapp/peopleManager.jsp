@@ -171,7 +171,7 @@
                     </div>
                     <div class="form-group">
                         <label for="addaddress">住址:</label>
-                        <input type="text" class="form-control" id="addaddress" name="address" required>
+                        <input type="text" class="form-control" id="addaddress" name="addaddress" required>
                     </div>
                 </div>
                 <div class="modal-footer">
