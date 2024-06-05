@@ -7,15 +7,20 @@ import model.Salary;
 import model.User;
 import org.junit.Test;
 import service.EmployeeService;
+import service.SalaryService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class text_UserDao {
     @Test
     public void main() {
-        EmployeeDao employeeDao = new EmployeeDao();
-        Employee employee = new Employee();
+        SalaryService salaryService = new SalaryService();
+        Map<String, Double> map = salaryService.getSalaryStats();
+        for (Map.Entry<String, Double> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + ":" + entry.getValue());
+        }
     }
 }

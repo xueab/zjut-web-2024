@@ -116,6 +116,17 @@
                     <td>
                         <button class="btn btn-warning" data-toggle="modal" data-target="#editemployeeModal" data-name="${employeeRole.name}" data-empno="${employeeRole.empNo}" data-depName="${employeeRole.depName}" data-position="${employeeRole.position}" data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}" data-address="${employeeRole.address}">修改</button>
                         <button class="btn btn-danger" data-toggle="modal" data-target="#deleteemployeeModal" data-name="${employeeRole.name}" data-empno="${employeeRole.empNo}" data-depName="${employeeRole.depName}" data-position="${employeeRole.position}" data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}" data-address="${employeeRole.address}">删除</button>
+                        <form action="deleteemployee.do", method="get">
+                            <input type="hidden" name="deleteempNo" value="${employeeRole.empNo}">
+                            <input type="hidden" name="deletename" value="${employeeRole.name}">
+                            <button type="submit" class="btn btn-danger" data-toggle="modal">Delete</button>
+
+-                        </form>
+<%--                        <form action="editemployee.do", method="get">--%>
+<%--                            <input type="hidden" name="editempNo" value="${employeeRole.empNo}">--%>
+<%--                            <button type="submit">edit</button>--%>
+<%--                        </form>--%>
+
                     </td>
                 </tr>
             </c:forEach>
@@ -253,8 +264,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="deleteName" name="deletename">
-                    <input type="hidden" id="deleteId" name="deleteempNo">
+                    <input type="hidden" name="deletename" value="${employeeRole.name}">
+                    <input type="hidden" name="deleteempNo" value="${employeeRole.empNo}">
                     <p>确定要删除这个员工吗?</p>
                 </div>
                 <div class="modal-footer">

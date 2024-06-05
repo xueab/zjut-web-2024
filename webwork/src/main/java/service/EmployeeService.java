@@ -35,8 +35,8 @@ public class EmployeeService {
         employee.update(e);
     }
 
-    public void deleteEmployee(String empNo, String name) {
-        employee.delete(name);
+    public void deleteEmployee(int empNo, String name) {
+        employee.delete(empNo);
     }
 
     public double show(String deptname) {
