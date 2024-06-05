@@ -383,24 +383,24 @@
 
     $('#deleteSalaryModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var empNo = button.data('editempNo');
-        var year = button.data('edityear');
-        var month = button.data('editmonth');
-        var basicSalary = button.data('editbasicSalary');
-        var overtimePay = button.data('editovertimePay');
-        var fullAttendanceBonus = button.data('editfullAttendanceBonus');
-        var personalTax = button.data('editpersonalTax');
-        var netSalary = button.data('editnetSalary');
+        var deleteempNo = button.data('deleteempNo');
+        var deleteyear = button.data('deleteyear');
+        var deletemonth = button.data('deletemonth');
+        var deletebasicSalary = button.data('deletebasicSalary');
+        var deleteovertimePay = button.data('deleteovertimePay');
+        var deletefullAttendanceBonus = button.data('deletefullAttendanceBonus');
+        var deletepersonalTax = button.data('deletepersonalTax');
+        var deletenetSalary = button.data('deletenetSalary');
 
         var modal = $(this);
-        modal.find('.modal-body #salaryId').val(empNo);
-        modal.find('.modal-body #salaryId').val(year);
-        modal.find('.modal-body #salaryId').val(month);
-        modal.find('.modal-body #salaryId').val(basicSalary);
-        modal.find('.modal-body #salaryId').val(overtimePay);
-        modal.find('.modal-body #salaryId').val(fullAttendanceBonus);
-        modal.find('.modal-body #salaryId').val(personalTax);
-        modal.find('.modal-body #salaryId').val(netSalary);
+        modal.find('.modal-body #deleteempNo').val(deleteempNo);
+        modal.find('.modal-body #deleteyear').val(deleteyear);
+        modal.find('.modal-body #deletemonth').val(deletemonth);
+        modal.find('.modal-body #deletebasicSalary').val(deletebasicSalary);
+        modal.find('.modal-body #deleteovertimePay').val(deleteovertimePay);
+        modal.find('.modal-body #deletefullAttendanceBonus').val(deletefullAttendanceBonus);
+        modal.find('.modal-body #deletepersonalTax').val(deletepersonalTax);
+        modal.find('.modal-body #deletenetSalary').val(deletenetSalary);
     });
 
     $('#editSalaryModal').on('show.bs.modal', function (event) {
