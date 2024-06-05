@@ -147,31 +147,31 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="addname">员工姓名:</label>
-                        <input type="text" class="form-control" id="addname" name="name" required>
+                        <input type="text" class="form-control" id="addname" name="addname" required>
                     </div>
                     <div class="form-group">
                         <label for="addempNo">员工编号:</label>
-                        <input type="text" class="form-control" id="addempNo" name="empNo" required>
+                        <input type="text" class="form-control" id="addempNo" name="addempNo" required>
                     </div>
                     <div class="form-group">
                         <label for="adddepName">部门名称:</label>
-                        <input type="text" class="form-control" id="adddepName" name="depName" required>
+                        <input type="text" class="form-control" id="adddepName" name="adddepName" required>
                     </div>
                     <div class="form-group">
                         <label for="addposition">岗位:</label>
-                        <input type="text" class="form-control" id="addposition" name="position" required>
+                        <input type="text" class="form-control" id="addposition" name="addposition" required>
                     </div>
                     <div class="form-group">
                         <label for="addidNumber">身份证号:</label>
-                        <input type="text" class="form-control" id="addidNumber" name="idNumber" required>
+                        <input type="text" class="form-control" id="addidNumber" name="addidNumber" required>
                     </div>
                     <div class="form-group">
                         <label for="addphone">手机号:</label>
-                        <input type="text" class="form-control" id="addphone" name="phone" required>
+                        <input type="text" class="form-control" id="addphone" name="addphone" required>
                     </div>
                     <div class="form-group">
                         <label for="addaddress">住址:</label>
-                        <input type="text" class="form-control" id="addaddress" name="address" required>
+                        <input type="text" class="form-control" id="addaddress" name="addaddress" required>
                     </div>
                 </div>
                 <div class="modal-footer">

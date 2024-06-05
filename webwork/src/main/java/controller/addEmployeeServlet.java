@@ -25,11 +25,11 @@ public class addEmployeeServlet extends HttpServlet {
         String address = req.getParameter("addaddress");
 
         Employee employee = new Employee(empNo, name, depName, position, idNumber, phone, address);
-
         e.addEmployee(employee);
 
         // 重定向
-        resp.sendRedirect("/peopleManager.jsp");
+        //resp.sendRedirect("/peopleManager.jsp");
+        resp.sendRedirect(req.getContextPath() + "/peopleManager.jsp");
     }
 
     @Override
