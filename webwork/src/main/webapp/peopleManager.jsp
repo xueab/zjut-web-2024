@@ -105,7 +105,7 @@
                     <td>${employeeRole.address}</td>
                     <td>
                         <button class="btn btn-warning" data-toggle="modal" data-target="#editemployeeModal" data-name="${employeeRole.name}" data-empno="${employeeRole.empNo}" data-depName="${employeeRole.depName}" data-position="${employeeRole.position}" data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}" data-address="${employeeRole.address}">修改</button>
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteemployeeModal" data-username="${employeeRole.name}">删除</button>
+                        <button class="btn btn-warning" data-toggle="modal" data-target="#editemployeeModal" data-name="${employeeRole.name}" data-empno="${employeeRole.empNo}" data-depName="${employeeRole.depName}" data-position="${employeeRole.position}" data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}" data-address="${employeeRole.address}">删除</button>
                     </td>
                 </tr>
             </c:forEach>
@@ -146,32 +146,32 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="addName">姓名:</label>
-                        <input type="text" class="form-control" id="addName" name="name" required>
+                        <label for="addname">员工姓名:</label>
+                        <input type="text" class="form-control" id="addname" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="addEmpNo">员工编号:</label>
-                        <input type="text" class="form-control" id="addEmpNo" name="empNo" required>
+                        <label for="addempNo">员工编号:</label>
+                        <input type="text" class="form-control" id="addempNo" name="empNo" required>
                     </div>
                     <div class="form-group">
-                        <label for="addDepName">部门:</label>
-                        <input type="text" class="form-control" id="addDepName" name="depName" required>
+                        <label for="adddepName">部门名称:</label>
+                        <input type="text" class="form-control" id="adddepName" name="depName" required>
                     </div>
                     <div class="form-group">
-                        <label for="addPosition">职务:</label>
-                        <input type="text" class="form-control" id="addPosition" name="position" required>
+                        <label for="addposition">岗位:</label>
+                        <input type="text" class="form-control" id="addposition" name="position" required>
                     </div>
                     <div class="form-group">
-                        <label for="addIdNumber">身份证号:</label>
-                        <input type="text" class="form-control" id="addIdNumber" name="idNumber" required>
+                        <label for="addidNumber">身份证号:</label>
+                        <input type="text" class="form-control" id="addidNumber" name="idNumber" required>
                     </div>
                     <div class="form-group">
-                        <label for="addPhone">手机号:</label>
-                        <input type="text" class="form-control" id="addPhone" name="phone" required>
+                        <label for="addphone">手机号:</label>
+                        <input type="text" class="form-control" id="addphone" name="phone" required>
                     </div>
                     <div class="form-group">
-                        <label for="addAddress">住址:</label>
-                        <input type="text" class="form-control" id="addAddress" name="address" required>
+                        <label for="addaddress">住址:</label>
+                        <input type="text" class="form-control" id="addaddress" name="address" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -195,32 +195,32 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="editName">姓名:</label>
-                        <input type="text" class="form-control" id="editName" name="name" required>
+                        <label for="editname">员工姓名:</label>
+                        <input type="text" class="form-control" id="editname" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="editEmpNo">员工编号:</label>
-                        <input type="text" class="form-control" id="editEmpNo" name="empNo" required>
+                        <label for="editempNo">员工编号:</label>
+                        <input type="text" class="form-control" id="editempNo" name="empNo" required>
                     </div>
                     <div class="form-group">
-                        <label for="editDepName">部门:</label>
-                        <input type="text" class="form-control" id="editDepName" name="depName" required>
+                        <label for="editdepName">部门名称:</label>
+                        <input type="text" class="form-control" id="editdepName" name="depName" required>
                     </div>
                     <div class="form-group">
-                        <label for="editPosition">职务:</label>
-                        <input type="text" class="form-control" id="editPosition" name="position" required>
+                        <label for="editposition">岗位:</label>
+                        <input type="text" class="form-control" id="editposition" name="position" required>
                     </div>
                     <div class="form-group">
-                        <label for="editIdNumber">身份证号:</label>
-                        <input type="text" class="form-control" id="editIdNumber" name="idNumber" required>
+                        <label for="editidNumber">身份证号:</label>
+                        <input type="text" class="form-control" id="editidNumber" name="idNumber" required>
                     </div>
                     <div class="form-group">
-                        <label for="editPhone">手机号:</label>
-                        <input type="text" class="form-control" id="editPhone" name="phone" required>
+                        <label for="editphone">手机号:</label>
+                        <input type="text" class="form-control" id="editphone" name="phone" required>
                     </div>
                     <div class="form-group">
-                        <label for="editAddress">住址:</label>
-                        <input type="text" class="form-control" id="editAddress" name="address" required>
+                        <label for="editaddress">住址:</label>
+                        <input type="text" class="form-control" id="editaddress" name="address" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -244,6 +244,7 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="deleteName" name="name">
+                    <input type="hidden" id="deleteId" name="empNo">
                     <p>确定要删除这个员工吗?</p>
                 </div>
                 <div class="modal-footer">
