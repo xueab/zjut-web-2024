@@ -115,7 +115,7 @@
                     <td>${employeeRole.address}</td>
                     <td>
                         <button class="btn btn-warning" data-toggle="modal" data-target="#editemployeeModal" data-name="${employeeRole.name}" data-empno="${employeeRole.empNo}" data-depName="${employeeRole.depName}" data-position="${employeeRole.position}" data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}" data-address="${employeeRole.address}">修改</button>
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#editemployeeModal" data-name="${employeeRole.name}" data-empno="${employeeRole.empNo}" data-depName="${employeeRole.depName}" data-position="${employeeRole.position}" data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}" data-address="${employeeRole.address}">删除</button>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteemployeeModal" data-name="${employeeRole.name}" data-empno="${employeeRole.empNo}" data-depName="${employeeRole.depName}" data-position="${employeeRole.position}" data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}" data-address="${employeeRole.address}">删除</button>
                     </td>
                 </tr>
             </c:forEach>
@@ -322,30 +322,30 @@
 <script>
     $('#deleteemployeeModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var name = button.data('deletename');
-        var id = button.data('deleteempNo');
+        var deletename = button.data('deletename');
+        var deleteempNo = button.data('deleteempNo');
         var modal = $(this);
-        modal.find('#deleteName').val(name);
-        modal.find('#deleteName').val(name);
+        modal.find('#deletename').val(deletename);
+        modal.find('#deleteempNo').val(deleteempNo);
     });
 
     $('#editemployeeModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var name = button.data('editname');
-        var empNo = button.data('editempno');
-        var depName = button.data('editdepname');
-        var position = button.data('editposition');
-        var idNumber = button.data('editidnumber');
-        var phone = button.data('editphone');
-        var address = button.data('editaddress');
+        var editname = button.data('editname');
+        var editempNo = button.data('editempno');
+        var editdepName = button.data('editdepname');
+        var editposition = button.data('editposition');
+        var editidNumber = button.data('editidnumber');
+        var editphone = button.data('editphone');
+        var editaddress = button.data('editaddress');
         var modal = $(this);
-        modal.find('#editName').val(name);
-        modal.find('#editEmpNo').val(empNo);
-        modal.find('#editDepName').val(depName);
-        modal.find('#editPosition').val(position);
-        modal.find('#editIdNumber').val(idNumber);
-        modal.find('#editPhone').val(phone);
-        modal.find('#editAddress').val(address);
+        modal.find('#editname').val(editname);
+        modal.find('#editempNo').val(editempNo);
+        modal.find('#editdepName').val(editdepName);
+        modal.find('#editposition').val(editposition);
+        modal.find('#editidNumber').val(editidNumber);
+        modal.find('#editphone').val(editphone);
+        modal.find('#editaddress').val(editaddress);
     });
 </script>
 </body>
