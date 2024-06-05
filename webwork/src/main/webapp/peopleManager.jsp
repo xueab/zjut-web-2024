@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
+    <title>人事管理员</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -137,7 +137,7 @@
 <div class="modal fade" id="addemployeeModal" tabindex="-1" role="dialog" aria-labelledby="addemployeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="addempoyee.do" method="post">
+            <form action="addemployee.do" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addemployeeModalLabel">添加员工</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -146,37 +146,37 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="addemployeename">姓名:</label>
-                        <input type="text" class="form-control" id="addemployeename" name="name" required>
+                        <label for="addName">姓名:</label>
+                        <input type="text" class="form-control" id="addName" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="addemployeeempno">编号:</label>
-                        <input type="text" class="form-control" id="addemployeeempno" name="empno" required>
+                        <label for="addEmpNo">员工编号:</label>
+                        <input type="text" class="form-control" id="addEmpNo" name="empNo" required>
                     </div>
                     <div class="form-group">
-                        <label for="addemployeedepName">部门:</label>
-                        <input type="text" class="form-control" id="addemployeedepName" name="depName" required>
+                        <label for="addDepName">部门:</label>
+                        <input type="text" class="form-control" id="addDepName" name="depName" required>
                     </div>
                     <div class="form-group">
-                        <label for="addemployeeposition">职务:</label>
-                        <input type="text" class="form-control" id="addemployeeposition" name="position" required>
+                        <label for="addPosition">职务:</label>
+                        <input type="text" class="form-control" id="addPosition" name="position" required>
                     </div>
                     <div class="form-group">
-                        <label for="addemployeeidNumber">身份证号:</label>
-                        <input type="text" class="form-control" id="addemployeeidNumber" name="idNumber" required>
+                        <label for="addIdNumber">身份证号:</label>
+                        <input type="text" class="form-control" id="addIdNumber" name="idNumber" required>
                     </div>
                     <div class="form-group">
-                        <label for="addemployeephone">电话号码:</label>
-                        <input type="text" class="form-control" id="addemployeephone" name="phone" required>
+                        <label for="addPhone">手机号:</label>
+                        <input type="text" class="form-control" id="addPhone" name="phone" required>
                     </div>
                     <div class="form-group">
-                        <label for="addemployeeaddress">地址:</label>
-                        <input type="text" class="form-control" id="addemployeeaddress" name="address" required>
+                        <label for="addAddress">住址:</label>
+                        <input type="text" class="form-control" id="addAddress" name="address" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                    <button type="submit" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">添加</button>
                 </div>
             </form>
         </div>
@@ -186,46 +186,46 @@
 <div class="modal fade" id="editemployeeModal" tabindex="-1" role="dialog" aria-labelledby="editemployeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="editemployee.do" method="post">
+            <form action="updateemployee.do" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editemployeeModalLabel">编辑员工</h5>
+                    <h5 class="modal-title" id="editemployeeModalLabel">修改员工信息</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="edit-name">姓名:</label>
-                        <input type="text" class="form-control" id="edit-name" name="name" readonly>
+                        <label for="editName">姓名:</label>
+                        <input type="text" class="form-control" id="editName" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-empNo">编号:</label>
-                        <input type="text" class="form-control" id="edit-empNo" name="empNo" readonly>
+                        <label for="editEmpNo">员工编号:</label>
+                        <input type="text" class="form-control" id="editEmpNo" name="empNo" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-depName">部门:</label>
-                        <input type="number" class="form-control" id="edit-depName" name="depName" required>
+                        <label for="editDepName">部门:</label>
+                        <input type="text" class="form-control" id="editDepName" name="depName" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-position">职务:</label>
-                        <input type="number" class="form-control" id="edit-position" name="position" required>
+                        <label for="editPosition">职务:</label>
+                        <input type="text" class="form-control" id="editPosition" name="position" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-idNumber">身份证号:</label>
-                        <input type="number" class="form-control" id="edit-idNumber" name="idNumber" required>
+                        <label for="editIdNumber">身份证号:</label>
+                        <input type="text" class="form-control" id="editIdNumber" name="idNumber" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-phone">电话:</label>
-                        <input type="number" class="form-control" id="edit-phone" name="phone" required>
+                        <label for="editPhone">手机号:</label>
+                        <input type="text" class="form-control" id="editPhone" name="phone" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-address">地址:</label>
-                        <input type="number" class="form-control" id="edit-address" name="address" required>
+                        <label for="editAddress">住址:</label>
+                        <input type="text" class="form-control" id="editAddress" name="address" required>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                    <button type="submit" class="btn btn-primary">保存修改</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
                 </div>
             </form>
         </div>
@@ -243,11 +243,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>确定要删除此员工吗？</p>
-                    <input type="hidden" id="deleteempno" name="empno">
+                    <input type="hidden" id="deleteName" name="name">
+                    <p>确定要删除这个员工吗?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                     <button type="submit" class="btn btn-danger">删除</button>
                 </div>
             </form>
@@ -255,61 +255,85 @@
     </div>
 </div>
 
-<script>
-    function showSection(sectionId) {
-        var sections = document.getElementsByClassName("content-section");
-        for (var i = 0; i < sections.length; i++) {
-            sections[i].style.display = "none";
-        }
-        document.getElementById(sectionId).style.display = "block";
-    }
+<div class="modal fade" id="employeePieChartModal" tabindex="-1" role="dialog" aria-labelledby="employeePieChartModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="employeePieChartModalLabel">部门员工比例饼状图</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <canvas id="departmentPieChart"></canvas>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-    $('#editempolyeeModal').on('show.bs.modal', function (event) {
+<script>
+    $('#deleteemployeeModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var name = button.data('name');
-        var empno = button.data('empno');
-        var depName = button.data('depName');
-        var position = button.data('position');
-        var idNumber = button.data('idNumber');
-        var phone = button.data('phone');
-        var address = button.data('address');
+        var name = button.data('username');
         var modal = $(this);
-        modal.find('#editname').val(name);
-        modal.find('#editempno').val(empno);
-        modal.find('#editdepName').val(depName);
-        modal.find('#editposition').val(position);
-        modal.find('#editidNumber').val(idNumber);
-        modal.find('#editphone').val(phone);
-        modal.find('#editaddress').val(address);
+        modal.find('#deleteName').val(name);
     });
 
     $('#editemployeeModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var name = button.data('name');
-        var empno = button.data('empno');
-        var depName = button.data('depName');
+        var empNo = button.data('empno');
+        var depName = button.data('depname');
         var position = button.data('position');
-        var idNumber = button.data('idNumber');
+        var idNumber = button.data('idnumber');
         var phone = button.data('phone');
         var address = button.data('address');
-
         var modal = $(this);
-        modal.find('.modal-body #name').val(name);
-        modal.find('.modal-body #empno').val(empno);
-        modal.find('.modal-body #depName').val(depName);
-        modal.find('.modal-body #position').val(position);
-        modal.find('.modal-body #idNumber').val(idNumber);
-        modal.find('.modal-body #phone').val(phone);
-        modal.find('.modal-body #address').val(address);
+        modal.find('#editName').val(name);
+        modal.find('#editEmpNo').val(empNo);
+        modal.find('#editDepName').val(depName);
+        modal.find('#editPosition').val(position);
+        modal.find('#editIdNumber').val(idNumber);
+        modal.find('#editPhone').val(phone);
+        modal.find('#editAddress').val(address);
     });
 
-    $('#deleteRoleModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var empno = button.data('empno');
-        var modal = $(this);
-        modal.find('#deleteempno').val(empno);
-    });
+    function showSection(sectionId) {
+        $('.content-section').removeClass('active');
+        $('#' + sectionId).addClass('active');
+    }
 
+    function renderPieChart(data) {
+        var ctx = document.getElementById('departmentPieChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(data),
+                datasets: [{
+                    label: '部门员工比例',
+                    data: Object.values(data),
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    }
+
+    $('#employeePieChartModal').on('show.bs.modal', function () {
+        $.ajax({
+            url: 'showEmployeeServlet?action=getDepartmentStats',
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                renderPieChart(data);
+            }
+        });
+    });
 </script>
 </body>
 </html>
