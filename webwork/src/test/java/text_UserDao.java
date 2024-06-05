@@ -15,10 +15,7 @@ import java.util.Map;
 public class text_UserDao {
     @Test
     public void main() {
-        EmployeeService employeeService = new EmployeeService();
-        Map<String,Double>  map = employeeService.getDepartmentStats();
-        for (Map.Entry<String,Double> entry : map.entrySet()) {
-            System.out.println(entry.getKey() + ":" + entry.getValue());
-        }
+        EmployeeDao employeeDao = new EmployeeDao();
+        Employee employee = new Employee();
     }
 }
