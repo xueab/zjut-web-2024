@@ -1,3 +1,7 @@
+<%@ page import="service.EmployeeService" %>
+<%@ page import="model.Employee" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri ="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false"%>
@@ -76,6 +80,12 @@
     <div id="employeeManagement" class="container content-section active">
         <h2>员工管理</h2>
         <br><br>
+        <% EmployeeService employeeService = new EmployeeService();
+            List<Employee> employee = employeeService.selectAll();
+            Map<String, Double> employeeMap = employeeService.getDepartmentStats();
+            request.setAttribute("employeeMap", employeeMap);
+            request.setAttribute("employee", employee);
+        %>
         <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal">显示饼状图</button>
         <br><br>
         <br><br>
@@ -308,23 +318,26 @@
         chart.draw(data, options);
     }
 </script>
+
 <script>
     $('#deleteemployeeModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var name = button.data('username');
+        var name = button.data('deletename');
+        var id = button.data('deleteempNo');
         var modal = $(this);
+        modal.find('#deleteName').val(name);
         modal.find('#deleteName').val(name);
     });
 
     $('#editemployeeModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var name = button.data('name');
-        var empNo = button.data('empno');
-        var depName = button.data('depname');
-        var position = button.data('position');
-        var idNumber = button.data('idnumber');
-        var phone = button.data('phone');
-        var address = button.data('address');
+        var name = button.data('editname');
+        var empNo = button.data('editempno');
+        var depName = button.data('editdepname');
+        var position = button.data('editposition');
+        var idNumber = button.data('editidnumber');
+        var phone = button.data('editphone');
+        var address = button.data('editaddress');
         var modal = $(this);
         modal.find('#editName').val(name);
         modal.find('#editEmpNo').val(empNo);
@@ -334,8 +347,6 @@
         modal.find('#editPhone').val(phone);
         modal.find('#editAddress').val(address);
     });
-
-
 </script>
 </body>
 </html>

@@ -1,3 +1,9 @@
+<%@ page import="service.EmployeeService" %>
+<%@ page import="model.Employee" %>
+<%@ page import="java.util.List" %>
+<%@ page import="service.SalaryService" %>
+<%@ page import="model.Salary" %>
+<%@ page import="java.util.Map" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri ="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false"%>
@@ -72,6 +78,18 @@
     <div id="employeeManagement" class="container content-section active">
         <h2>员工管理</h2>
         <br><br>
+        <% EmployeeService employeeService = new EmployeeService();
+            List<Employee> employee = employeeService.selectAll();
+            Map<String, Double> employeeMap = employeeService.getDepartmentStats();
+            request.setAttribute("employeeMap", employeeMap);
+            request.setAttribute("employee", employee);
+        %>
+        <% SalaryService SalaryService = new SalaryService();
+            List<Salary> salary = SalaryService.selectAll();
+            Map<String, Double> salaryMap = SalaryService.getSalaryStats();
+            request.setAttribute("employeeMap", salaryMap);
+            request.setAttribute("salary", salary);
+        %>
         <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal">显示饼状图</button>
         <br><br>
         <br><br>
@@ -158,6 +176,111 @@
     </div>
 </div>
 
+<div class="modal fade" id="employeePieChartModal" tabindex="-1" role="dialog" aria-labelledby="employeePieChartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="salaryPieChartModalLabel">员工部门分布图</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="piechart1" style="width: 100%; height: 400px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="salaryPieChartModal" tabindex="-1" role="dialog" aria-labelledby="salaryPieChartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="employeePieChartModalLabel">工资收入分布</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="piechart2" style="width: 100%; height: 400px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function showSection(sectionId) {
+        var sections = document.getElementsByClassName('content-section');
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].classList.remove('active');
+        }
+        document.getElementById(sectionId).classList.add('active');
+    }
+
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        // Create the data table.
+        var data = google.visualization.arrayToDataTable([
+            ['Salary', 'Percentage'],
+            <c:forEach var="entry" items="${salaryMap}">
+            ['${entry.key}', ${entry.value}],
+            </c:forEach>
+        ]);
+
+        // Set chart options
+        var options = {
+            'title': '工资收入分布情况',
+            'width': 400,
+            'height': 300
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
+        chart.draw(data, options);
+    }
+</script>
+
+<script type="text/javascript">
+    function showSection(sectionId) {
+        var sections = document.getElementsByClassName('content-section');
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].classList.remove('active');
+        }
+        document.getElementById(sectionId).classList.add('active');
+    }
+
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        // Create the data table.
+        var data = google.visualization.arrayToDataTable([
+            ['Department', 'Percentage'],
+            <c:forEach var="entry" items="${employeeMap}">
+            ['${entry.key}', ${entry.value}],
+            </c:forEach>
+        ]);
+
+        // Set chart options
+        var options = {
+            'title': '员工部门分布',
+            'width': 400,
+            'height': 300
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('piechart1'));
+        chart.draw(data, options);
+    }
+</script>
 
 <script>
     function showSection(sectionId) {
