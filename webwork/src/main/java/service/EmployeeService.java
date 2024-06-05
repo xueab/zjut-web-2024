@@ -11,21 +11,14 @@ public class EmployeeService {
     private EmployeeDao employee = new EmployeeDao();
 
     public Map<String, Double> getDepartmentStats() {
+
         Map<String, Double> stats = new HashMap<>();
         // 假设有a, b, c, d四个部门
         String[] departments = {"a部门", "b部门", "c部门", "d部门"};
-        int totalEmployees = employee.count();
-        if (totalEmployees == 0) {
-            for (String dept : departments) {
-                stats.put(dept, 0.0);
-            }
-        } else {
-            for (String dept : departments) {
-                int deptCount = employee.selectByName(dept);
-                double percentage = (double) deptCount / totalEmployees * 100;
-                stats.put(dept, percentage);
-            }
+        for (int i = 0; i < 4; i++) {
+            stats.put(departments[i], show(departments[i]));
         }
+
         return stats;
     }
 

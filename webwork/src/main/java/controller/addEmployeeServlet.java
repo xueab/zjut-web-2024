@@ -28,7 +28,6 @@ public class addEmployeeServlet extends HttpServlet {
         e.addEmployee(employee);
 
         // 重定向
-        //resp.sendRedirect("/peopleManager.jsp");
         resp.sendRedirect(req.getContextPath() + "/peopleManager.jsp");
     }
 
