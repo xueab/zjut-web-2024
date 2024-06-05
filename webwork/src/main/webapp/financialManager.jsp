@@ -304,7 +304,7 @@
                 '<td>' + employee.housing + '</td>' +
                 '<td>' + employee.tax + '</td>' +
                 '<td>' + employee.deduction + '</td>' +
-                '<td><button class="btn btn-warning" data-toggle="modal" data-target="#editSalaryModal" data-id="' + employee.id + '" data-name="' + employee.name + '" data-position="' + employee.position + '" data-basic="' + employee.basic + '" data-allowance="' + employee.allowance + '" data-lunch="' + employee.lunch + '" data-overtime="' + employee.overtime + '" data-full="' + employee.full + '" data-social="' + employee.social + '" data-housing="' + employee.housing + '" data-tax="' + employee.tax + '" data-deduction="' + employee.deduction + '">编辑</button></td>' +
+                '<td><button class="btn btn-warning" data-toggle="modx`al" data-target="#editSalaryModal" data-id="' + employee.id + '" data-name="' + employee.name + '" data-position="' + employee.position + '" data-basic="' + employee.basic + '" data-allowance="' + employee.allowance + '" data-lunch="' + employee.lunch + '" data-overtime="' + employee.overtime + '" data-full="' + employee.full + '" data-social="' + employee.social + '" data-housing="' + employee.housing + '" data-tax="' + employee.tax + '" data-deduction="' + employee.deduction + '">编辑</button></td>' +
                 '</tr>';
             tableBody.append(row);
         });

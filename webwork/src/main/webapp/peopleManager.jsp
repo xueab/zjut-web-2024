@@ -12,6 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -71,7 +72,6 @@
     <a href="#" onclick="showSection('employeeManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
     <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
 </div>
-
 <div class="main">
     <div id="employeeManagement" class="container content-section active">
         <h2>员工管理</h2>
@@ -256,24 +256,57 @@
 </div>
 
 <div class="modal fade" id="employeePieChartModal" tabindex="-1" role="dialog" aria-labelledby="employeePieChartModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="employeePieChartModalLabel">部门员工比例饼状图</h5>
+                <h5 class="modal-title" id="employeePieChartModalLabel">员工部门分布图</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <canvas id="departmentPieChart"></canvas>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <div id="piechart" style="width: 100%; height: 400px;"></div>
             </div>
         </div>
     </div>
 </div>
 
+<script type="text/javascript">
+    function showSection(sectionId) {
+        var sections = document.getElementsByClassName('content-section');
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].classList.remove('active');
+        }
+        document.getElementById(sectionId).classList.add('active');
+    }
+
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        // Create the data table.
+        var data = google.visualization.arrayToDataTable([
+            ['Department', 'Percentage'],
+            <c:forEach var="entry" items="${employeeMap}">
+            ['${entry.key}', ${entry.value}],
+            </c:forEach>
+        ]);
+
+        // Set chart options
+        var options = {
+            'title': '员工部门分布',
+            'width': 400,
+            'height': 300
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
+</script>
 <script>
     $('#deleteemployeeModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
@@ -301,39 +334,7 @@
         modal.find('#editAddress').val(address);
     });
 
-    function showSection(sectionId) {
-        $('.content-section').removeClass('active');
-        $('#' + sectionId).addClass('active');
-    }
 
-    function renderPieChart(data) {
-        var ctx = document.getElementById('departmentPieChart').getContext('2d');
-        var chart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: Object.keys(data),
-                datasets: [{
-                    label: '部门员工比例',
-                    data: Object.values(data),
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
-                }]
-            },
-            options: {
-                responsive: true
-            }
-        });
-    }
-
-    $('#employeePieChartModal').on('show.bs.modal', function () {
-        $.ajax({
-            url: 'showEmployeeServlet?action=getDepartmentStats',
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                renderPieChart(data);
-            }
-        });
-    });
 </script>
 </body>
 </html>
