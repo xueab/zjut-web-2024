@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
             if (role.equals("peopleManager")) {
                 // 重定向到人事管理员界面
                 List<Employee> list = employeeService.selectAll();
-
+                
                 req.setAttribute("employee", list);
                 req.getRequestDispatcher("/peopleManager.jsp").forward(req, resp);
             } else if (role.equals("financialManager")) {
