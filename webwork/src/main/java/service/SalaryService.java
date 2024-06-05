@@ -1,7 +1,6 @@
 package service;
 
 import dao.SalaryDao;
-import jdk.internal.util.xml.impl.Pair;
 import model.Salary;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -139,7 +138,7 @@ public class SalaryService {
     }
 
     public void update(Salary salary) {
-        salaryDao.update(salary);
+        //salaryDao.update(salary);
     }
 
     public double show(int low, int high) {
