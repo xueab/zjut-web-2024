@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri ="http://java.sun.com/jsp/jstl/core" %>
+<%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Financial Manager Dashboard</title>
+    <title>财务管理员</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -59,13 +61,13 @@
 <body>
 <%
     String username = request.getParameter("username");
-%>//读入账号登录的username属性
+%>
 <div class="sidebar">
     <a href="#" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
     <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
 </div>
-
-<div id="viewSalaries" class="container content-section">
+<div class="main">
+<div id="viewSalaries" class="container content-section active">
     <h2>查看工资</h2>
     <br>
     <div class="form-group">
@@ -74,39 +76,31 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>员工ID</th>
-            <th>姓名</th>
-            <th>职位</th>
+            <th>员工编号</th>
+            <th>工资所属年份</th>
+            <th>工资所属月份</th>
             <th>基本工资</th>
-            <th>岗位津贴</th>
-            <th>午餐补贴</th>
             <th>加班工资</th>
-            <th>全勤工资</th>
-            <th>社保</th>
-            <th>公积金</th>
+            <th>全勤奖</th>
             <th>个人所得税</th>
-            <th>迟到/请假扣款</th>
+            <th>实发工资</th>
             <th>操作</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="salary" items="${salaryList}">
+        <c:forEach var="salary" items="${salary}">
             <tr>
-                <td>${salary.id}</td>
-                <td>${salary.name}</td>
-                <td>${salary.position}</td>
+                <td>${salary.empNo}</td>
+                <td>${salary.year}</td>
+                <td>${salary.month}</td>
                 <td>${salary.basicSalary}</td>
-                <td>${salary.allowance}</td>
-                <td>${salary.lunchSubsidy}</td>
-                <td>${salary.overtimeSalary}</td>
-                <td>${salary.fullAttendanceSalary}</td>
-                <td>${salary.socialSecurity}</td>
-                <td>${salary.housingFund}</td>
-                <td>${salary.personalIncomeTax}</td>
-                <td>${salary.otherDeductions}</td>
+                <td>${salary.overtimePay}</td>
+                <td>${salary.fullAttendanceBonus}</td>
+                <td>${salary.personalTax}</td>
+                <td>${salary.netSalary}</td>
                 <td>
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#editSalaryModal" data-id="${salary.id}" data-name="${salary.name}" data-position="${salary.position}" data-basic="${salary.basicSalary}" data-allowance="${salary.allowance}" data-lunch="${salary.lunchSubsidy}" data-overtime="${salary.overtimeSalary}" data-full="${salary.fullAttendanceSalary}" data-social="${salary.socialSecurity}" data-housing="${salary.housingFund}" data-tax="${salary.personalIncomeTax}" data-deduction="${salary.otherDeductions}">编辑</button>
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteSalaryModal" data-id="${salary.id}">删除</button>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#editSalaryModal" data-empNo="${salary.empNo}" data-year="${salary.year}" data-month="${salary.month}" data-basicSalary="${salary.basicSalary}" data-overtimePay="${salary.overtimePay}" data-fullAttendanceBonus="${salary.fullAttendanceBonus}" data-personTax="${salary.personalTax}" data-netSalary="${salary.netSalary}">编辑</button>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteSalaryModal" data-empNo="${salary.empNo}">删除</button>
                 </td>
             </tr>
         </c:forEach>
@@ -146,52 +140,36 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="addEmployeeId">员工ID:</label>
-                        <input type="text" class="form-control" id="addEmployeeId" name="id" required>
+                        <label for="addempNo">员工编号:</label>
+                        <input type="text" class="form-control" id="addempNo" name="empNo" required>
                     </div>
                     <div class="form-group">
-                        <label for="addEmployeeName">姓名:</label>
-                        <input type="text" class="form-control" id="addEmployeeName" name="name" required>
+                        <label for="addyear">工资所属年份</label>
+                        <input type="text" class="form-control" id="addyear" name="year" required>
                     </div>
                     <div class="form-group">
-                        <label for="addEmployeePosition">职位:</label>
-                        <input type="text" class="form-control" id="addEmployeePosition" name="position" required>
+                        <label for="addmonth">工资所属月份:</label>
+                        <input type="text" class="form-control" id="addmonth" name="month" required>
                     </div>
                     <div class="form-group">
-                        <label for="addBasicSalary">基本工资:</label>
-                        <input type="number" class="form-control" id="addBasicSalary" name="basicSalary" required>
+                        <label for="addbasicSalary">基本工资:</label>
+                        <input type="number" class="form-control" id="addbasicSalary" name="basicSalary" required>
                     </div>
                     <div class="form-group">
-                        <label for="addAllowance">岗位津贴:</label>
-                        <input type="number" class="form-control" id="addAllowance" name="allowance" required>
+                        <label for="addovertimeSalary">加班工资:</label>
+                        <input type="number" class="form-control" id="addovertimeSalary" name="overtimeSalary" required>
                     </div>
                     <div class="form-group">
-                        <label for="addLunchSubsidy">午餐补贴:</label>
-                        <input type="number" class="form-control" id="addLunchSubsidy" name="lunchSubsidy" required>
+                        <label for="addfullAttendanceBonus">全勤奖:</label>
+                        <input type="number" class="form-control" id="addfullAttendanceBonus" name="fullAttendanceBonus" required>
                     </div>
                     <div class="form-group">
-                        <label for="addOvertimeSalary">加班工资:</label>
-                        <input type="number" class="form-control" id="addOvertimeSalary" name="overtimeSalary" required>
+                        <label for="addpersonalTax">个人所得税:</label>
+                        <input type="number" class="form-control" id="addpersonalTax" name="personalTax" required>
                     </div>
                     <div class="form-group">
-                        <label for="addFullAttendanceSalary">全勤工资:</label>
-                        <input type="number" class="form-control" id="addFullAttendanceSalary" name="fullAttendanceSalary" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="addSocialSecurity">社保:</label>
-                        <input type="number" class="form-control" id="addSocialSecurity" name="socialSecurity" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="addHousingFund">公积金:</label>
-                        <input type="number" class="form-control" id="addHousingFund" name="housingFund" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="addPersonalIncomeTax">个人所得税:</label>
-                        <input type="number" class="form-control" id="addPersonalIncomeTax" name="personalIncomeTax" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="addOtherDeductions">其他扣款:</label>
-                        <input type="number" class="form-control" id="addOtherDeductions" name="otherDeductions" required>
+                        <label for="addnetSalary">实发工资:</label>
+                        <input type="number" class="form-control" id="addnetSalary" name="netSalary" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -202,62 +180,50 @@
         </div>
     </div>
 </div>
+</div>
 
 <div class="modal fade" id="editSalaryModal" tabindex="-1" role="dialog" aria-labelledby="editSalaryModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form action="editSalary.do" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editSalaryModalLabel">编辑工资</h5>
+                    <h5 class="modal-title" id="editSalaryModalLabel">编辑工资记录</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="edit-id" name="id">
                     <div class="form-group">
-                        <label for="edit-name">姓名:</label>
-                        <input type="text" class="form-control" id="edit-name" name="name" readonly>
+                        <label for="editempNo">员工编号:</label>
+                        <input type="text" class="form-control" id="editempNo" name="empNo" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-position">职位:</label>
-                        <input type="text" class="form-control" id="edit-position" name="position" readonly>
+                        <label for="edityear">工资所属年份</label>
+                        <input type="text" class="form-control" id="edityear" name="year" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-basic">基本工资:</label>
-                        <input type="number" class="form-control" id="edit-basic" name="basic" required>
+                        <label for="editmonth">工资所属月份:</label>
+                        <input type="text" class="form-control" id="editmonth" name="month" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-allowance">岗位津贴:</label>
-                        <input type="number" class="form-control" id="edit-allowance" name="allowance" required>
+                        <label for="editbasicSalary">基本工资:</label>
+                        <input type="number" class="form-control" id="editbasicSalary" name="basicSalary" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-lunch">午餐补贴:</label>
-                        <input type="number" class="form-control" id="edit-lunch" name="lunch" required>
+                        <label for="editovertimeSalary">加班工资:</label>
+                        <input type="number" class="form-control" id="editovertimeSalary" name="overtimeSalary" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-overtime">加班工资:</label>
-                        <input type="number" class="form-control" id="edit-overtime" name="overtime" required>
+                        <label for="editfullAttendanceBonus">全勤奖:</label>
+                        <input type="number" class="form-control" id="editfullAttendanceBonus" name="fullAttendanceBonus" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-full">全勤工资:</label>
-                        <input type="number" class="form-control" id="edit-full" name="full" required>
+                        <label for="editpersonalTax">个人所得税:</label>
+                        <input type="number" class="form-control" id="editpersonalTax" name="personalTax" required>
                     </div>
                     <div class="form-group">
-                        <label for="edit-social">社保:</label>
-                        <input type="number" class="form-control" id="edit-social" name="social" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-housing">公积金:</label>
-                        <input type="number" class="form-control" id="edit-housing" name="housing" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-tax">个人所得税:</label>
-                        <input type="number" class="form-control" id="edit-tax" name="tax" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-deduction">迟到/请假扣款:</label>
-                        <input type="number" class="form-control" id="edit-deduction" name="deduction" required>
+                        <label for="editnetSalary">实发工资:</label>
+                        <input type="number" class="form-control" id="editnetSalary" name="netSalary" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -281,7 +247,7 @@
                 </div>
                 <div class="modal-body">
                     <p>确定要删除该员工的工资信息吗?</p>
-                    <input type="hidden" id="deleteSalaryId" name="id">
+                    <input type="hidden" id="deleteSalaryempNo" name="empNo">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
@@ -326,9 +292,9 @@
         // 将搜索结果添加到表格中
         filteredEmployees.forEach(function(employee) {
             var row = '<tr>' +
-                '<td>' + employee.id + '</td>' +
-                '<td>' + employee.name + '</td>' +
-                '<td>' + employee.position + '</td>' +
+                '<td>' + employee.empNo + '</td>' +
+                '<td>' + employee.year + '</td>' +
+                '<td>' + employee.month + '</td>' +
                 '<td>' + employee.basic + '</td>' +
                 '<td>' + employee.allowance + '</td>' +
                 '<td>' + employee.lunch + '</td>' +
@@ -354,32 +320,24 @@
 
     $('#editSalaryModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var id = button.data('id');
-        var name = button.data('name');
-        var position = button.data('position');
-        var basic = button.data('basic');
-        var allowance = button.data('allowance');
-        var lunch = button.data('lunch');
-        var overtime = button.data('overtime');
-        var full = button.data('full');
-        var social = button.data('social');
-        var housing = button.data('housing');
-        var tax = button.data('tax');
-        var deduction = button.data('deduction');
+        var empNo = button.data('empNo');
+        var year = button.data('year');
+        var month = button.data('month');
+        var basicSalary = button.data('basicSalary');
+        var overtimePay = button.data('overtimePay');
+        var fullAttendanceBonus = button.data('fullAttendanceBonus');
+        var personalTax = button.data('personalTax');
+        var netSalary = button.data('netSalary');
 
         var modal = $(this);
-        modal.find('.modal-body #salaryId').val(id);
-        modal.find('.modal-body #name').val(name);
-        modal.find('.modal-body #position').val(position);
-        modal.find('.modal-body #basicSalary').val(basic);
-        modal.find('.modal-body #allowance').val(allowance);
-        modal.find('.modal-body #lunchSubsidy').val(lunch);
-        modal.find('.modal-body #overtimeSalary').val(overtime);
-        modal.find('.modal-body #fullAttendanceSalary').val(full);
-        modal.find('.modal-body #socialSecurity').val(social);
-        modal.find('.modal-body #housingFund').val(housing);
-        modal.find('.modal-body #personalIncomeTax').val(tax);
-        modal.find('.modal-body #otherDeductions').val(deduction);
+        modal.find('.modal-body #empNo').val(empNo);
+        modal.find('.modal-body #year').val(year);
+        modal.find('.modal-body #month').val(month);
+        modal.find('.modal-body #basicSalary').val(basicSalary);
+        modal.find('.modal-body #overtimePay').val(overtimePay);
+        modal.find('.modal-body #fullAttendanceBonus').val(fullAttendanceBonus);
+        modal.find('.modal-body #personalTax').val(personalTax);
+        modal.find('.modal-body #neSalary').val(netSalary);
     });
 </script>
 </body>
