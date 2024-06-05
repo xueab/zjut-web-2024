@@ -115,7 +115,7 @@
                     <td>${employeeRole.address}</td>
                     <td>
                         <button class="btn btn-warning" data-toggle="modal" data-target="#editemployeeModal" data-name="${employeeRole.name}" data-empno="${employeeRole.empNo}" data-depName="${employeeRole.depName}" data-position="${employeeRole.position}" data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}" data-address="${employeeRole.address}">修改</button>
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#editemployeeModal" data-name="${employeeRole.name}" data-empno="${employeeRole.empNo}" data-depName="${employeeRole.depName}" data-position="${employeeRole.position}" data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}" data-address="${employeeRole.address}">删除</button>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteemployeeModal" data-name="${employeeRole.name}" data-empno="${employeeRole.empNo}" data-depName="${employeeRole.depName}" data-position="${employeeRole.position}" data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}" data-address="${employeeRole.address}">删除</button>
                     </td>
                 </tr>
             </c:forEach>
@@ -326,7 +326,7 @@
         var id = button.data('deleteempNo');
         var modal = $(this);
         modal.find('#deleteName').val(name);
-        modal.find('#deleteName').val(name);
+        modal.find('#deleteempNo').val(id);
     });
 
     $('#editemployeeModal').on('show.bs.modal', function (event) {

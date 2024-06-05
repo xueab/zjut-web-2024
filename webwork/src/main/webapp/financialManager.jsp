@@ -425,5 +425,37 @@
         modal.find('.modal-body #neSalary').val(netSalary);
     });
 </script>
+<script>
+    $(document).ready(function(){
+        $('#addSalaryModal').on('hidden.bs.modal', function () {
+            // 清空表单数据
+            $('#addSalaryModalLabel')[0].reset();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#addSalaryModal').on('hidden.bs.modal', function () {
+            // 清空表单数据
+            $('#addSalaryModalLabel')[0].reset();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#addSalaryModal').on('hidden.bs.modal', function () {
+            // 清空表单数据
+            $('#addSalaryModalLabel')[0].reset();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#addSalaryModal').on('hidden.bs.modal', function () {
+            // 清空表单数据
+            $('#addSalaryModalLabel')[0].reset();
+        });
+    });
+</script>
 </body>
 </html>
