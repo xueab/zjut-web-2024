@@ -17,8 +17,8 @@ public class updateEmployeeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EmployeeService e = new EmployeeService();
 
-        String empNo = req.getParameter("editempNo");
-        int name = Integer.parseInt(req.getParameter("editname"));
+        int empNo = Integer.parseInt(req.getParameter("editempNo"));
+        String name = req.getParameter("editname");
         String depName = req.getParameter("editdepName");
         String position = req.getParameter("editposition");
         String idNumber = req.getParameter("editidNumber");
