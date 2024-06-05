@@ -23,7 +23,7 @@ public class EmployeeDao extends BaseDao {
             while(rs.next())
             {
                 Employee employee = new Employee();
-                employee.setEmpNo(rs.getString("emp_no"));
+                employee.setEmpNo(rs.getInt("emp_no"));
                 employee.setName(rs.getString("name"));
                 employee.setDepName(rs.getString("dept_name"));
                 employee.setPosition(rs.getString("position"));

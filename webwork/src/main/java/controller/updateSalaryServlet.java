@@ -19,14 +19,14 @@ public class updateSalaryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SalaryService s = new SalaryService();
 
-        int empNo = Integer.parseInt(req.getParameter("empNo"));
-        int year = Integer.parseInt(req.getParameter("year"));
-        int month = Integer.parseInt(req.getParameter("month"));
-        BigDecimal basicSalary = new BigDecimal(req.getParameter("basicSalary"));
-        BigDecimal overtimePay = new BigDecimal(req.getParameter("overtimePay"));
-        BigDecimal fullAttendanceBonus = new BigDecimal(req.getParameter("fullAttendanceBonus"));
-        BigDecimal personalTax = new BigDecimal(req.getParameter("personalTax"));
-        BigDecimal netSalary = new BigDecimal(req.getParameter("netSalary"));
+        int empNo = Integer.parseInt(req.getParameter("editempNo"));
+        int year = Integer.parseInt(req.getParameter("edityear"));
+        int month = Integer.parseInt(req.getParameter("editmonth"));
+        BigDecimal basicSalary = new BigDecimal(req.getParameter("editbasicSalary"));
+        BigDecimal overtimePay = new BigDecimal(req.getParameter("editovertimePay"));
+        BigDecimal fullAttendanceBonus = new BigDecimal(req.getParameter("editfullAttendanceBonus"));
+        BigDecimal personalTax = new BigDecimal(req.getParameter("editpersonalTax"));
+        BigDecimal netSalary = new BigDecimal(req.getParameter("editnetSalary"));
 
         Salary salary = new Salary(empNo, year, month, basicSalary, overtimePay, fullAttendanceBonus, personalTax, netSalary);
 
@@ -37,6 +37,6 @@ public class updateSalaryServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+        doGet(req, resp);
     }
 }

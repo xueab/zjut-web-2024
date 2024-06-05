@@ -40,9 +40,9 @@ public class EmployeeService {
 
     public double show(String deptname) {
         // 部门人数
-        int n = employee.selectByName(deptname);
+        double n = employee.selectByName(deptname);
         // 总人数
-        int count = employee.count();
+        double count = employee.count();
         return n / count;
     }
 }

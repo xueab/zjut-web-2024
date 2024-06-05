@@ -1,7 +1,7 @@
 package model;
 
 public class Employee {
-    private String empNo; // 员工编号
+    private int empNo; // 员工编号
     private String name; // 员工姓名
     private String depName;//部门名称
     private String position; // 岗位
@@ -12,7 +12,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String empNo, String name, String depName, String position, String idNumber, String phone, String address) {
+    public Employee(int empNo, String name, String depName, String position, String idNumber, String phone, String address) {
         this.empNo = empNo;
         this.name = name;
         this.depName = depName;
@@ -22,11 +22,11 @@ public class Employee {
         this.address = address;
     }
 
-    public String getEmpNo() {
+    public int getEmpNo() {
         return empNo;
     }
 
-    public void setEmpNo(String empNo) {
+    public void setEmpNo(int empNo) {
         this.empNo = empNo;
     }
 
