@@ -17,7 +17,7 @@ public class addEmployeeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EmployeeService e = new EmployeeService();
         String name = req.getParameter("addname");
-        String empNo = req.getParameter("addempNo");
+        int empNo = Integer.parseInt(req.getParameter("addempNo"));
         String depName = req.getParameter("adddepName");
         String position = req.getParameter("addposition");
         String idNumber = req.getParameter("addidNumber");
@@ -25,7 +25,6 @@ public class addEmployeeServlet extends HttpServlet {
         String address = req.getParameter("addaddress");
 
         Employee employee = new Employee(empNo, name, depName, position, idNumber, phone, address);
-
         e.addEmployee(employee);
 
         // 重定向

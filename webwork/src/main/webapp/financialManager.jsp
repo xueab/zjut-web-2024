@@ -1,3 +1,7 @@
+<%@ page import="model.Salary" %>
+<%@ page import="service.SalaryService" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri ="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false"%>
@@ -88,6 +92,13 @@
         </tr>
         </thead>
         <tbody>
+        <% SalaryService SalaryService = new SalaryService();
+            List<Salary> salary = SalaryService.selectAll();
+            Map<String, Double> salaryMap = SalaryService.getSalaryStats();
+            request.setAttribute("employeeMap", salaryMap);
+            request.setAttribute("salary", salary);
+        %>
+        <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal">显示工资分布饼状图</button>
         <c:forEach var="salary" items="${salary}">
             <tr>
                 <td>${salary.empNo}</td>
@@ -141,35 +152,35 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="addempNo">员工编号:</label>
-                        <input type="text" class="form-control" id="addempNo" name="empNo" required>
+                        <input type="text" class="form-control" id="addempNo" name="addempNo" required>
                     </div>
                     <div class="form-group">
                         <label for="addyear">工资所属年份</label>
-                        <input type="text" class="form-control" id="addyear" name="year" required>
+                        <input type="text" class="form-control" id="addyear" name="addyear" required>
                     </div>
                     <div class="form-group">
                         <label for="addmonth">工资所属月份:</label>
-                        <input type="text" class="form-control" id="addmonth" name="month" required>
+                        <input type="text" class="form-control" id="addmonth" name="addmonth" required>
                     </div>
                     <div class="form-group">
                         <label for="addbasicSalary">基本工资:</label>
-                        <input type="number" class="form-control" id="addbasicSalary" name="basicSalary" required>
+                        <input type="number" class="form-control" id="addbasicSalary" name="addbasicSalary" required>
                     </div>
                     <div class="form-group">
                         <label for="addovertimeSalary">加班工资:</label>
-                        <input type="number" class="form-control" id="addovertimeSalary" name="overtimeSalary" required>
+                        <input type="number" class="form-control" id="addovertimeSalary" name="addovertimeSalary" required>
                     </div>
                     <div class="form-group">
                         <label for="addfullAttendanceBonus">全勤奖:</label>
-                        <input type="number" class="form-control" id="addfullAttendanceBonus" name="fullAttendanceBonus" required>
+                        <input type="number" class="form-control" id="addfullAttendanceBonus" name="addfullAttendanceBonus" required>
                     </div>
                     <div class="form-group">
                         <label for="addpersonalTax">个人所得税:</label>
-                        <input type="number" class="form-control" id="addpersonalTax" name="personalTax" required>
+                        <input type="number" class="form-control" id="addpersonalTax" name="addpersonalTax" required>
                     </div>
                     <div class="form-group">
                         <label for="addnetSalary">实发工资:</label>
-                        <input type="number" class="form-control" id="addnetSalary" name="netSalary" required>
+                        <input type="number" class="form-control" id="addnetSalary" name="addnetSalary" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -195,35 +206,35 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="editempNo">员工编号:</label>
-                        <input type="text" class="form-control" id="editempNo" name="empNo" required>
+                        <input type="text" class="form-control" id="editempNo" name="editempNo" required>
                     </div>
                     <div class="form-group">
                         <label for="edityear">工资所属年份</label>
-                        <input type="text" class="form-control" id="edityear" name="year" required>
+                        <input type="text" class="form-control" id="edityear" name="edityear" required>
                     </div>
                     <div class="form-group">
                         <label for="editmonth">工资所属月份:</label>
-                        <input type="text" class="form-control" id="editmonth" name="month" required>
+                        <input type="text" class="form-control" id="editmonth" name="editmonth" required>
                     </div>
                     <div class="form-group">
                         <label for="editbasicSalary">基本工资:</label>
-                        <input type="number" class="form-control" id="editbasicSalary" name="basicSalary" required>
+                        <input type="number" class="form-control" id="editbasicSalary" name="editbasicSalary" required>
                     </div>
                     <div class="form-group">
                         <label for="editovertimeSalary">加班工资:</label>
-                        <input type="number" class="form-control" id="editovertimeSalary" name="overtimeSalary" required>
+                        <input type="number" class="form-control" id="editovertimeSalary" name="editovertimeSalary" required>
                     </div>
                     <div class="form-group">
                         <label for="editfullAttendanceBonus">全勤奖:</label>
-                        <input type="number" class="form-control" id="editfullAttendanceBonus" name="fullAttendanceBonus" required>
+                        <input type="number" class="form-control" id="editfullAttendanceBonus" name="editfullAttendanceBonus" required>
                     </div>
                     <div class="form-group">
                         <label for="editpersonalTax">个人所得税:</label>
-                        <input type="number" class="form-control" id="editpersonalTax" name="personalTax" required>
+                        <input type="number" class="form-control" id="editpersonalTax" name="editpersonalTax" required>
                     </div>
                     <div class="form-group">
                         <label for="editnetSalary">实发工资:</label>
-                        <input type="number" class="form-control" id="editnetSalary" name="netSalary" required>
+                        <input type="number" class="form-control" id="editnetSalary" name="editnetSalary" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -247,7 +258,14 @@
                 </div>
                 <div class="modal-body">
                     <p>确定要删除该员工的工资信息吗?</p>
-                    <input type="hidden" id="deleteSalaryempNo" name="empNo">
+                    <input type="hidden" id="deleteempNo" name="deleteempNo">
+                    <input type="hidden" id="deleteyear" name="deleteyear">
+                    <input type="hidden" id="deletemonth" name="deletemonth">
+                    <input type="hidden" id="deletebasicSalary" name="deletebasicSalary">
+                    <input type="hidden" id="deleteovertimePay" name="deleteovertimePay">
+                    <input type="hidden" id="deletefullAttendanceBonus" name="deletefullAttendanceBonus">
+                    <input type="hidden" id="deletepersonalTax" name="deletepersonalTax">
+                    <input type="hidden" id="deletenetSalary" name="deletenetSalary">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
@@ -257,6 +275,59 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="salaryPieChartModal" tabindex="-1" role="dialog" aria-labelledby="salaryPieChartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="salaryPieChartModalLabel">工资收入分布</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="piechart" style="width: 100%; height: 400px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function showSection(sectionId) {
+        var sections = document.getElementsByClassName('content-section');
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].classList.remove('active');
+        }
+        document.getElementById(sectionId).classList.add('active');
+    }
+
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        // Create the data table.
+        var data = google.visualization.arrayToDataTable([
+            ['Salary', 'Percentage'],
+            <c:forEach var="entry" items="${salaryMap}">
+            ['${entry.key}', ${entry.value}],
+            </c:forEach>
+        ]);
+
+        // Set chart options
+        var options = {
+            'title': '工资收入分布情况',
+            'width': 400,
+            'height': 300
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
+</script>
 
 <script>
     // 当点击侧边栏链接时显示相应的内容部分
@@ -312,22 +383,36 @@
 
     $('#deleteSalaryModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var id = button.data('id');
+        var empNo = button.data('editempNo');
+        var year = button.data('edityear');
+        var month = button.data('editmonth');
+        var basicSalary = button.data('editbasicSalary');
+        var overtimePay = button.data('editovertimePay');
+        var fullAttendanceBonus = button.data('editfullAttendanceBonus');
+        var personalTax = button.data('editpersonalTax');
+        var netSalary = button.data('editnetSalary');
 
         var modal = $(this);
-        modal.find('.modal-body #salaryId').val(id);
+        modal.find('.modal-body #salaryId').val(empNo);
+        modal.find('.modal-body #salaryId').val(year);
+        modal.find('.modal-body #salaryId').val(month);
+        modal.find('.modal-body #salaryId').val(basicSalary);
+        modal.find('.modal-body #salaryId').val(overtimePay);
+        modal.find('.modal-body #salaryId').val(fullAttendanceBonus);
+        modal.find('.modal-body #salaryId').val(personalTax);
+        modal.find('.modal-body #salaryId').val(netSalary);
     });
 
     $('#editSalaryModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var empNo = button.data('empNo');
-        var year = button.data('year');
-        var month = button.data('month');
-        var basicSalary = button.data('basicSalary');
-        var overtimePay = button.data('overtimePay');
-        var fullAttendanceBonus = button.data('fullAttendanceBonus');
-        var personalTax = button.data('personalTax');
-        var netSalary = button.data('netSalary');
+        var empNo = button.data('editempNo');
+        var year = button.data('edityear');
+        var month = button.data('editmonth');
+        var basicSalary = button.data('editbasicSalary');
+        var overtimePay = button.data('editovertimePay');
+        var fullAttendanceBonus = button.data('editfullAttendanceBonus');
+        var personalTax = button.data('editpersonalTax');
+        var netSalary = button.data('editnetSalary');
 
         var modal = $(this);
         modal.find('.modal-body #empNo').val(empNo);

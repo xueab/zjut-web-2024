@@ -30,7 +30,7 @@ public class BaseDao {
         dataSource.setInitialSize(5); // 初始化时建立物理连接的个数
         dataSource.setMaxActive(10); // 最大连接池数量
         dataSource.setMinIdle(5); // 最小连接池数量
-        dataSource.setMaxWait(60000); // 获取连接时最大等待时间，单位毫秒
+        dataSource.setMaxWait(6000); // 获取连接时最大等待时间，单位毫秒
         // 可以根据需要设置其他配置
     }
 
@@ -79,6 +79,7 @@ public class BaseDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
     /**
