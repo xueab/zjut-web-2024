@@ -23,6 +23,9 @@ public class deleteUserServlet extends HttpServlet {
 
         user.delete(userId);
 
+        // 重定向
+        resp.sendRedirect("/systemManager.jsp");
+
     }
 
     @Override

@@ -31,7 +31,7 @@ public class showSalaryServlet extends HttpServlet {
         req.setAttribute("8k-12k", n3);
         req.setAttribute("12k以上", n4);
 
-        req.getRequestDispatcher("salaryMange.jsp").forward(req, resp);
+        req.getRequestDispatcher("finanicalMange.jsp").forward(req, resp);
     }
 
     @Override

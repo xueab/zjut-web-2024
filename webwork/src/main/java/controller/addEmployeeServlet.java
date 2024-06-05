@@ -27,6 +27,9 @@ public class addEmployeeServlet extends HttpServlet {
         Employee employee = new Employee(empNo, name, depName, position, idNumber, phone, address);
 
         e.addEmployee(employee);
+
+        // 重定向
+        resp.sendRedirect("/peopleManager.jsp");
     }
 
     @Override
