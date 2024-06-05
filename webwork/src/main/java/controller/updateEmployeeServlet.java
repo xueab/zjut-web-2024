@@ -16,13 +16,13 @@ public class updateEmployeeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EmployeeService e = new EmployeeService();
-        String empNo = req.getParameter("empNo");
-        String name = req.getParameter("name");
-        String depName = req.getParameter("depName");
-        String position = req.getParameter("position");
-        String idNumber = req.getParameter("idNumber");
-        String phone = req.getParameter("phone");
-        String address = req.getParameter("address");
+        String empNo = req.getParameter("editempNo");
+        String name = req.getParameter("editname");
+        String depName = req.getParameter("editdepName");
+        String position = req.getParameter("editposition");
+        String idNumber = req.getParameter("editidNumber");
+        String phone = req.getParameter("editphone");
+        String address = req.getParameter("editaddress");
 
         Employee employee = new Employee(empNo, name, depName, position, idNumber, phone, address);
 
@@ -34,6 +34,6 @@ public class updateEmployeeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        doGet(req, resp);
     }
 }
