@@ -32,7 +32,7 @@ public class addSalaryServlet extends HttpServlet {
 
         s.add(salary);
 
-        resp.sendRedirect("/financialManager.jsp");
+        resp.sendRedirect(req.getContextPath() + "/financialManager.jsp");
     }
 
     @Override

@@ -32,7 +32,7 @@ public class deleteSalary extends HttpServlet {
 
         s.delete(salary);
 
-        resp.sendRedirect("/financialManager.jsp");
+        resp.sendRedirect(req.getContextPath() + "/financialManager.jsp");
     }
 
     @Override
