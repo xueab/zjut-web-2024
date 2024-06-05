@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
                     System.out.println(employee.getName());
                 }
                 req.setAttribute("employee", list);
-                req.getRequestDispatcher("/peopleManager.jsp").forward(req, resp);
+                req.getRequestDispatcher(redirectURL).forward(req, resp);
                 //resp.sendRedirect(redirectURL + "?username=" + username);
             }
         } else {

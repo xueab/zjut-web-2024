@@ -66,7 +66,7 @@
 <body>
 <%
     String username = request.getParameter("username");
-%>//读入登录账号的username属性
+%>
 <div class="sidebar">
     <a href="#" onclick="showSection('employeeManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
     <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>

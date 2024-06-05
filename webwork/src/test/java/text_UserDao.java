@@ -1,3 +1,4 @@
+import com.alibaba.fastjson.JSONObject;
 import dao.EmployeeDao;
 import dao.SalaryDao;
 import dao.UserDao;
@@ -17,5 +18,6 @@ public class text_UserDao {
         for (Salary salary : list) {
             System.out.println(salary.getNetSalary());
         }
+        JSONObject jsonObject = new JSONObject();
     }
 }

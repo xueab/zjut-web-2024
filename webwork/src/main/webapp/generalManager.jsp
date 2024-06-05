@@ -59,7 +59,7 @@
 <body>
 <%
     String username = request.getParameter("username");
-%>//读入登录账号的username属性
+%>
 <div class="sidebar">
     <a href="#" onclick="showSection('roleManagement')"><i class="fas fa-user-shield"></i>查看员工</a>
     <a href="#" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
