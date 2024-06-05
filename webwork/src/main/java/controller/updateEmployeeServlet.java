@@ -28,6 +28,8 @@ public class updateEmployeeServlet extends HttpServlet {
 
         e.updateEmployee(employee);
 
+        // 重定向
+        resp.sendRedirect("/peopleManager.jsp");
     }
 
     @Override
