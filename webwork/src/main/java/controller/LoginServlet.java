@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/loginServlet.do")
 public class LoginServlet extends HttpServlet {
@@ -49,32 +50,33 @@ public class LoginServlet extends HttpServlet {
             // 在重定向URL中附加username参数
             if (redirectURL.equals("peopleManager.jsp")) {
                 List<Employee> list = employeeService.selectAll();
-                for (Employee employee : list) {
-                    System.out.println(employee.getName());
-                }
+                Map<String, Double> map = employeeService.getDepartmentStats();
+//                for (Employee employee : list) {
+//                    System.out.println(employee.getName());
+//                }
 
+                req.setAttribute("employeeMap", map);
                 req.setAttribute("employee", list);
 
                 req.getRequestDispatcher("/peopleManager.jsp").forward(req, resp);
                 //resp.sendRedirect(redirectURL + "?username=" + username);
             }else if (redirectURL.equals("financialManager.jsp")) {
                 List<Salary> list = salaryService.selectAll();
-                for (Salary salary : list) {
-                    System.out.println(salary.getEmpNo());
-                }
-
+//                for (Salary salary : list) {
+//                    System.out.println(salary.getEmpNo());
+//                
                 req.setAttribute("salary", list);
                 req.getRequestDispatcher("/financialManager.jsp").forward(req, resp);
                 //resp.sendRedirect(redirectURL + "?username=" + username);
             }else if (redirectURL.equals("generalManager.jsp")) {
                 List<Employee> list = employeeService.selectAll();
                 List<Salary> list2 = salaryService.selectAll();
-                for (Employee employee : list) {
-                    System.out.println(employee.getName());
-                }
-                for (Salary salary : list2) {
-                    System.out.println(salary.getEmpNo());
-                }
+//                for (Employee employee : list) {
+//                    System.out.println(employee.getName());
+//                }
+//                for (Salary salary : list2) {
+//                    System.out.println(salary.getEmpNo());
+//                }
                 req.setAttribute("employee", list);
                 req.setAttribute("salary", list2);
                 req.getRequestDispatcher("/generalManager.jsp").forward(req, resp);
