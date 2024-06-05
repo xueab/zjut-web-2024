@@ -20,6 +20,9 @@ public class deleteEmployeeServlet extends HttpServlet {
 
         e.deleteEmployee(empNo, name);
 
+        System.out.println(empNo);
+        System.out.println(name);
+
         // 重定向
         resp.sendRedirect(req.getContextPath() + "/peopleManager.jsp");
     }
