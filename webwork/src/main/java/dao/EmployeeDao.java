@@ -73,10 +73,16 @@ public class EmployeeDao extends BaseDao {
         return ;
     }
 
-    public void delete(String name)
+    public void delete(int empNo)
     {
-        String sql = "delete from employee where name = ?";
-        this.executeUpdate(sql,name);
+        String sql = "delete from employee where emp_no = ?";
+        SalaryDao salaryDao = new SalaryDao();
+        salaryDao.deleteByNo(empNo);
+        DependentDao dependentDao = new DependentDao();
+        dependentDao.deleteByNo(empNo);
+        SpecialDeduction specialDeduction = new SpecialDeduction();
+        specialDeduction.deleteByNo(empNo);
+        this.executeUpdate(sql,empNo);
         return ;
     }
 }

@@ -85,4 +85,10 @@ public class SalaryDao extends BaseDao {
         this.executeUpdate(sql,salary.getEmpNo(),salary.getYear(),salary.getMonth());
         return ;
     }
+
+    public void deleteByNo(int empNo) {
+        String sql = "delete from salary where emp_no=?";
+        this.executeUpdate(sql,empNo);
+        return;
+    }
 }
