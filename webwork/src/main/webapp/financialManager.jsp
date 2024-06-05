@@ -405,24 +405,56 @@
 
     $('#editSalaryModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var empNo = button.data('editempNo');
-        var year = button.data('edityear');
-        var month = button.data('editmonth');
-        var basicSalary = button.data('editbasicSalary');
-        var overtimePay = button.data('editovertimePay');
-        var fullAttendanceBonus = button.data('editfullAttendanceBonus');
-        var personalTax = button.data('editpersonalTax');
-        var netSalary = button.data('editnetSalary');
+        var editempNo = button.data('editempNo');
+        var edityear = button.data('edityear');
+        var editmonth = button.data('editmonth');
+        var editbasicSalary = button.data('editbasicSalary');
+        var editovertimePay = button.data('editovertimePay');
+        var editfullAttendanceBonus = button.data('editfullAttendanceBonus');
+        var editpersonalTax = button.data('editpersonalTax');
+        var editnetSalary = button.data('editnetSalary');
 
         var modal = $(this);
-        modal.find('.modal-body #empNo').val(empNo);
-        modal.find('.modal-body #year').val(year);
-        modal.find('.modal-body #month').val(month);
-        modal.find('.modal-body #basicSalary').val(basicSalary);
-        modal.find('.modal-body #overtimePay').val(overtimePay);
-        modal.find('.modal-body #fullAttendanceBonus').val(fullAttendanceBonus);
-        modal.find('.modal-body #personalTax').val(personalTax);
-        modal.find('.modal-body #neSalary').val(netSalary);
+        modal.find('.modal-body #editempNo').val(editempNo);
+        modal.find('.modal-body #edityear').val(edityear);
+        modal.find('.modal-body #editmonth').val(editmonth);
+        modal.find('.modal-body #editbasicSalary').val(editbasicSalary);
+        modal.find('.modal-body #editovertimePay').val(editovertimePay);
+        modal.find('.modal-body #editfullAttendanceBonus').val(editfullAttendanceBonus);
+        modal.find('.modal-body #editpersonalTax').val(editpersonalTax);
+        modal.find('.modal-body #editneSalary').val(editnetSalary);
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#addSalaryModal').on('hidden.bs.modal', function () {
+            // 清空表单数据
+            $('#addSalaryModalLabel')[0].reset();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#addSalaryModal').on('hidden.bs.modal', function () {
+            // 清空表单数据
+            $('#addSalaryModalLabel')[0].reset();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#addSalaryModal').on('hidden.bs.modal', function () {
+            // 清空表单数据
+            $('#addSalaryModalLabel')[0].reset();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#addSalaryModal').on('hidden.bs.modal', function () {
+            // 清空表单数据
+            $('#addSalaryModalLabel')[0].reset();
+        });
     });
 </script>
 
