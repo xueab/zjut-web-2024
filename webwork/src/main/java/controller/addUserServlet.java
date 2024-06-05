@@ -36,6 +36,9 @@ public class addUserServlet extends HttpServlet {
         User u = new User(userId, username, password, role, lastPasswordChange, failedLoginAttempts, accountLockedUntil);
 
         user.add(u);
+
+        // 重定向
+        resp.sendRedirect("/systemManager.jsp");
     }
 
     @Override

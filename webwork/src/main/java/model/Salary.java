@@ -2,7 +2,7 @@ package model;
 
 import java.math.BigDecimal;
 
-public class Salary {
+public class    Salary {
     private int empNo; // 员工编号
     private int year; // 工资所属年份
     private int month; // 工资所属月份

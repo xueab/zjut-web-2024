@@ -23,6 +23,10 @@ public class SalaryService {
 
         return (double) n / count;
     }
+
+    public List<Salary> selectAll() {
+        return salaryDao.selectAll();
+    }
     public void uploadExcel(InputStream excelFileStream) throws IOException {
         // 读取Excel文件
         // 传入的excelFileStream创建了一个Workbook实例，这个实例代表了整个Excel工作簿（即Excel文件）
@@ -116,5 +120,13 @@ public class SalaryService {
 
         // 关闭工作簿资源
         workbook.close();
+    }
+
+    public void add(Salary salary) {
+        salaryDao.add(salary);
+    }
+
+    public void delete(Salary salary) {
+        salaryDao.delete(salary);
     }
 }
