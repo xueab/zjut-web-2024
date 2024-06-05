@@ -425,5 +425,6 @@
         modal.find('.modal-body #neSalary').val(netSalary);
     });
 </script>
+
 </body>
 </html>
