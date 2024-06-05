@@ -1,3 +1,7 @@
+<%@ page import="service.UserService" %>
+<%@ page import="org.apache.catalina.User" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri ="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false"%>
@@ -90,6 +94,10 @@
             </tr>
             </thead>
             <tbody id="userRolesTable">
+            <% UserService userService = new UserService();
+                List<model.User> user = userService.selectAll();
+                request.setAttribute("user", user);
+            %>
             <c:forEach var="userRole" items="${user}">
                 <tr>
                     <td>${userRole.username}</td>
@@ -139,11 +147,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="addUsername">用户名:</label>
-                        <input type="text" class="form-control" id="addUsername" name="username" required>
+                        <input type="text" class="form-control" id="addUsername" name="addusername" required>
                     </div>
                     <div class="form-group">
                         <label for="addRole">角色:</label>
-                        <select class="form-control" id="addRole" name="role">
+                        <select class="form-control" id="addRole" name="addrole">
                             <option value="hrAdmin">人事管理员</option>
                             <option value="financeAdmin">财务管理员</option>
                             <option value="generalManager">总经理</option>
@@ -173,11 +181,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="editUsername">用户名：</label>
-                        <input type="text" class="form-control" id="editUsername" name="username" readonly>
+                        <input type="text" class="form-control" id="editUsername" name="editusername" readonly>
                     </div>
                     <div class="form-group">
                         <label for="editRole">角色：</label>
-                        <select class="form-control" id="editRole" name="role">
+                        <select class="form-control" id="editRole" name="editrole">
                             <option value="hrAdmin">人事管理员</option>
                             <option value="financeAdmin">财务管理员</option>
                             <option value="generalManager">总经理</option>
@@ -260,57 +268,6 @@
         var modal = $(this);
         modal.find('#deleteUsername').val(username);
     });
-
-    // 添加绘制饼状图的JavaScript代码
-    document.addEventListener('DOMContentLoaded', function () {
-        $('#rolePieChartModal').on('shown.bs.modal', function () {
-            var ctx = document.getElementById('rolePieChart').getContext('2d');
-
-            // 从JSP中获取角色数据
-            var roleData = {
-                hrAdmin: ${hrAdminCount},
-                financeAdmin: ${financeAdminCount},
-                generalManager: ${generalManagerCount},
-                auditAdmin: ${auditAdminCount}
-            };
-
-            var roleLabels = ['人事管理员', '财务管理员', '总经理', '审计管理员'];
-            var roleValues = [roleData.hrAdmin, roleData.financeAdmin, roleData.generalManager, roleData.auditAdmin];
-            var roleColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'];
-
-            // 如果之前已经创建过饼图实例，销毁它
-            if (window.rolePieChartInstance) {
-                window.rolePieChartInstance.destroy();
-            }
-
-            // 创建新的饼状图实例
-            window.rolePieChartInstance = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: roleLabels,
-                    datasets: [{
-                        data: roleValues,
-                        backgroundColor: roleColors
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: '角色分布'
-                    },
-                    animation: {
-                        animateScale: true,
-                        animateRotate: true
-                    }
-                }
-            });
-        });
-    });
-
 </script>
 </body>
 </html>
