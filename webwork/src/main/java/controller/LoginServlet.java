@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,9 +26,20 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         LoginService s = new LoginService();
+        UserService userService = new UserService();
 
         // 检查用户名和密码是否正确
         if (s.checkUser(username, password)) {
+            // 判断用户账户是否锁定
+            if (!userService.isAccountLocked(username)) {
+                // 重置失败次数
+                userService.resetFailNumber(username);
+            }
+            else {
+                resp.getWriter().write("账户已被锁定，请稍后再试。");
+                return;
+            }
+
             // 确定用户角色
             String role = s.getUserRole(username, password);
             String redirectURL = "";
@@ -61,6 +73,22 @@ public class LoginServlet extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/" + redirectURL);
             }
         }
+        // 用户名错误
+        else if (!s.checkUsername(username)) {
+            resp.getWriter().write("用户名错误");
+        }
+        // 密码错误
+        else {
+            // 登录失败次数加 1
+            userService.addone(username);
+            // 获取登录失败次数
+            int failNumber = userService.getFailNumber(username);
+            if (failNumber >= 5) {
+                // 锁定账户
+                userService.lockAccount(username);
+            }
+        }
+
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

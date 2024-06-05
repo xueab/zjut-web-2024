@@ -23,6 +23,31 @@ public class LoginService {
         }
         return false;
     }
+    public boolean checkUsername(String name) {
+        UserDao user = new UserDao();
+        List<User> list = user.selectUser();
+
+        for (User s : list) {
+            if (s.getUsername().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkPassword(String password) throws UnsupportedEncodingException {
+        UserDao user = new UserDao();
+        List<User> list = user.selectUser();
+        // 加密
+        password = encrypt(password);
+
+        for (User s : list) {
+            if (s.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public String encrypt(String password) throws UnsupportedEncodingException {
         Digest digest = new SM3Digest();
