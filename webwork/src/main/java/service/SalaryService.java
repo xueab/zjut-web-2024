@@ -1,6 +1,7 @@
 package service;
 
 import dao.SalaryDao;
+import jdk.internal.util.xml.impl.Pair;
 import model.Salary;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -11,17 +12,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SalaryService {
     private SalaryDao salaryDao = new SalaryDao();
-    public double show(int low, int high) {
+    public Map<String, Double> getSalaryStats(int low, int high) {
+        Map<String, Double> stats = new HashMap<>();
         // 工资区间在low ,high之间的人数
-        int n = salaryDao.selectSalary(low, high);
+        String[] s = {"3k-5k", "5k-8k", "8k-12k", "12k-20k"};
         // 总人数
-        int count = salaryDao.count();
+        int[] lowSalary = {3000, 5000, 8000, 12000};
+        int[] highSalary = {5000, 8000, 12000, 20000};
+        for (int i = 0; i < 4; i++) {
+            stats.put(s[i], show(lowSalary[i], highSalary[i]));
+        }
 
-        return (double) n / count;
+        return stats;
     }
 
     public List<Salary> selectAll() {
@@ -131,5 +139,12 @@ public class SalaryService {
     }
 
     public void update(Salary salary) {
+        salaryDao.update(salary);
+    }
+
+    public double show(int low, int high) {
+        double a = salaryDao.selectSalary(low, high);
+        double count = salaryDao.count();
+        return a / count;
     }
 }
