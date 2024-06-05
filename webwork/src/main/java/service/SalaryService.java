@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class SalaryService {
     private SalaryDao salaryDao = new SalaryDao();
-    public Map<String, Double> getSalaryStats(int low, int high) {
+    public Map<String, Double> getSalaryStats() {
         Map<String, Double> stats = new HashMap<>();
         // 工资区间在low ,high之间的人数
         String[] s = {"3k-5k", "5k-8k", "8k-12k", "12k-20k"};
