@@ -307,21 +307,22 @@
     }
 
     function renderPieChart(data) {
-        var ctx = document.getElementById('departmentPieChart').getContext('2d');
-        var chart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: Object.keys(data),
-                datasets: [{
-                    label: '部门员工比例',
-                    data: Object.values(data),
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
-                }]
-            },
-            options: {
-                responsive: true
-            }
-        });
+        // 创建数据表
+        data = google.visualization.arrayToDataTable([
+            ['Department', 'Percentage'],
+            <c:forEach var="entry" items="${departmentStats}">
+            ['${entry.key}', ${entry.value}],
+            </c:forEach>
+        ]);
+
+        // 设置图表选项
+        var options = {
+            title: 'Department Statistics'
+        };
+
+        // 创建并绘制图表
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
     }
 
     $('#employeePieChartModal').on('show.bs.modal', function () {
