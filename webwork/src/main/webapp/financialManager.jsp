@@ -100,7 +100,7 @@
                 <td>${salary.netSalary}</td>
                 <td>
                     <button class="btn btn-warning" data-toggle="modal" data-target="#editSalaryModal" data-empNo="${salary.empNo}" data-year="${salary.year}" data-month="${salary.month}" data-basicSalary="${salary.basicSalary}" data-overtimePay="${salary.overtimePay}" data-fullAttendanceBonus="${salary.fullAttendanceBonus}" data-personTax="${salary.personalTax}" data-netSalary="${salary.netSalary}">编辑</button>
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteSalaryModal" data-empNo="${salary.empNo}">删除</button>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#editSalaryModal" data-empNo="${salary.empNo}" data-year="${salary.year}" data-month="${salary.month}" data-basicSalary="${salary.basicSalary}" data-overtimePay="${salary.overtimePay}" data-fullAttendanceBonus="${salary.fullAttendanceBonus}" data-personTax="${salary.personalTax}" data-netSalary="${salary.netSalary}">删除</button>
                 </td>
             </tr>
         </c:forEach>
