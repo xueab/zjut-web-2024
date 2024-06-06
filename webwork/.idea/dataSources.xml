@@ -2,6 +2,7 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="@localhost" uuid="511eac32-7ed9-4514-b67a-d413a972a08e">
+      <driver-ref>mysql_aurora_aws</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>software.aws.rds.jdbc.mysql.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql:aws://localhost:3306</jdbc-url>

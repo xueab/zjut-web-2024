@@ -110,8 +110,16 @@
                 <td>${salary.personalTax}</td>
                 <td>${salary.netSalary}</td>
                 <td>
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#editSalaryModal" data-empNo="${salary.empNo}" data-year="${salary.year}" data-month="${salary.month}" data-basicSalary="${salary.basicSalary}" data-overtimePay="${salary.overtimePay}" data-fullAttendanceBonus="${salary.fullAttendanceBonus}" data-personTax="${salary.personalTax}" data-netSalary="${salary.netSalary}">编辑</button>
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#editSalaryModal" data-empNo="${salary.empNo}" data-year="${salary.year}" data-month="${salary.month}" data-basicSalary="${salary.basicSalary}" data-overtimePay="${salary.overtimePay}" data-fullAttendanceBonus="${salary.fullAttendanceBonus}" data-personTax="${salary.personalTax}" data-netSalary="${salary.netSalary}">删除</button>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#editSalaryModal"
+                            data-empNo="${salary.empNo}" data-year="${salary.year}" data-month="${salary.month}"
+                            data-basicSalary="${salary.basicSalary}" data-overtimePay="${salary.overtimePay}"
+                            data-fullAttendanceBonus="${salary.fullAttendanceBonus}" data-personTax="${salary.personalTax}"
+                            data-netSalary="${salary.netSalary}">编辑</button>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#editSalaryModal"
+                            data-empNo="${salary.empNo}" data-year="${salary.year}" data-month="${salary.month}"
+                            data-basicSalary="${salary.basicSalary}" data-overtimePay="${salary.overtimePay}"
+                            data-fullAttendanceBonus="${salary.fullAttendanceBonus}" data-personTax="${salary.personalTax}"
+                            data-netSalary="${salary.netSalary}">删除</button>
                 </td>
             </tr>
         </c:forEach>
@@ -383,14 +391,14 @@
 
     $('#deleteSalaryModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var deleteempNo = button.data('deleteempNo');
-        var deleteyear = button.data('deleteyear');
-        var deletemonth = button.data('deletemonth');
-        var deletebasicSalary = button.data('deletebasicSalary');
-        var deleteovertimePay = button.data('deleteovertimePay');
-        var deletefullAttendanceBonus = button.data('deletefullAttendanceBonus');
-        var deletepersonalTax = button.data('deletepersonalTax');
-        var deletenetSalary = button.data('deletenetSalary');
+        var deleteempNo = button.data('empNo');
+        var deleteyear = button.data('year');
+        var deletemonth = button.data('month');
+        var deletebasicSalary = button.data('basicSalary');
+        var deleteovertimePay = button.data('overtimePay');
+        var deletefullAttendanceBonus = button.data('fullAttendanceBonus');
+        var deletepersonalTax = button.data('personalTax');
+        var deletenetSalary = button.data('netSalary');
 
         var modal = $(this);
         modal.find('.modal-body #deleteempNo').val(deleteempNo);
@@ -405,14 +413,14 @@
 
     $('#editSalaryModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var editempNo = button.data('editempNo');
-        var edityear = button.data('edityear');
-        var editmonth = button.data('editmonth');
-        var editbasicSalary = button.data('editbasicSalary');
-        var editovertimePay = button.data('editovertimePay');
-        var editfullAttendanceBonus = button.data('editfullAttendanceBonus');
-        var editpersonalTax = button.data('editpersonalTax');
-        var editnetSalary = button.data('editnetSalary');
+        var editempNo = button.data('empNo');
+        var edityear = button.data('year');
+        var editmonth = button.data('month');
+        var editbasicSalary = button.data('basicSalary');
+        var editovertimePay = button.data('overtimePay');
+        var editfullAttendanceBonus = button.data('fullAttendanceBonus');
+        var editpersonalTax = button.data('personalTax');
+        var editnetSalary = button.data('netSalary');
 
         var modal = $(this);
         modal.find('.modal-body #editempNo').val(editempNo);

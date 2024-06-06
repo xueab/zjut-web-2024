@@ -25,11 +25,11 @@ public class BaseDao {
         dataSource = new DruidDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/db1");
         dataSource.setUsername("root");
-        //dataSource.setPassword("chx200466");
-        dataSource.setPassword("xyk200406");
+        dataSource.setPassword("chx200466");
+        //dataSource.setPassword("xyk200406");
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setInitialSize(5); // 初始化时建立物理连接的个数
-        dataSource.setMaxActive(10); // 最大连接池数量
+        dataSource.setMaxActive(13); // 最大连接池数量
         dataSource.setMinIdle(5); // 最小连接池数量
         dataSource.setMaxWait(6000); // 获取连接时最大等待时间，单位毫秒
         // 可以根据需要设置其他配置
