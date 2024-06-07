@@ -81,6 +81,11 @@
     <div id="roleManagement" class="container content-section active">
         <h2>角色管理</h2>
         <br><br>
+        <%
+            UserService userService = new UserService();
+            List<model.User> user = userService.selectAll();
+            request.setAttribute("user", user);
+        %>
         <button class="btn btn-info" data-toggle="modal" data-target="#rolePieChartModal">显示饼状图</button>
         <br><br>
         <br><br>
@@ -94,23 +99,18 @@
             </tr>
             </thead>
             <tbody id="userRolesTable">
-            <% UserService userService = new UserService();
-                List<model.User> user = userService.selectAll();
-                request.setAttribute("user", user);
-            %>
             <c:forEach var="userRole" items="${user}">
                 <tr>
                     <td>${userRole.username}</td>
                     <td>${userRole.role}</td>
                     <td>
                         <button class="btn btn-warning" data-toggle="modal" data-target="#editRoleModal" data-username="${userRole.username}" data-role="${userRole.role}">修改</button>
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteRoleModal" data-username="${userRole.username}">删除</button>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteRoleModal" data-username="${userRole.username}" data-role="${userRole.role}">删除</button>
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <button class="btn btn-success" data-toggle="modal" data-target="#addRoleModal">添加角色</button>
     </div>
 
     <div id="changePassword" class="container content-section">
@@ -133,45 +133,10 @@
     </div>
 </div>
 
-<!-- Add Role Modal -->
-<div class="modal fade" id="addRoleModal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form action="addRole.do" method="post">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addRoleModalLabel">添加角色</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="addUsername">用户名:</label>
-                        <input type="text" class="form-control" id="addUsername" name="addusername" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="addRole">角色:</label>
-                        <select class="form-control" id="addRole" name="addrole">
-                            <option value="hrAdmin">人事管理员</option>
-                            <option value="financeAdmin">财务管理员</option>
-                            <option value="generalManager">总经理</option>
-                            <option value="auditAdmin">审计管理员</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                    <button type="submit" class="btn btn-primary">保存</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="editRoleModal" tabindex="-1" role="dialog" aria-labelledby="editRoleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="editRole.do" method="post">
+            <form action="systemManage" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editRoleModalLabel">设置角色</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -185,7 +150,7 @@
                     </div>
                     <div class="form-group">
                         <label for="editRole">角色：</label>
-                        <select class="form-control" id="editRole" name="editrole">
+                        <select class="form-control" id="editrole" name="editrole">
                             <option value="hrAdmin">人事管理员</option>
                             <option value="financeAdmin">财务管理员</option>
                             <option value="generalManager">总经理</option>
@@ -245,6 +210,14 @@
 </div>
 
 <script>
+    $('form').on('submit', function () {
+        var form = $(this);
+        // 延迟清空表单，确保表单提交完成
+        setTimeout(function () {
+            form.find('input').val('');
+        }, 1000); // 延迟1秒清空表单
+    });
+
     function showSection(sectionId) {
         var sections = document.getElementsByClassName("content-section");
         for (var i = 0; i < sections.length; i++) {
@@ -265,8 +238,10 @@
     $('#deleteRoleModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var username = button.data('username');
+        var role = button.data('role');
         var modal = $(this);
         modal.find('#deleteUsername').val(username);
+        modal.find('#editRole').val(role);
     });
 </script>
 </body>

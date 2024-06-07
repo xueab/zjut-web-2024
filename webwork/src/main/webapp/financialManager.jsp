@@ -172,23 +172,23 @@
                     </div>
                     <div class="form-group">
                         <label for="addbasicSalary">基本工资:</label>
-                        <input type="number" class="form-control" id="addbasicSalary" name="addbasicSalary" required>
+                        <input type="text" class="form-control" id="addbasicSalary" name="addbasicSalary" required>
                     </div>
                     <div class="form-group">
                         <label for="addovertimeSalary">加班工资:</label>
-                        <input type="number" class="form-control" id="addovertimeSalary" name="addovertimeSalary" required>
+                        <input type="text" class="form-control" id="addovertimeSalary" name="addovertimeSalary" required>
                     </div>
                     <div class="form-group">
                         <label for="addfullAttendanceBonus">全勤奖:</label>
-                        <input type="number" class="form-control" id="addfullAttendanceBonus" name="addfullAttendanceBonus" required>
+                        <input type="text" class="form-control" id="addfullAttendanceBonus" name="addfullAttendanceBonus" required>
                     </div>
                     <div class="form-group">
                         <label for="addpersonalTax">个人所得税:</label>
-                        <input type="number" class="form-control" id="addpersonalTax" name="addpersonalTax" required>
+                        <input type="text" class="form-control" id="addpersonalTax" name="addpersonalTax" required>
                     </div>
                     <div class="form-group">
                         <label for="addnetSalary">实发工资:</label>
-                        <input type="number" class="form-control" id="addnetSalary" name="addnetSalary" required>
+                        <input type="text" class="form-control" id="addnetSalary" name="addnetSalary" required>
                     </div>
                 </div>
                 <div class="modal-footer">
