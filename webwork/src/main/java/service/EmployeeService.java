@@ -26,6 +26,9 @@ public class EmployeeService {
     public List<Employee> selectAll() {
         return employee.selectAll();
     }
+    public List<Employee> selectByPage(int page) {
+        return employee.selectByPage(page * 10);
+    }
 
     public void addEmployee(Employee e) {
         employee.add(e);
