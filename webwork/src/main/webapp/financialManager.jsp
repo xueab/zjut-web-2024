@@ -126,7 +126,7 @@
         </tbody>
     </table>
     <button class="btn btn-success" data-toggle="modal" data-target="#addSalaryModal">添加记录</button>
-    <button class="btn btn-primary" onclick="window.location.href='exportEmployees.do'">导出</button>
+    <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'">导出</button>
 </div>
 
 <div id="changePassword" class="container content-section">
@@ -348,14 +348,14 @@
 <script>
     $('#deleteSalaryModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var empNo = button.data('empNo');
+        var empNo = button.data('empno');
         var year = button.data('year');
         var month = button.data('month');
-        var basicSalary = button.data('basicSalary');
-        var overtimePay = button.data('overtimePay');
-        var fullAttendanceBonus = button.data('fullAttendanceBonus');
-        var personalTax = button.data('personalTax');
-        var netSalary = button.data('netSalary');
+        var basicSalary = button.data('basicsalary');
+        var overtimePay = button.data('overtimepay');
+        var fullAttendanceBonus = button.data('fullattendancebonus');
+        var personalTax = button.data('personaltax');
+        var netSalary = button.data('netsalary');
 
         var modal = $(this);
         modal.find('#deleteEmpNo').val(empNo);
@@ -370,7 +370,7 @@
 
     $('#editSalaryModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var empNo = button.data('empNo');
+        var empNo = button.data('empno');
         var year = button.data('year');
         var month = button.data('month');
         var editbasicSalary = button.data('basicSalary');
