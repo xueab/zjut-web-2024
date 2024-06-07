@@ -14,8 +14,8 @@ public class EmployeeService {
 
         Map<String, Double> stats = new HashMap<>();
         // 假设有a, b, c, d四个部门
-        //String[] departments = {"a部门", "b部门", "c部门", "d部门"};
-        String[] departments = {"a", "b", "c", "d"};
+        String[] departments = {"a部门", "b部门", "c部门", "d部门"};
+        //String[] departments = {"a", "b", "c", "d"};
         for (int i = 0; i < 4; i++) {
             stats.put(departments[i], show(departments[i]));
         }
@@ -25,6 +25,9 @@ public class EmployeeService {
 
     public List<Employee> selectAll() {
         return employee.selectAll();
+    }
+    public List<Employee> selectByPage(int page) {
+        return employee.selectByPage(page * 10);
     }
 
     public void addEmployee(Employee e) {

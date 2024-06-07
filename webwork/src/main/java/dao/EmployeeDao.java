@@ -86,4 +86,30 @@ public class EmployeeDao extends BaseDao {
         this.executeUpdate(sql,empNo);
         return ;
     }
+
+    public List<Employee> selectByPage(int idx)
+    {
+        String sql = "select * from employee LIMIT ? , 10";
+        rs = this.executQuery(sql,idx);
+        List<Employee> list = new ArrayList<Employee>();
+        try {
+            while(rs.next())
+            {
+                Employee employee = new Employee();
+                employee.setEmpNo(rs.getInt("emp_no"));
+                employee.setName(rs.getString("name"));
+                employee.setDepName(rs.getString("dept_name"));
+                employee.setPosition(rs.getString("position"));
+                employee.setIdNumber(rs.getString("id_number"));
+                employee.setPhone(rs.getString("phone"));
+                employee.setAddress(rs.getString("address"));
+                list.add(employee);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+            this.closeAll(this.conn,this.pstmt,this.rs);
+        }
+        return list;
+    }
 }

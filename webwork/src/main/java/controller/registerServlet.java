@@ -20,7 +20,7 @@ import java.util.List;
 
 // 注册
 
-@WebServlet("/registerServlet")
+@WebServlet("/registerServlet.do")
 public class registerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,6 +43,7 @@ public class registerServlet extends HttpServlet {
             UserService userService = new UserService();
             int id = userService.count() + 1;
             User user = new User(id, username, password, "", new Date(),0, new Date());
+            System.out.println(user.toString());
             userService.add(user);
         }
         else {
@@ -56,7 +57,7 @@ public class registerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        doGet(req, resp);
     }
 
     public String encrypt(String password) throws UnsupportedEncodingException {

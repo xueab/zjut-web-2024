@@ -48,11 +48,9 @@ public class UserDao extends BaseDao {
         return ;
     }
 
-    public void update(User user) {
-        String sql = "update user set username = ?,password = ?,role = ?,last_password_change = ?,failed_login_attempts = ?,account_locked_until = ?" +
-                "where user_id = ?";
-        this.executeUpdate(sql,user.getUsername(),user.getPassword(),user.getRole(),user.getLastPasswordChange(),user.getFailedLoginAttempts(),
-                user.getAccountLockedUntil(),user.getUserId());
+    public void update(int userId, String username, String role) {
+        String sql = "update user set username = ?,role = ? where user_id = ?";
+        this.executeUpdate(sql,username,role,userId);
         return;
     }
     public void delete(int user_id) {
@@ -111,5 +109,30 @@ public class UserDao extends BaseDao {
             this.closeAll(this.conn,this.pstmt,this.rs);
         }
         return ans;
+    }
+
+    public List<User> selectByPage(int idx) {
+        String sql = "select * from user limit ?,10";
+        rs = this.executQuery(sql,idx);
+        List<User> list = new ArrayList<User>();
+        try {
+            while(rs.next())
+            {
+                User user = new User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setRole(rs.getString("role"));
+                user.setLastPasswordChange(rs.getDate("last_password_change"));
+                user.setFailedLoginAttempts(rs.getInt("failed_login_attempts"));
+                user.setAccountLockedUntil(rs.getDate("account_locked_until"));
+                list.add(user);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+            this.closeAll(this.conn,this.pstmt,this.rs);
+        }
+        return list;
     }
 }
