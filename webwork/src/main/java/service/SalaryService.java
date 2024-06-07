@@ -139,8 +139,8 @@ public class SalaryService {
         salaryDao.add(salary);
     }
 
-    public void delete(Salary salary) {
-        salaryDao.delete(salary);
+    public void delete(int empNo, int year, int month) {
+        salaryDao.delete(empNo, year, month);
     }
 
     public void update(Salary salary) {
