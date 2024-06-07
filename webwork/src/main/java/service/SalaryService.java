@@ -7,6 +7,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -83,7 +85,7 @@ public class SalaryService {
         workbook.close();
         salaryDao.save(list);
     }
-    public void exportExcel() throws IOException {
+    public void exportExcel(HttpServletResponse resp) throws IOException {
         List<Salary> list = salaryDao.selectAll();
 
         Workbook workbook = new XSSFWorkbook();
@@ -117,13 +119,17 @@ public class SalaryService {
         }
 
         // 设置响应头信息
-//        resp.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-//        resp.setHeader("Content-Disposition", "attachment; filename=salaries.xlsx");
-
-        // 写入响应输出流
-//        try (ServletOutputStream out = response.getOutputStream()) {
-//            workbook.write(out);
-//        }
+        // response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        // 设置响应的内容类型为 Excel 文件（.xlsx）的 MIME 类型。这告诉浏览器响应的内容是一个 Excel 文件
+        // response.setHeader("Content-Disposition", "attachment; filename=salaries.xlsx"):
+        // 设置 Content-Disposition 头为 attachment并指定下载文件的名称为 salaries.xlsx。这将触发浏览器弹出下载对话框，并显示文件名
+        resp.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        resp.setHeader("Content-Disposition", "attachment; filename=salaries.xlsx");
+        
+        // 获取响应的输出流，用于将数据写入 HTTP 响应
+        try (ServletOutputStream out = resp.getOutputStream()) {
+            workbook.write(out);
+        }
 
         // 关闭工作簿资源
         workbook.close();
@@ -133,8 +139,8 @@ public class SalaryService {
         salaryDao.add(salary);
     }
 
-    public void delete(Salary salary) {
-        salaryDao.delete(salary);
+    public void delete(int empNo, int year, int month) {
+        salaryDao.delete(empNo, year, month);
     }
 
     public void update(Salary salary) {

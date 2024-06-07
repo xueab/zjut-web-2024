@@ -81,8 +81,8 @@ public class EmployeeDao extends BaseDao {
         salaryDao.deleteByNo(empNo);
         DependentDao dependentDao = new DependentDao();
         dependentDao.deleteByNo(empNo);
-        SpecialDeductionDao specialDeductiondao = new SpecialDeductionDao();
-        specialDeductiondao.deleteByNo(empNo);
+        SpecialDeductionDao specialDeduction = new SpecialDeductionDao();
+        specialDeduction.deleteByNo(empNo);
         this.executeUpdate(sql,empNo);
         return ;
     }

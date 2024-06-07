@@ -26,17 +26,11 @@ public class updateUserServlet extends HttpServlet {
 
         int userId = Integer.parseInt(req.getParameter("edituserId"));
         String username = req.getParameter("editusername");
-        String password = req.getParameter("editpassword");
-        // 加密
-        password = encrypt(password);
+
         String role = req.getParameter("role");
-        Date lastPasswordChange = new Date(req.getParameter("lastPasswordChange"));
-        int failedLoginAttempts = Integer.parseInt(req.getParameter("failedLoginAttempts"));
-        Date accountLockedUntil = new Date(req.getParameter("accountLockedUntil"));
 
-        User u = new User(userId, username, password, role, lastPasswordChange, failedLoginAttempts, accountLockedUntil);
 
-        user.update(u);
+        user.update(userId, username, role);
 
         // 重定向
         resp.sendRedirect(req.getContextPath() + "/systemManager.jsp");
@@ -47,15 +41,5 @@ public class updateUserServlet extends HttpServlet {
         doGet(req, resp);
     }
 
-    public String encrypt(String password) throws UnsupportedEncodingException {
-        Digest digest = new SM3Digest();
-        // 对输入进行编码，SM3需要一个字节序列
-        byte[] inputBytes = password.getBytes("UTF-8");
-        // 进行摘要
-        byte[] outputBytes = new byte[digest.getDigestSize()];
-        digest.update(inputBytes, 0, inputBytes.length);
-        digest.doFinal(outputBytes, 0);
-        // 将字节数组转换为十六进制字符串
-        return Hex.toHexString(outputBytes);
-    }
+
 }

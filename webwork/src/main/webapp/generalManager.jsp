@@ -2,6 +2,8 @@
 <%@ page import="model.Employee" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="model.Salary" %>
+<%@ page import="service.SalaryService" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri ="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false"%>
@@ -70,18 +72,18 @@
         }
     </style>
 </head>
-<body>
+<div>
 <%
     String username = request.getParameter("username");
 %>
 <div class="sidebar">
     <a href="#" onclick="showSection('employeeManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
+    <a href="#" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
     <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
 </div>
 <div class="main">
     <div id="employeeManagement" class="container content-section active">
         <h2>员工管理</h2>
-        <br><br>
         <%
             EmployeeService employeeService = new EmployeeService();
             List<Employee> employee = employeeService.selectAll();
@@ -90,7 +92,6 @@
             request.setAttribute("employee", employee);
         %>
         <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal">显示饼状图</button>
-        <br><br>
         <br><br>
         <h3>所有员工</h3>
         <table class="table table-striped">
@@ -121,6 +122,47 @@
         </table>
     </div>
 
+    <div id="viewSalaries" class="container content-section">
+        <h2>查看工资</h2>
+        <br>
+        <% SalaryService salaryService = new SalaryService();
+            List<Salary> salary = salaryService.selectAll();
+            Map<String, Double> salaryMap = salaryService.getSalaryStats();
+            request.setAttribute("salaryMap", salaryMap);
+            request.setAttribute("salary", salary);
+        %>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>员工编号</th>
+                <th>工资所属年份</th>
+                <th>工资所属月份</th>
+                <th>基本工资</th>
+                <th>加班工资</th>
+                <th>全勤奖</th>
+                <th>个人所得税</th>
+                <th>实发工资</th>
+            </tr>
+            </thead>
+            <tbody id="salaryRolesTable">
+            <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal">显示工资分布饼状图</button>
+            <c:forEach var="salaryRole" items="${salary}">
+                <tr>
+                    <td>${salaryRole.empNo}</td>
+                    <td>${salaryRole.year}</td>
+                    <td>${salaryRole.month}</td>
+                    <td>${salaryRole.basicSalary}</td>
+                    <td>${salaryRole.overtimePay}</td>
+                    <td>${salaryRole.fullAttendanceBonus}</td>
+                    <td>${salaryRole.personalTax}</td>
+                    <td>${salaryRole.netSalary}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'">导出</button>
+    </div>
+
     <div id="changePassword" class="container content-section">
         <h2>修改密码</h2>
         <form action="changePassword.do" method="post">
@@ -140,7 +182,7 @@
         </form>
     </div>
 </div>
-
+</div>
 <div class="modal fade" id="employeePieChartModal" tabindex="-1" role="dialog" aria-labelledby="employeePieChartModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -151,7 +193,26 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div id="piechart" class="chart-container"></div>
+                <div id="piechart1" class="chart-container"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="salaryPieChartModal" tabindex="-1" role="dialog" aria-labelledby="salaryPieChartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="salaryPieChartModalLabel">工资收入分布</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="piechart2" style="width: 100%; height: 400px;"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
@@ -197,7 +258,57 @@
         };
 
         // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        var chart = new google.visualization.PieChart(document.getElementById('piechart1'));
+        chart.draw(data, options);
+    }
+</script>
+
+<script type="text/javascript">
+    $('form').on('submit', function () {
+        var form = $(this);
+        // 延迟清空表单，确保表单提交完成
+        setTimeout(function () {
+            form.find('input').val('');
+        }, 1000); // 延迟1秒清空表单
+    });
+
+    function showSection(sectionId) {
+        var sections = document.getElementsByClassName('content-section');
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].classList.remove('active');
+        }
+        document.getElementById(sectionId).classList.add('active');
+    }
+
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        // Create the data table.
+        var data = google.visualization.arrayToDataTable([
+            ['Salary', 'Percentage'],
+            <c:forEach var="entry" items="${salaryMap}">
+            ['${entry.key}', ${entry.value}],
+            </c:forEach>
+        ]);
+
+        if (data.getNumberOfRows() === 0) {
+            $('#piechart').text('没有数据可显示');
+            return;
+        }
+
+        // Set chart options
+        var options = {
+            'title': '工资收入分布情况',
+            'width': 400,
+            'height': 300
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
         chart.draw(data, options);
     }
 </script>
