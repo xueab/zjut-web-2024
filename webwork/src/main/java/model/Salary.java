@@ -1,6 +1,9 @@
 package model;
 
+import dao.SpecialDeductionDao;
+
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class    Salary {
     private int empNo; // 员工编号
@@ -11,6 +14,11 @@ public class    Salary {
     private BigDecimal fullAttendanceBonus; // 全勤奖
     private BigDecimal personalTax; // 个人所得税
     private BigDecimal netSalary; // 实发工资
+
+/*    public BigDecimal calculatePersonalTax() {
+        BigDecimal ans = basicSalary;
+
+    }*/
 
     public Salary() {
     }
@@ -27,6 +35,8 @@ public class    Salary {
         this.personalTax = personalTax;
         this.netSalary = netSalary;
     }
+
+
 
     public int getEmpNo() {
         return empNo;
@@ -90,5 +100,44 @@ public class    Salary {
 
     public void setNetSalary(BigDecimal netSalary) {
         this.netSalary = netSalary;
+    }
+
+    public BigDecimal calculatePersonalTax() {
+        BigDecimal totalIncome = basicSalary.add(overtimePay).add(fullAttendanceBonus);
+
+        SpecialDeductionDao deductionDao = new SpecialDeductionDao();
+        BigDecimal monthlySpecialDeduction = deductionDao.getSpecialDeduction(empNo,year).divide(BigDecimal.valueOf(12), 2, RoundingMode.HALF_UP);
+        BigDecimal basicDeduction = BigDecimal.valueOf(5000);
+        BigDecimal taxableIncome = totalIncome.subtract(monthlySpecialDeduction).subtract(basicDeduction);
+
+        if (taxableIncome.compareTo(BigDecimal.ZERO) <= 0) {
+            return BigDecimal.ZERO;
+        }
+
+        BigDecimal tax = calculateTax(taxableIncome);
+
+        return tax;
+    }
+
+    private BigDecimal calculateTax(BigDecimal monthlyTaxableIncome) {
+        BigDecimal tax = BigDecimal.ZERO;
+
+        if (monthlyTaxableIncome.compareTo(BigDecimal.valueOf(3000)) <= 0) {
+            tax = monthlyTaxableIncome.multiply(BigDecimal.valueOf(0.03));
+        } else if (monthlyTaxableIncome.compareTo(BigDecimal.valueOf(12000)) <= 0) {
+            tax = monthlyTaxableIncome.subtract(BigDecimal.valueOf(3000)).multiply(BigDecimal.valueOf(0.10)).add(BigDecimal.valueOf(3000).multiply(BigDecimal.valueOf(0.03)));
+        } else if (monthlyTaxableIncome.compareTo(BigDecimal.valueOf(25000)) <= 0) {
+            tax = monthlyTaxableIncome.subtract(BigDecimal.valueOf(12000)).multiply(BigDecimal.valueOf(0.20)).add(BigDecimal.valueOf(12000).subtract(BigDecimal.valueOf(3000)).multiply(BigDecimal.valueOf(0.10))).add(BigDecimal.valueOf(3000).multiply(BigDecimal.valueOf(0.03)));
+        } else if (monthlyTaxableIncome.compareTo(BigDecimal.valueOf(35000)) <= 0) {
+            tax = monthlyTaxableIncome.subtract(BigDecimal.valueOf(25000)).multiply(BigDecimal.valueOf(0.25)).add(BigDecimal.valueOf(25000).subtract(BigDecimal.valueOf(12000)).multiply(BigDecimal.valueOf(0.20))).add(BigDecimal.valueOf(12000).subtract(BigDecimal.valueOf(3000)).multiply(BigDecimal.valueOf(0.10))).add(BigDecimal.valueOf(3000).multiply(BigDecimal.valueOf(0.03)));
+        } else if (monthlyTaxableIncome.compareTo(BigDecimal.valueOf(55000)) <= 0) {
+            tax = monthlyTaxableIncome.subtract(BigDecimal.valueOf(35000)).multiply(BigDecimal.valueOf(0.30)).add(BigDecimal.valueOf(35000).subtract(BigDecimal.valueOf(25000)).multiply(BigDecimal.valueOf(0.25))).add(BigDecimal.valueOf(25000).subtract(BigDecimal.valueOf(12000)).multiply(BigDecimal.valueOf(0.20))).add(BigDecimal.valueOf(12000).subtract(BigDecimal.valueOf(3000)).multiply(BigDecimal.valueOf(0.10))).add(BigDecimal.valueOf(3000).multiply(BigDecimal.valueOf(0.03)));
+        } else if (monthlyTaxableIncome.compareTo(BigDecimal.valueOf(80000)) <= 0) {
+            tax = monthlyTaxableIncome.subtract(BigDecimal.valueOf(55000)).multiply(BigDecimal.valueOf(0.35)).add(BigDecimal.valueOf(55000).subtract(BigDecimal.valueOf(35000)).multiply(BigDecimal.valueOf(0.30))).add(BigDecimal.valueOf(35000).subtract(BigDecimal.valueOf(25000)).multiply(BigDecimal.valueOf(0.25))).add(BigDecimal.valueOf(25000).subtract(BigDecimal.valueOf(12000)).multiply(BigDecimal.valueOf(0.20))).add(BigDecimal.valueOf(12000).subtract(BigDecimal.valueOf(3000)).multiply(BigDecimal.valueOf(0.10))).add(BigDecimal.valueOf(3000).multiply(BigDecimal.valueOf(0.03)));
+        } else {
+            tax = monthlyTaxableIncome.subtract(BigDecimal.valueOf(80000)).multiply(BigDecimal.valueOf(0.45)).add(BigDecimal.valueOf(80000).subtract(BigDecimal.valueOf(55000)).multiply(BigDecimal.valueOf(0.35))).add(BigDecimal.valueOf(55000).subtract(BigDecimal.valueOf(35000)).multiply(BigDecimal.valueOf(0.30))).add(BigDecimal.valueOf(35000).subtract(BigDecimal.valueOf(25000)).multiply(BigDecimal.valueOf(0.25))).add(BigDecimal.valueOf(25000).subtract(BigDecimal.valueOf(12000)).multiply(BigDecimal.valueOf(0.20))).add(BigDecimal.valueOf(12000).subtract(BigDecimal.valueOf(3000)).multiply(BigDecimal.valueOf(0.10))).add(BigDecimal.valueOf(3000).multiply(BigDecimal.valueOf(0.03)));
+        }
+
+        return tax.setScale(2, RoundingMode.HALF_UP);
     }
 }

@@ -1,5 +1,6 @@
 package service;
 
+import dao.LogDao;
 import model.Log;
 
 public class LogService {

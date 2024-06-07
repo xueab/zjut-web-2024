@@ -38,7 +38,8 @@ public class LoginServlet extends HttpServlet {
                 userService.resetFailNumber(username);
             }
             else {
-                resp.getWriter().write("账户已被锁定，请稍后再试。");
+                //resp.getWriter().write("账户已被锁定，请稍后再试。");
+                resp.getWriter().write("11111111");
                 return;
             }
 
@@ -95,6 +96,7 @@ public class LoginServlet extends HttpServlet {
 
                 resp.sendRedirect(req.getContextPath() + "/" + redirectURL);
             }
+            return;
         }
         // 用户名错误
         else if (!s.checkUsername(username)) {
@@ -133,6 +135,7 @@ public class LoginServlet extends HttpServlet {
             }
             logService.add(log);
         }
+        resp.sendRedirect(req.getContextPath() + "/login.jsp");
 
     }
     @Override
