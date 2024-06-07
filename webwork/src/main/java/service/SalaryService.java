@@ -138,7 +138,7 @@ public class SalaryService {
     }
 
     public void update(Salary salary) {
-        //salaryDao.update(salary);
+        salaryDao.update(salary);
     }
 
     public double show(int low, int high) {

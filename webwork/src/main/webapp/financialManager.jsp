@@ -126,6 +126,7 @@
         </tbody>
     </table>
     <button class="btn btn-success" data-toggle="modal" data-target="#addSalaryModal">添加记录</button>
+    <button class="btn btn-primary" onclick="window.location.href='exportEmployees.do'">导出</button>
 </div>
 
 <div id="changePassword" class="container content-section">
@@ -212,18 +213,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="editempNo">员工编号:</label>
-                        <input type="text" class="form-control" id="editempNo" name="editempNo" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edityear">工资所属年份</label>
-                        <input type="text" class="form-control" id="edityear" name="edityear" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editmonth">工资所属月份:</label>
-                        <input type="text" class="form-control" id="editmonth" name="editmonth" required>
-                    </div>
+                    <input type="hidden" id="editEmpNo" name="editempNo">
+                    <input type="hidden" id="editYear" name="edityear">
+                    <input type="hidden" id="editMonth" name="editmonth">
                     <div class="form-group">
                         <label for="editbasicSalary">基本工资:</label>
                         <input type="text" class="form-control" id="editbasicSalary" name="editbasicSalary" required>
@@ -265,15 +257,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>确定要删除该员工的工资信息吗?</p>
-                    <input type="hidden" id="deleteempNo" name="deleteempNo">
-                    <input type="hidden" id="deleteyear" name="deleteyear">
-                    <input type="hidden" id="deletemonth" name="deletemonth">
-                    <input type="hidden" id="deletebasicSalary" name="deletebasicSalary">
-                    <input type="hidden" id="deleteovertimePay" name="deleteovertimePay">
-                    <input type="hidden" id="deletefullAttendanceBonus" name="deletefullAttendanceBonus">
-                    <input type="hidden" id="deletepersonalTax" name="deletepersonalTax">
-                    <input type="hidden" id="deletenetSalary" name="deletenetSalary">
+                    <p>确定要删除该条的工资信息吗?</p>
+                    <input type="hidden" id="deleteEmpNo" name="deleteempNo">
+                    <input type="hidden" id="deleteYear" name="deleteyear">
+                    <input type="hidden" id="deleteMonth" name="deletemonth">
+                    <input type="hidden" id="deleteBasicSalary" name="deletebasicSalary">
+                    <input type="hidden" id="deleteOvertimePay" name="deleteovertimePay">
+                    <input type="hidden" id="deleteFullAttendanceBonus" name="deletefullAttendanceBonus">
+                    <input type="hidden" id="deletePersonalTax" name="deletepersonalTax">
+                    <input type="hidden" id="deleteNetSalary" name="deletenetSalary">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
@@ -356,31 +348,31 @@
 <script>
     $('#deleteSalaryModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var deleteempNo = button.data('empNo');
-        var deleteyear = button.data('year');
-        var deletemonth = button.data('month');
-        var deletebasicSalary = button.data('basicSalary');
-        var deleteovertimePay = button.data('overtimePay');
-        var deletefullAttendanceBonus = button.data('fullAttendanceBonus');
-        var deletepersonalTax = button.data('personalTax');
-        var deletenetSalary = button.data('netSalary');
+        var empNo = button.data('empNo');
+        var year = button.data('year');
+        var month = button.data('month');
+        var basicSalary = button.data('basicSalary');
+        var overtimePay = button.data('overtimePay');
+        var fullAttendanceBonus = button.data('fullAttendanceBonus');
+        var personalTax = button.data('personalTax');
+        var netSalary = button.data('netSalary');
 
         var modal = $(this);
-        modal.find('#deleteempNo').val(deleteempNo);
-        modal.find('#deleteyear').val(deleteyear);
-        modal.find('#deletemonth').val(deletemonth);
-        modal.find('#deletebasicSalary').val(deletebasicSalary);
-        modal.find('#deleteovertimePay').val(deleteovertimePay);
-        modal.find('#deletefullAttendanceBonus').val(deletefullAttendanceBonus);
-        modal.find('#deletepersonalTax').val(deletepersonalTax);
-        modal.find('#deletenetSalary').val(deletenetSalary);
+        modal.find('#deleteEmpNo').val(empNo);
+        modal.find('#deleteYear').val(year);
+        modal.find('#deleteMonth').val(month);
+        modal.find('#deleteBasicSalary').val(basicSalary);
+        modal.find('#deleteOvertimePay').val(overtimePay);
+        modal.find('#deleteFullAttendanceBonus').val(fullAttendanceBonus);
+        modal.find('#deletePersonalTax').val(personalTax);
+        modal.find('#deleteNetSalary').val(netSalary);
     });
 
     $('#editSalaryModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var editempNo = button.data('empNo');
-        var edityear = button.data('year');
-        var editmonth = button.data('month');
+        var empNo = button.data('empNo');
+        var year = button.data('year');
+        var month = button.data('month');
         var editbasicSalary = button.data('basicSalary');
         var editovertimePay = button.data('overtimePay');
         var editfullAttendanceBonus = button.data('fullAttendanceBonus');
@@ -388,9 +380,9 @@
         var editnetSalary = button.data('netSalary');
 
         var modal = $(this);
-        modal.find('#editempNo').val(editempNo);
-        modal.find('#edityear').val(edityear);
-        modal.find('#editmonth').val(editmonth);
+        modal.find('#editEmpNo').val(empNo);
+        modal.find('#editYear').val(year);
+        modal.find('#editMonth').val(month);
         modal.find('#editbasicSalary').val(editbasicSalary);
         modal.find('#editovertimePay').val(editovertimePay);
         modal.find('#editfullAttendanceBonus').val(editfullAttendanceBonus);
