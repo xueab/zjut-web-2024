@@ -36,6 +36,10 @@ public class SalaryService {
     public List<Salary> selectAll() {
         return salaryDao.selectAll();
     }
+
+    public List<Salary> selectByPage(int page) {
+        return salaryDao.selectByPage(page * 10);
+    }
     public void uploadExcel(InputStream excelFileStream) throws IOException {
         // 读取Excel文件
         // 传入的excelFileStream创建了一个Workbook实例，这个实例代表了整个Excel工作簿（即Excel文件）
