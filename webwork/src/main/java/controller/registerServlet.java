@@ -20,7 +20,7 @@ import java.util.List;
 
 // 注册
 
-@WebServlet("registerServlet")
+@WebServlet("/registerServlet")
 public class registerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
