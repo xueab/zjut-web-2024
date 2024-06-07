@@ -18,8 +18,8 @@ public class exportExcelServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SalaryService s = new SalaryService();
-        s.exportExcel();
-
+        s.exportExcel(resp);
+        resp.sendRedirect(req.getContextPath() + "/financialManager.jsp");
     }
 
     @Override
