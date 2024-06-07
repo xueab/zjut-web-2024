@@ -73,9 +73,8 @@
         <input type="text" name="username" placeholder="请输入用户名" required>
         <input type="password" name="password" placeholder="请输入密码" required>
         <div class="options">
-            <a href="" onclick="window.location.href='register.jsp'">注册</a>
+            <a href="#" onclick="window.location.href='register.jsp'">注册</a>
         </div>
-
         <button type="submit">登录</button>
     </form>
 </div>
