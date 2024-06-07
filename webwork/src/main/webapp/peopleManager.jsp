@@ -82,17 +82,27 @@
     <div id="employeeManagement" class="container content-section active">
         <h2>员工管理</h2>
         <br><br>
-        <%
-            EmployeeService employeeService = new EmployeeService();
-            List<Employee> employee = employeeService.selectAll();
-            Map<String, Double> employeeMap = employeeService.getDepartmentStats();
-            request.setAttribute("employeeMap", employeeMap);
-            request.setAttribute("employee", employee);
-        %>
         <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal">显示饼状图</button>
         <br><br>
-        <br><br>
         <h3>所有员工</h3>
+        <%
+            int currentpage = 1;
+            int recordsPerPage = 10; // 每页显示的记录数
+
+            // 获取请求参数中的页码
+            if (request.getParameter("currentpage") != null) {
+                try {
+                    page = Integer.parseInt(request.getParameter("currentpage"));
+                } catch (NumberFormatException e) {
+                    currentpage = 1; // 如果参数不是有效的整数，默认显示第一页
+                }
+            }
+        %>
+        <%
+            EmployeeService employeeService = new EmployeeService();
+            List<Employee> employee = employeeService.selectByPage(currentpage);
+            request.setAttribute("employee", employee);
+        %>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -132,6 +142,11 @@
             </c:forEach>
             </tbody>
         </table>
+        <div>
+            <ul style="list-style-type:none;">
+                <a href="PaginationServlet?page=<%= currentpage+1 %>" ><%= currentpage+1 %></a>
+            </ul>
+        </div>
         <button class="btn btn-success" data-toggle="modal" data-target="#addemployeeModal">添加员工</button>
     </div>
 
