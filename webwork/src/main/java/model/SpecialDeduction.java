@@ -1,5 +1,7 @@
 package model;
 
+import org.apache.commons.math3.FieldElement;
+
 import java.math.BigDecimal;
 
 public class SpecialDeduction {
