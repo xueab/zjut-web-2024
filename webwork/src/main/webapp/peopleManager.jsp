@@ -87,12 +87,11 @@
         <h3>所有员工</h3>
         <%
             int currentpage = 1;
-            int recordsPerPage = 10; // 每页显示的记录数
 
             // 获取请求参数中的页码
             if (request.getParameter("currentpage") != null) {
                 try {
-                    page = Integer.parseInt(request.getParameter("currentpage"));
+                    currentpage = Integer.parseInt(request.getParameter("currentpage"));
                 } catch (NumberFormatException e) {
                     currentpage = 1; // 如果参数不是有效的整数，默认显示第一页
                 }
@@ -100,8 +99,9 @@
         %>
         <%
             EmployeeService employeeService = new EmployeeService();
-            List<Employee> employee = employeeService.selectByPage(currentpage);
+            List<Employee> employee = employeeService.selectByPage(currentpage-1);
             request.setAttribute("employee", employee);
+            System.out.println(employee);
         %>
         <table class="table table-striped">
             <thead>
