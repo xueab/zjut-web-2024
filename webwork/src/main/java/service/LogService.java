@@ -11,9 +11,9 @@ public class LogService {
         logDao.add(log);
     }
 
-    public List<Log> selectAll() {
-        return logDao.selectAll();
-    }
+//    public List<Log> selectAll() {
+//        //return logDao.selectAll();
+//    }
 
     public List<Log> selectByPage(int page) {
         return logDao.selectByPage(page * 10);

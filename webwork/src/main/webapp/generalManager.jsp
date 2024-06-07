@@ -272,14 +272,6 @@
         }, 1000); // 延迟1秒清空表单
     });
 
-    function showSection(sectionId) {
-        var sections = document.getElementsByClassName('content-section');
-        for (var i = 0; i < sections.length; i++) {
-            sections[i].classList.remove('active');
-        }
-        document.getElementById(sectionId).classList.add('active');
-    }
-
     // Load the Visualization API and the corechart package.
     google.charts.load('current', {'packages':['corechart']});
 
