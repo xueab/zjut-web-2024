@@ -91,4 +91,30 @@ public class SalaryDao extends BaseDao {
         this.executeUpdate(sql,empNo);
         return;
     }
+
+    public List<Salary> selectByPage(int idx) {
+        String sql = "select * from salary limit ?,10";
+        rs = this.executQuery(sql,idx);
+        List<Salary> list = new ArrayList<Salary>();
+        try {
+            while(rs.next())
+            {
+                Salary salary = new Salary();
+                salary.setEmpNo(rs.getInt("emp_no"));
+                salary.setYear(rs.getInt("year"));
+                salary.setMonth(rs.getInt("month"));
+                salary.setBasicSalary(rs.getBigDecimal("basic_salary"));
+                salary.setOvertimePay(rs.getBigDecimal("overtime_pay"));
+                salary.setFullAttendanceBonus(rs.getBigDecimal("full_attendance_bonus"));
+                salary.setPersonalTax(rs.getBigDecimal("personal_tax"));
+                salary.setNetSalary(rs.getBigDecimal("net_salary"));
+                list.add(salary);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+            this.closeAll(this.conn,this.pstmt,this.rs);
+        }
+        return list;
+    }
 }
