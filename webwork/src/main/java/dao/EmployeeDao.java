@@ -1,6 +1,7 @@
 package dao;
 
 import model.Employee;
+import model.SpecialDeduction;
 import util.BaseDao;
 
 import java.util.ArrayList;
@@ -80,8 +81,8 @@ public class EmployeeDao extends BaseDao {
         salaryDao.deleteByNo(empNo);
         DependentDao dependentDao = new DependentDao();
         dependentDao.deleteByNo(empNo);
-        SpecialDeduction specialDeduction = new SpecialDeduction();
-        specialDeduction.deleteByNo(empNo);
+        SpecialDeductionDao specialDeductiondao = new SpecialDeductionDao();
+        specialDeductiondao.deleteByNo(empNo);
         this.executeUpdate(sql,empNo);
         return ;
     }
