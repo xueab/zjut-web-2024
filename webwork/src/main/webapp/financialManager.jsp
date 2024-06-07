@@ -116,10 +116,7 @@
                             data-fullAttendanceBonus="${salaryRole.fullAttendanceBonus}" data-personTax="${salaryRole.personalTax}"
                             data-netSalary="${salaryRole.netSalary}">编辑</button>
                     <button class="btn btn-danger" data-toggle="modal" data-target="#deleteSalaryModal"
-                            data-empNo="${salaryRole.empNo}" data-year="${salaryRole.year}" data-month="${salaryRole.month}"
-                            data-basicSalary="${salaryRole.basicSalary}" data-overtimePay="${salaryRole.overtimePay}"
-                            data-fullAttendanceBonus="${salaryRole.fullAttendanceBonus}" data-personTax="${salaryRole.personalTax}"
-                            data-netSalary="${salaryRole.netSalary}">删除</button>
+                            data-empNo="${salaryRole.empNo}" data-year="${salaryRole.year}" data-month="${salaryRole.month}">删除</button>
                 </td>
             </tr>
         </c:forEach>
@@ -261,11 +258,6 @@
                     <input type="hidden" id="deleteEmpNo" name="deleteempNo">
                     <input type="hidden" id="deleteYear" name="deleteyear">
                     <input type="hidden" id="deleteMonth" name="deletemonth">
-                    <input type="hidden" id="deleteBasicSalary" name="deletebasicSalary">
-                    <input type="hidden" id="deleteOvertimePay" name="deleteovertimePay">
-                    <input type="hidden" id="deleteFullAttendanceBonus" name="deletefullAttendanceBonus">
-                    <input type="hidden" id="deletePersonalTax" name="deletepersonalTax">
-                    <input type="hidden" id="deleteNetSalary" name="deletenetSalary">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
@@ -351,21 +343,11 @@
         var empNo = button.data('empno');
         var year = button.data('year');
         var month = button.data('month');
-        var basicSalary = button.data('basicsalary');
-        var overtimePay = button.data('overtimepay');
-        var fullAttendanceBonus = button.data('fullattendancebonus');
-        var personalTax = button.data('personaltax');
-        var netSalary = button.data('netsalary');
 
         var modal = $(this);
         modal.find('#deleteEmpNo').val(empNo);
         modal.find('#deleteYear').val(year);
         modal.find('#deleteMonth').val(month);
-        modal.find('#deleteBasicSalary').val(basicSalary);
-        modal.find('#deleteOvertimePay').val(overtimePay);
-        modal.find('#deleteFullAttendanceBonus').val(fullAttendanceBonus);
-        modal.find('#deletePersonalTax').val(personalTax);
-        modal.find('#deleteNetSalary').val(netSalary);
     });
 
     $('#editSalaryModal').on('show.bs.modal', function (event) {

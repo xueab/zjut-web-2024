@@ -27,6 +27,9 @@ public class updateUserServlet extends HttpServlet {
         int userId = Integer.parseInt(req.getParameter("edituserId"));
         String username = req.getParameter("editusername");
         String password = req.getParameter("editpassword");
+        System.out.println(userId);
+        System.out.println(username);
+        System.out.println(password);
         // 加密
         password = encrypt(password);
         String role = req.getParameter("role");
