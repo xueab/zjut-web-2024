@@ -28,7 +28,6 @@ public class deleteSalary extends HttpServlet {
 //        BigDecimal personalTax = new BigDecimal(req.getParameter("deletepersonalTax"));
 //        BigDecimal netSalary = new BigDecimal(req.getParameter("deletenetSalary"));
 
-        // Salary salary = new Salary(empNo, year, month, basicSalary, overtimePay, fullAttendanceBonus, personalTax, netSalary);
 
         s.delete(empNo, year, month);
 
