@@ -9,8 +9,8 @@ import java.util.List;
 
 public class UserService {
     private UserDao userDao = new UserDao();
-    public void update(int userId, String username, String password, String role) {
-        userDao.update(userId, username, password, role);
+    public void update(int userId, String username, String role) {
+        userDao.update(userId, username, role);
     }
 
     public void add(User user) {

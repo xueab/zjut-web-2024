@@ -27,7 +27,7 @@ public class updateUserServlet extends HttpServlet {
         int userId = Integer.parseInt(req.getParameter("edituserId"));
         String username = req.getParameter("editusername");
 
-        String role = req.getParameter("role");
+        String role = req.getParameter("editrole");
 
 
         user.update(userId, username, role);

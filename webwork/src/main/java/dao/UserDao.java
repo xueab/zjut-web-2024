@@ -48,11 +48,9 @@ public class UserDao extends BaseDao {
         return ;
     }
 
-    public void update(User user) {
-        String sql = "update user set username = ?,password = ?,role = ?,last_password_change = ?,failed_login_attempts = ?,account_locked_until = ?" +
-                "where user_id = ?";
-        this.executeUpdate(sql,user.getUsername(),user.getPassword(),user.getRole(),user.getLastPasswordChange(),user.getFailedLoginAttempts(),
-                user.getAccountLockedUntil(),user.getUserId());
+    public void update(int userId, String username, String role) {
+        String sql = "update user set username = ?,role = ? where user_id = ?";
+        this.executeUpdate(sql,username,role,userId);
         return;
     }
     public void delete(int user_id) {

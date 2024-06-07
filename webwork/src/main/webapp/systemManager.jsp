@@ -191,10 +191,10 @@
                     <div class="form-group">
                         <label for="editRole">角色：</label>
                         <select class="form-control" id="editrole" name="editrole">
-                            <option value="hrAdmin">人事管理员</option>
-                            <option value="financeAdmin">财务管理员</option>
+                            <option value="peopleManager">人事管理员</option>
+                            <option value="financialManager">财务管理员</option>
                             <option value="generalManager">总经理</option>
-                            <option value="auditAdmin">系统管理员</option>
+                            <option value="systemManager">系统管理员</option>
                         </select>
                     </div>
                 </div>
