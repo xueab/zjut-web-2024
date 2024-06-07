@@ -23,6 +23,7 @@ public class updateSalaryServlet extends HttpServlet {
         int year = Integer.parseInt(req.getParameter("edityear"));
         int month = Integer.parseInt(req.getParameter("editmonth"));
         BigDecimal basicSalary = new BigDecimal(req.getParameter("editbasicSalary"));
+        System.out.println(basicSalary);
         BigDecimal overtimePay = new BigDecimal(req.getParameter("editovertimePay"));
         BigDecimal fullAttendanceBonus = new BigDecimal(req.getParameter("editfullAttendanceBonus"));
         BigDecimal personalTax = new BigDecimal(req.getParameter("editpersonalTax"));

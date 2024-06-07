@@ -21,6 +21,10 @@ public class UserService {
         return userDao.selectUser();
     }
 
+    public int count() {
+        return userDao.count();
+    }
+
     public void delete(int userId) {
         userDao.delete(userId);
     }

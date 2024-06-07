@@ -17,6 +17,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -63,8 +64,9 @@
             display: block;
         }
         .chart-container {
-            width: 50%;
-            margin: auto;
+            width: 100%;
+            height: 400px;
+            margin: 0 auto;
         }
     </style>
 </head>
@@ -80,7 +82,8 @@
     <div id="employeeManagement" class="container content-section active">
         <h2>员工管理</h2>
         <br><br>
-        <% EmployeeService employeeService = new EmployeeService();
+        <%
+            EmployeeService employeeService = new EmployeeService();
             List<Employee> employee = employeeService.selectAll();
             Map<String, Double> employeeMap = employeeService.getDepartmentStats();
             request.setAttribute("employeeMap", employeeMap);
@@ -114,19 +117,16 @@
                     <td>${employeeRole.phone}</td>
                     <td>${employeeRole.address}</td>
                     <td>
-                        <button class="btn btn-warning" data-toggle="modal" data-target="#editemployeeModal" data-name="${employeeRole.name}" data-empno="${employeeRole.empNo}" data-depName="${employeeRole.depName}" data-position="${employeeRole.position}" data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}" data-address="${employeeRole.address}">修改</button>
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteemployeeModal" data-name="${employeeRole.name}" data-empno="${employeeRole.empNo}" data-depName="${employeeRole.depName}" data-position="${employeeRole.position}" data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}" data-address="${employeeRole.address}">删除</button>
-                        <form action="deleteemployee.do", method="get">
-                            <input type="hidden" name="deleteempNo" value="${employeeRole.empNo}">
-                            <input type="hidden" name="deletename" value="${employeeRole.name}">
-                            <button type="submit" class="btn btn-danger" data-toggle="modal">Delete</button>
-
--                        </form>
-<%--                        <form action="editemployee.do", method="get">--%>
-<%--                            <input type="hidden" name="editempNo" value="${employeeRole.empNo}">--%>
-<%--                            <button type="submit">edit</button>--%>
-<%--                        </form>--%>
-
+                <button class="btn btn-warning" data-toggle="modal" data-target="#editemployeeModal"
+                        data-name="${employeeRole.name}" data-empno="${employeeRole.empNo}"
+                        data-depName="${employeeRole.depName}" data-position="${employeeRole.position}"
+                         data-idNumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}"
+                         data-address="${employeeRole.address}">修改</button>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteemployeeModal"
+                            data-name="${employeeRole.name}" data-empno="${employeeRole.empNo}"
+                            data-depname="${employeeRole.depName}" data-position="${employeeRole.position}"
+                            data-idnumber="${employeeRole.idNumber}" data-phone="${employeeRole.phone}"
+                            data-address="${employeeRole.address}">删除</button>
                     </td>
                 </tr>
             </c:forEach>
@@ -264,8 +264,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="deletename" value="${employeeRole.name}">
-                    <input type="hidden" name="deleteempNo" value="${employeeRole.empNo}">
+                    <input type="hidden" id="deleteName" name="deletename">
+                    <input type="hidden" id="deleteId" name="deleteempNo">
                     <p>确定要删除这个员工吗?</p>
                 </div>
                 <div class="modal-footer">
@@ -281,17 +281,68 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="employeePieChartModalLabel">员工部门分布图</h5>
+                <h5 class="modal-title" id="employeePieChartModalLabel">员工部门比例</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div id="piechart" style="width: 100%; height: 400px;"></div>
+                <div id="piechart" class="chart-container"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $('form').on('submit', function () {
+        var form = $(this);
+        // 延迟清空表单，确保表单提交完成
+        setTimeout(function () {
+            form.find('input').val('');
+        }, 1000); // 延迟1秒清空表单
+    });
+
+    $('#addemployeeModal').on('hidden.bs.modal', function () {
+        // 清空表单数据
+        $(this).find('#addname').val('');
+        $(this).find('#addempNo').val('');
+        $(this).find('#adddepName').val('');
+        $(this).find('#addposition').val('');
+        $(this).find('#addidNumber').val('');
+        $(this).find('#addphone').val('');
+        $(this).find('#addaddress').val('');
+    });
+    $('#deleteemployeeModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // 触发事件的按钮
+        var name = button.data('name');
+        var empNo = button.data('empno');
+        var modal = $(this);
+        modal.find('#deleteName').val(name);
+        modal.find('#deleteId').val(empNo);
+    });
+    $('#editemployeeModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var editname = button.data('name');
+        var editempNo = button.data('empno');
+        var editdepName = button.data('depname');
+        var editposition = button.data('position');
+        var editidNumber = button.data('idnumber');
+        var editphone = button.data('phone');
+        var editaddress = button.data('address');
+
+        var modal = $(this);
+        modal.find('#editname').val(editname);
+        modal.find('#editempNo').val(editempNo);
+        modal.find('#editdepName').val(editdepName);
+        modal.find('#editposition').val(editposition);
+        modal.find('#editidNumber').val(editidNumber);
+        modal.find('#editphone').val(editphone);
+        modal.find('#editaddress').val(editaddress);
+    });
+</script>
 
 <script type="text/javascript">
     function showSection(sectionId) {
@@ -317,47 +368,27 @@
             </c:forEach>
         ]);
 
+        if (data.getNumberOfRows() === 0) {
+            $('#piechart').text('没有数据可显示');
+            return;
+        }
+
         // Set chart options
         var options = {
             'title': '员工部门分布',
-            'width': 400,
-            'height': 300
+            'width': 600,
+            'height': 450,
+            'titleTextStyle': {
+                'fontSize': 24, // 调整字体大小
+                'bold': true, // 是否加粗
+                'color': '#000000' // 字体颜色
+            }
         };
 
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
         chart.draw(data, options);
     }
-</script>
-
-<script>
-    $('#deleteemployeeModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var deletename = button.data('deletename');
-        var deleteempNo = button.data('deleteempNo');
-        var modal = $(this);
-        modal.find('#deletename').val(deletename);
-        modal.find('#deleteempNo').val(deleteempNo);
-    });
-
-    $('#editemployeeModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var editname = button.data('editname');
-        var editempNo = button.data('editempno');
-        var editdepName = button.data('editdepname');
-        var editposition = button.data('editposition');
-        var editidNumber = button.data('editidnumber');
-        var editphone = button.data('editphone');
-        var editaddress = button.data('editaddress');
-        var modal = $(this);
-        modal.find('#editname').val(editname);
-        modal.find('#editempNo').val(editempNo);
-        modal.find('#editdepName').val(editdepName);
-        modal.find('#editposition').val(editposition);
-        modal.find('#editidNumber').val(editidNumber);
-        modal.find('#editphone').val(editphone);
-        modal.find('#editaddress').val(editaddress);
-    });
 </script>
 </body>
 </html>
