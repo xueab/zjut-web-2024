@@ -20,7 +20,6 @@ public class deleteUserServlet extends HttpServlet {
         UserService user = new UserService();
 
         int userId = Integer.parseInt(req.getParameter("deleteuserId"));
-
         user.delete(userId);
 
         // 重定向
