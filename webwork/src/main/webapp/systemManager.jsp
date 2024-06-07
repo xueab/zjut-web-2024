@@ -2,6 +2,8 @@
 <%@ page import="org.apache.catalina.User" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="service.SalaryService" %>
+<%@ page import="model.Salary" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri ="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false"%>
@@ -16,6 +18,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -79,13 +82,12 @@
 
 <div class="main">
     <div id="roleManagement" class="container content-section active">
-        <h2>角色管理</h2>
         <%
             UserService userService = new UserService();
             List<model.User> user = userService.selectAll();
             request.setAttribute("user", user);
         %>
-        <h3>所有用户及其角色</h3>
+        <h2>所有用户及其角色</h2>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -100,13 +102,54 @@
                     <td>${userRole.username}</td>
                     <td>${userRole.role}</td>
                     <td>
-                        <button class="btn btn-warning" data-toggle="modal" data-target="#editRoleModal" data-username="${userRole.username}" data-role="${userRole.role}">修改</button>
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteRoleModal" data-username="${userRole.username}" data-role="${userRole.role}">删除</button>
+                        <button class="btn btn-warning" data-toggle="modal" data-target="#editRoleModal" data-username="${userRole.username}" data-role="${userRole.role}" data-userId="${userRole.userId}">修改</button>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteRoleModal" data-userId="${userRole.userId}">删除</button>
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
+    </div>
+
+    <div id="viewSalaries" class="container content-section">
+        <h2>查看工资</h2>
+        <br>
+        <% SalaryService salaryService = new SalaryService();
+            List<Salary> salary = salaryService.selectAll();
+            Map<String, Double> salaryMap = salaryService.getSalaryStats();
+            request.setAttribute("salaryMap", salaryMap);
+            request.setAttribute("salary", salary);
+        %>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>员工编号</th>
+                <th>工资所属年份</th>
+                <th>工资所属月份</th>
+                <th>基本工资</th>
+                <th>加班工资</th>
+                <th>全勤奖</th>
+                <th>个人所得税</th>
+                <th>实发工资</th>
+            </tr>
+            </thead>
+            <tbody id="salaryRolesTable">
+            <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal">显示工资分布饼状图</button>
+            <c:forEach var="salaryRole" items="${salary}">
+                <tr>
+                    <td>${salaryRole.empNo}</td>
+                    <td>${salaryRole.year}</td>
+                    <td>${salaryRole.month}</td>
+                    <td>${salaryRole.basicSalary}</td>
+                    <td>${salaryRole.overtimePay}</td>
+                    <td>${salaryRole.fullAttendanceBonus}</td>
+                    <td>${salaryRole.personalTax}</td>
+                    <td>${salaryRole.netSalary}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'">导出</button>
     </div>
 
     <div id="changePassword" class="container content-section">
@@ -143,6 +186,7 @@
                     <div class="form-group">
                         <label for="editUsername">用户名：</label>
                         <input type="text" class="form-control" id="editUsername" name="editusername" readonly>
+                        <input type="hidden" id="editUserId" name="edituserId">
                     </div>
                     <div class="form-group">
                         <label for="editRole">角色：</label>
@@ -168,14 +212,14 @@
         <div class="modal-content">
             <form action="deleteRole.do" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteRoleModalLabel">删除角色</h5>
+                    <h5 class="modal-title" id="deleteRoleModalLabel">删除员工</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <p>确定要删除此角色吗？</p>
-                    <input type="hidden" id="deleteUsername" name="username">
+                    <input type="hidden" id="deleteUserId" name="deleteuserId">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
@@ -186,6 +230,66 @@
     </div>
 </div>
 
+<div class="modal fade" id="salaryPieChartModal" tabindex="-1" role="dialog" aria-labelledby="salaryPieChartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="salaryPieChartModalLabel">工资收入分布</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="piechart" style="width: 100%; height: 400px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function showSection(sectionId) {
+        var sections = document.getElementsByClassName('content-section');
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].classList.remove('active');
+        }
+        document.getElementById(sectionId).classList.add('active');
+    }
+
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        // Create the data table.
+        var data = google.visualization.arrayToDataTable([
+            ['Salary', 'Percentage'],
+            <c:forEach var="entry" items="${salaryMap}">
+            ['${entry.key}', ${entry.value}],
+            </c:forEach>
+        ]);
+
+        if (data.getNumberOfRows() === 0) {
+            $('#piechart').text('没有数据可显示');
+            return;
+        }
+
+        // Set chart options
+        var options = {
+            'title': '工资收入分布情况',
+            'width': 400,
+            'height': 300
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
+</script>
+
 <script>
     $('form').on('submit', function () {
         var form = $(this);
@@ -195,30 +299,23 @@
         }, 1000); // 延迟1秒清空表单
     });
 
-    function showSection(sectionId) {
-        var sections = document.getElementsByClassName("content-section");
-        for (var i = 0; i < sections.length; i++) {
-            sections[i].style.display = "none";
-        }
-        document.getElementById(sectionId).style.display = "block";
-    }
-
     $('#editRoleModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var username = button.data('username');
         var role = button.data('role');
+        var userId = button.data('userid');
+
         var modal = $(this);
         modal.find('#editUsername').val(username);
         modal.find('#editRole').val(role);
+        modal.find('#editUserId').val(userId);
     });
 
     $('#deleteRoleModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var username = button.data('username');
-        var role = button.data('role');
+        var userId = button.data('userid');
         var modal = $(this);
-        modal.find('#deleteUsername').val(username);
-        modal.find('#editRole').val(role);
+        modal.find('#deleteUserId').val(userId);
     });
 </script>
 </body>
