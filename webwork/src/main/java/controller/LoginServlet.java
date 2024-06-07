@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +39,11 @@ public class LoginServlet extends HttpServlet {
                 userService.resetFailNumber(username);
             }
             else {
-                //resp.getWriter().write("账户已被锁定，请稍后再试。");
-                resp.getWriter().write("11111111");
+
+                // 使用 URLEncoder.encode 方法对错误消息进行 URL 编码
+                // URL 编码是将特殊字符转换为 % 后跟两位十六进制数的形式，这样可以确保 URL 在传输过程中不被破坏
+
+                resp.sendRedirect(req.getContextPath() + "/login.jsp?errorMessage=" + URLEncoder.encode("AccountLock", "UTF-8"));
                 return;
             }
 
@@ -109,6 +113,7 @@ public class LoginServlet extends HttpServlet {
             log.setMessage(" Login failed: " + username + "not found");
 
             logService.add(log);
+            resp.sendRedirect(req.getContextPath() + "/login.jsp?errorMessage=" + URLEncoder.encode("Error", "UTF-8"));
         }
         // 密码错误
         else {
@@ -127,13 +132,17 @@ public class LoginServlet extends HttpServlet {
                 log.setLevel("ERROR");
                 // 记入日志
                 log.setMessage(username + ": Account locked due to multiple failed login attempts");
+                logService.add(log);
+                resp.sendRedirect(req.getContextPath() + "/login.jsp?errorMessage=" + URLEncoder.encode("AccountLock", "UTF-8"));
             }
             else {
                 log.setLevel("WARN");
                 // 记入日志
                 log.setMessage(username + "Login failed: incorrect password");
+                logService.add(log);
+                resp.sendRedirect(req.getContextPath() + "/login.jsp?errorMessage=" + URLEncoder.encode("Error", "UTF-8"));
             }
-            logService.add(log);
+
         }
         resp.sendRedirect(req.getContextPath() + "/login.jsp");
 

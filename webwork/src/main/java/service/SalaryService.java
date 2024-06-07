@@ -49,33 +49,33 @@ public class SalaryService {
 
 
         for (Row row : sheet) {
-            // Excel的列分别是工资ID,员工编号,工资所属年份,工资所属月份,基本工资,
+            // Excel的列分别是员工编号,工资所属年份,工资所属月份,基本工资,
             // 加班工资,全勤奖,个人所得税,实发工资
 
 
             // 获取员工编号
-            int empNo = (int)row.getCell(1).getNumericCellValue();
+            int empNo = (int)row.getCell(0).getNumericCellValue();
 
             // 获取工资所属年份
-            int year = (int)row.getCell(2).getNumericCellValue();
+            int year = (int)row.getCell(1).getNumericCellValue();
 
             // 获取月份
-            int month = (int)row.getCell(3).getNumericCellValue();
+            int month = (int)row.getCell(2).getNumericCellValue();
 
             // 获取基本工资
-            BigDecimal basicSalary = BigDecimal.valueOf(row.getCell(4).getNumericCellValue());
+            BigDecimal basicSalary = BigDecimal.valueOf(row.getCell(3).getNumericCellValue());
 
             // 加班工资
-            BigDecimal overtimePay = BigDecimal.valueOf(row.getCell(5).getNumericCellValue());
+            BigDecimal overtimePay = BigDecimal.valueOf(row.getCell(4).getNumericCellValue());
 
             // 全勤奖
-            BigDecimal fullAttendanceBonus = BigDecimal.valueOf(row.getCell(6).getNumericCellValue());
+            BigDecimal fullAttendanceBonus = BigDecimal.valueOf(row.getCell(5).getNumericCellValue());
 
             // 个人所得税
-            BigDecimal personalTax = BigDecimal.valueOf(row.getCell(9).getNumericCellValue());
+            BigDecimal personalTax = BigDecimal.valueOf(row.getCell(6).getNumericCellValue());
 
             // 实发工资
-            BigDecimal netSalary = BigDecimal.valueOf(row.getCell(10).getNumericCellValue());
+            BigDecimal netSalary = BigDecimal.valueOf(row.getCell(7).getNumericCellValue());
 
 
             Salary salary = new Salary(empNo,year, month, basicSalary

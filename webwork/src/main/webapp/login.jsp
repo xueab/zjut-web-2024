@@ -79,4 +79,19 @@
     </form>
 </div>
 </body>
+
+<script>
+    function getQueryParameter(name){
+        let urlParams = new URLSearchParams(window.location.search)
+        return urlParams.get(name)
+    }
+
+    let errorMessage = getQueryParameter("errorMessage")
+    if(errorMessage == "Accountlock")
+    {
+        alert("账户锁定")
+    }else if(errorMessage == "Error"){
+        alert("用户名或密码错误")
+    }
+</script>
 </html>
