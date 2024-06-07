@@ -21,6 +21,9 @@ public class UserService {
         return userDao.selectUser();
     }
 
+    public List<User> selectByPage(int page) {
+        return userDao.selectByPage(page * 10);
+    }
     public int count() {
         return userDao.count();
     }
