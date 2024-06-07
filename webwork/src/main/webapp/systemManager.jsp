@@ -80,15 +80,11 @@
 <div class="main">
     <div id="roleManagement" class="container content-section active">
         <h2>角色管理</h2>
-        <br><br>
         <%
             UserService userService = new UserService();
             List<model.User> user = userService.selectAll();
             request.setAttribute("user", user);
         %>
-        <button class="btn btn-info" data-toggle="modal" data-target="#rolePieChartModal">显示饼状图</button>
-        <br><br>
-        <br><br>
         <h3>所有用户及其角色</h3>
         <table class="table table-striped">
             <thead>
@@ -186,25 +182,6 @@
                     <button type="submit" class="btn btn-danger">删除</button>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="rolePieChartModal" tabindex="-1" role="dialog" aria-labelledby="rolePieChartModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="rolePieChartModalLabel">角色分布</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <canvas id="rolePieChart"></canvas>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-            </div>
         </div>
     </div>
 </div>

@@ -332,6 +332,7 @@
         var editidNumber = button.data('idnumber');
         var editphone = button.data('phone');
         var editaddress = button.data('address');
+
         var modal = $(this);
         modal.find('#editname').val(editname);
         modal.find('#editempNo').val(editempNo);
@@ -366,6 +367,11 @@
             ['${entry.key}', ${entry.value}],
             </c:forEach>
         ]);
+
+        if (data.getNumberOfRows() === 0) {
+            $('#piechart').text('没有数据可显示');
+            return;
+        }
 
         // Set chart options
         var options = {
