@@ -122,8 +122,13 @@
         </c:forEach>
         </tbody>
     </table>
+
     <button class="btn btn-success" data-toggle="modal" data-target="#addSalaryModal">添加记录</button>
     <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'">导出</button>
+    <form action="uploadExcelServlet" method="post" enctype="multipart/form-data">
+        <input type="file" name="file"/>
+        <button class="btn btn-primary">导入</button>
+    </form>
 </div>
 
 <div id="changePassword" class="container content-section">
