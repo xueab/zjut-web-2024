@@ -10,11 +10,11 @@
 <head>
     <meta charset="UTF-8">
     <title>财务管理员</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -29,23 +29,27 @@
             z-index: 1;
             top: 0;
             left: 0;
-            background: linear-gradient(to bottom, #5F9EA0, #4682B4, #87CEEB, #B0E0E6, #E0FFFF); /* 渐变效果 */
+            background: linear-gradient(to bottom, #5F9EA0, #4682B4, #87CEEB, #B0E0E6, #E0FFFF);
             padding-top: 20px;
             color: white;
         }
-        .sidebar a {
+        .sidebar a, .sidebar button {
             padding: 10px 15px;
             text-decoration: none;
             font-size: 18px;
-            color: white; /* 文字颜色 */
+            color: white;
             display: block;
+            text-align: left;
+            background: none;
+            border: none;
+            cursor: pointer;
         }
-        .sidebar a i {
+        .sidebar a i, .sidebar button i {
             margin-right: 10px;
         }
-        .sidebar a:hover {
+        .sidebar a:hover, .sidebar button:hover {
             background-color: rgba(255, 255, 255, 0.2);
-            color: white; /* 悬停时文字颜色 */
+            color: white;
         }
         .main {
             margin-left: 260px;
@@ -63,6 +67,25 @@
         .active {
             display: block;
         }
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            margin: 0 auto;
+        }
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .page-item.active .page-link {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .page-link {
+            color: #007bff;
+        }
+        .page-link:hover {
+            color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -72,6 +95,9 @@
 <div class="sidebar">
     <a href="#" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
     <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#logoutModal">
+        <i class="fas fa-sign-out-alt"></i> 退出登录
+    </button>
 </div>
 <div class="main">
 <div id="viewSalaries" class="container content-section active">
@@ -273,6 +299,26 @@
     </div>
 </div>
 
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">确认退出</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                你确定要退出登录吗？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-danger" onclick="confirmLogout()">退出</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="salaryPieChartModal" tabindex="-1" role="dialog" aria-labelledby="salaryPieChartModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -343,6 +389,10 @@
 </script>
 
 <script>
+    function confirmLogout() {
+        window.location.href = 'login.jsp';
+    }
+
     $('#deleteSalaryModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var empNo = button.data('empno');
