@@ -103,16 +103,14 @@
     <div id="employeeManagement" class="container content-section active">
         <h2>员工管理</h2>
         <br><br>
-        <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal">显示饼状图</button>
+
         <br><br>
         <h3>所有员工</h3>
         <%
             int currentpage = 1;
             int pagesize = 10; // 每页显示10个员工
             int totalpages = 0;
-
-
-            // 获取请求参数中的页码
+            EmployeeService employeeService = new EmployeeService();
             if (request.getParameter("currentpage") != null) {
                 try {
                     currentpage = Integer.parseInt(request.getParameter("currentpage"));
@@ -120,11 +118,13 @@
                     currentpage = 1; // 如果参数不是有效的整数，默认显示第一页
                 }
             }
-            EmployeeService employeeService = new EmployeeService();
-            List<Employee> employees = employeeService.selectAll();
-            List<Employee> employee = employeeService.selectByPage(currentpage-1);
-            totalpages = (int) Math.ceil(employees.size() / (double) pagesize);
+            List<Employee> employee = employeeService.selectAll();
+            List<Employee> employees = employeeService.selectByPage(currentpage-1);
+            Map<String, Double> employeeMap = employeeService.getDepartmentStats();
+            request.setAttribute("employeeMap", employeeMap);
+            request.setAttribute("employees", employees);
             request.setAttribute("employee", employee);
+            totalpages = (int) Math.ceil(employee.size() / (double) pagesize);
         %>
         <table class="table table-striped">
             <thead>
@@ -140,7 +140,8 @@
             </tr>
             </thead>
             <tbody id="employeeRolesTable">
-            <c:forEach var="employeeRole" items="${employee}">
+            <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal">显示饼状图</button>
+            <c:forEach var="employeeRole" items="${employees}">
                 <tr>
                     <td>${employeeRole.name}</td>
                     <td>${employeeRole.empNo}</td>
@@ -230,17 +231,38 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" name="name" placeholder="姓名" required>
-                    <input type="text" class="form-control" name="empNo" placeholder="员工编号" required>
-                    <input type="text" class="form-control" name="depName" placeholder="部门" required>
-                    <input type="text" class="form-control" name="position" placeholder="职务" required>
-                    <input type="text" class="form-control" name="idNumber" placeholder="身份证号" required>
-                    <input type="text" class="form-control" name="phone" placeholder="手机号" required>
-                    <input type="text" class="form-control" name="address" placeholder="住址" required>
+                    <div class="form-group">
+                        <label for="addname">员工姓名:</label>
+                        <input type="text" class="form-control" id="addname" name="addname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addempNo">员工编号:</label>
+                        <input type="text" class="form-control" id="addempNo" name="addempNo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adddepName">部门名称:</label>
+                        <input type="text" class="form-control" id="adddepName" name="adddepName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addposition">岗位:</label>
+                        <input type="text" class="form-control" id="addposition" name="addposition" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addidNumber">身份证号:</label>
+                        <input type="text" class="form-control" id="addidNumber" name="addidNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addphone">手机号:</label>
+                        <input type="text" class="form-control" id="addphone" name="addphone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addaddress">住址:</label>
+                        <input type="text" class="form-control" id="addaddress" name="addaddress" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                    <button type="submit" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">添加</button>
                 </div>
             </form>
         </div>
@@ -258,8 +280,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="empNo" id="deleteEmpNo">
-                    <p>你确定要删除该员工吗？</p>
+                    <input type="hidden" id="deleteName" name="deletename">
+                    <input type="hidden" id="deleteId" name="deleteempNo">
+                    <p>确定要删除这个员工吗?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
@@ -281,17 +304,37 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="oldEmpNo" id="editOldEmpNo">
-                    <input type="text" class="form-control" name="name" id="editName" placeholder="姓名" required>
-                    <input type="text" class="form-control" name="empNo" id="editEmpNo" placeholder="员工编号" required>
-                    <input type="text" class="form-control" name="depName" id="editDepName" placeholder="部门" required>
-                    <input type="text" class="form-control" name="position" id="editPosition" placeholder="职务" required>
-                    <input type="text" class="form-control" name="idNumber" id="editIdNumber" placeholder="身份证号" required>
-                    <input type="text" class="form-control" name="phone" id="editPhone" placeholder="手机号" required>
-                    <input type="text" class="form-control" name="address" id="editAddress" placeholder="住址" required>
+                    <div class="form-group">
+                        <label for="editname">员工姓名:</label>
+                        <input type="text" class="form-control" id="editname" name="editname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editempNo">员工编号:</label>
+                        <input type="text" class="form-control" id="editempNo" name="editempNo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editdepName">部门名称:</label>
+                        <input type="text" class="form-control" id="editdepName" name="editdepName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editposition">岗位:</label>
+                        <input type="text" class="form-control" id="editposition" name="editposition" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editidNumber">身份证号:</label>
+                        <input type="text" class="form-control" id="editidNumber" name="editidNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editphone">手机号:</label>
+                        <input type="text" class="form-control" id="editphone" name="editphone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editaddress">住址:</label>
+                        <input type="text" class="form-control" id="editaddress" name="editaddress" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                     <button type="submit" class="btn btn-primary">保存</button>
                 </div>
             </form>
@@ -320,80 +363,120 @@
 </div>
 
 <div class="modal fade" id="employeePieChartModal" tabindex="-1" role="dialog" aria-labelledby="employeePieChartModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="employeePieChartModalLabel">员工分布饼状图</h5>
+                <h5 class="modal-title" id="employeePieChartModalLabel">员工部门比例</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div id="employeePieChart"></div>
+                <div id="piechart" class="chart-container"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    $('form').on('submit', function () {
+        var form = $(this);
+        // 延迟清空表单，确保表单提交完成
+        setTimeout(function () {
+            form.find('input').val('');
+        }, 1000); // 延迟1秒清空表单
+    });
+
+    $('#addemployeeModal').on('hidden.bs.modal', function () {
+        // 清空表单数据
+        $(this).find('#addname').val('');
+        $(this).find('#addempNo').val('');
+        $(this).find('#adddepName').val('');
+        $(this).find('#addposition').val('');
+        $(this).find('#addidNumber').val('');
+        $(this).find('#addphone').val('');
+        $(this).find('#addaddress').val('');
+    });
+    $('#deleteemployeeModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // 触发事件的按钮
+        var name = button.data('name');
+        var empNo = button.data('empno');
+        var modal = $(this);
+        modal.find('#deleteName').val(name);
+        modal.find('#deleteId').val(empNo);
+    });
+    $('#editemployeeModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var editname = button.data('name');
+        var editempNo = button.data('empno');
+        var editdepName = button.data('depname');
+        var editposition = button.data('position');
+        var editidNumber = button.data('idnumber');
+        var editphone = button.data('phone');
+        var editaddress = button.data('address');
+
+        var modal = $(this);
+        modal.find('#editname').val(editname);
+        modal.find('#editempNo').val(editempNo);
+        modal.find('#editdepName').val(editdepName);
+        modal.find('#editposition').val(editposition);
+        modal.find('#editidNumber').val(editidNumber);
+        modal.find('#editphone').val(editphone);
+        modal.find('#editaddress').val(editaddress);
+    });
+</script>
+
+<script type="text/javascript">
     function showSection(sectionId) {
-        document.querySelectorAll('.content-section').forEach(section => {
-            section.classList.remove('active');
-        });
+        var sections = document.getElementsByClassName('content-section');
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].classList.remove('active');
+        }
         document.getElementById(sectionId).classList.add('active');
     }
 
-    $('#editemployeeModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var modal = $(this);
-        modal.find('#editOldEmpNo').val(button.data('empno'));
-        modal.find('#editName').val(button.data('name'));
-        modal.find('#editEmpNo').val(button.data('empno'));
-        modal.find('#editDepName').val(button.data('depname'));
-        modal.find('#editPosition').val(button.data('position'));
-        modal.find('#editIdNumber').val(button.data('idnumber'));
-        modal.find('#editPhone').val(button.data('phone'));
-        modal.find('#editAddress').val(button.data('address'));
-    });
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
 
-    $('#deleteemployeeModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var modal = $(this);
-        modal.find('#deleteEmpNo').val(button.data('empno'));
-    });
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        // Create the data table.
+        var data = google.visualization.arrayToDataTable([
+            ['Department', 'Percentage'],
+            <c:forEach var="entry" items="${employeeMap}">
+            ['${entry.key}', ${entry.value}],
+            </c:forEach>
+        ]);
+
+        if (data.getNumberOfRows() === 0) {
+            $('#piechart').text('没有数据可显示');
+            return;
+        }
+
+        // Set chart options
+        var options = {
+            'title': '员工部门分布',
+            'width': 600,
+            'height': 450,
+            'titleTextStyle': {
+                'fontSize': 24, // 调整字体大小
+                'bold': true, // 是否加粗
+                'color': '#000000' // 字体颜色
+            }
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
 
     function confirmLogout() {
         window.location.href = 'login.jsp';
-    }
-
-    $('#employeePieChartModal').on('shown.bs.modal', function () {
-        $.ajax({
-            url: 'employeeChartData.do',
-            type: 'GET',
-            success: function (data) {
-                drawPieChart(data);
-            },
-            error: function (error) {
-                console.error('Error fetching employee data', error);
-            }
-        });
-    });
-
-    function drawPieChart(data) {
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(function() {
-            var chartData = [['部门', '人数']];
-            for (var dep in data) {
-                chartData.push([dep, data[dep]]);
-            }
-            var dataTable = google.visualization.arrayToDataTable(chartData);
-            var options = {
-                title: '员工分布情况',
-                pieHole: 0.4
-            };
-            var chart = new google.visualization.PieChart(document.getElementById('employeePieChart'));
-            chart.draw(dataTable, options);
-        });
     }
 </script>
 </body>

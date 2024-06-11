@@ -103,11 +103,25 @@
 <div id="viewSalaries" class="container content-section active">
     <h2>查看工资</h2>
     <br>
-    <% SalaryService salaryService = new SalaryService();
+    <%
+        int currentpage = 1;
+        int pagesize = 10; // 每页显示10条记录
+        int totalpages = 0;
+        SalaryService salaryService = new SalaryService();
+        if (request.getParameter("currentpage") != null) {
+            try {
+                currentpage = Integer.parseInt(request.getParameter("currentpage"));
+            } catch (NumberFormatException e) {
+                currentpage = 1; // 如果参数不是有效的整数，默认显示第一页
+            }
+        }
         List<Salary> salary = salaryService.selectAll();
+        List<Salary> salarys = salaryService.selectByPage(currentpage-1);
         Map<String, Double> salaryMap = salaryService.getSalaryStats();
         request.setAttribute("salaryMap", salaryMap);
+        request.setAttribute("salarys", salarys);
         request.setAttribute("salary", salary);
+        totalpages = (int) Math.ceil(salary.size() / (double) pagesize);
     %>
     <table class="table table-striped">
         <thead>
@@ -125,7 +139,7 @@
         </thead>
         <tbody id="salaryRolesTable">
         <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal">显示工资分布饼状图</button>
-        <c:forEach var="salaryRole" items="${salary}">
+        <c:forEach var="salaryRole" items="${salarys}">
             <tr>
                 <td>${salaryRole.empNo}</td>
                 <td>${salaryRole.year}</td>
@@ -148,7 +162,37 @@
         </c:forEach>
         </tbody>
     </table>
+    <div>
+        <ul class="pagination">
+            <%
+                int startPage = Math.max(1, currentpage - 2);
+                int endPage = Math.min(totalpages, currentpage + 2);
 
+                if (currentpage > 1) {
+            %>
+            <li class="page-item">
+                <a class="page-link" href="financialManager.jsp?currentpage=<%= currentpage - 1 %>">上一页</a>
+            </li>
+            <%
+                }
+                for (int i = startPage; i <= endPage; i++) {
+            %>
+            <li class="page-item <%= (i == currentpage) ? "active" : "" %>">
+                <a class="page-link" href="financialManager.jsp?currentpage=<%= i %>"><%= i %></a>
+            </li>
+            <%
+                }
+                if (currentpage < totalpages) {
+            %>
+            <li class="page-item">
+                <a class="page-link" href="financialManager.jsp?currentpage=<%= currentpage + 1 %>">下一页</a>
+            </li>
+            <%
+                }
+            %>
+        </ul>
+    </div>
+</div>
     <button class="btn btn-success" data-toggle="modal" data-target="#addSalaryModal">添加记录</button>
     <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'">导出</button>
     <form action="uploadExcelServlet" method="post" enctype="multipart/form-data">
