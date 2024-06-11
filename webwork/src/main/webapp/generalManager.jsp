@@ -11,7 +11,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>人事管理员</title>
+    <title>总经理</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -95,25 +95,40 @@
     String username = request.getParameter("username");
 %>
 <div class="sidebar">
-    <a href="#" onclick="showSection('employeeManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
-    <a href="#" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
-    <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
+    <a href="generalManager.jsp?section=viewEmployee" onclick="showSection('viewEmployee')"><i class="fas fa-user-shield"></i>查看员工</a>
+    <a href="generalManager.jsp?section=viewSalaries" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
+    <a href="generalManager.jsp?section=changePassword" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
+    <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal"><i class="fas chart-pie"></i>员工部门占比饼状图</button>
+    <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal"><i class="fas chart-pie"></i> 员工工资分布饼状图</button>
+    <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'"><i class="fas fa-file-export"></i> 导出</button>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#logoutModal">
         <i class="fas fa-sign-out-alt"></i> 退出登录
     </button>
 </div>
 <div class="main">
-    <div id="employeeManagement" class="container content-section active">
-        <h2>员工管理</h2>
+    <div id="viewEmployee" class="container content-section active">
+        <h2>查看员工</h2>
+        <br>
         <%
+            int currentpage = 1;
+            int pagesize = 10; // 每页显示10个员工
+            int totalpages = 0;
             EmployeeService employeeService = new EmployeeService();
+            if (request.getParameter("currentpage") != null) {
+                try {
+                    currentpage = Integer.parseInt(request.getParameter("currentpage"));
+                } catch (NumberFormatException e) {
+                    currentpage = 1; // 如果参数不是有效的整数，默认显示第一页
+                }
+            }
             List<Employee> employee = employeeService.selectAll();
+            List<Employee> employees = employeeService.selectByPage(currentpage-1);
             Map<String, Double> employeeMap = employeeService.getDepartmentStats();
             request.setAttribute("employeeMap", employeeMap);
+            request.setAttribute("employees", employees);
             request.setAttribute("employee", employee);
+            totalpages = (int) Math.ceil(employee.size() / (double) pagesize);
         %>
-        <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal">显示饼状图</button>
-        <br><br>
         <h3>所有员工</h3>
         <table class="table table-striped">
             <thead>
@@ -128,7 +143,7 @@
             </tr>
             </thead>
             <tbody id="employeeRolesTable">
-            <c:forEach var="employeeRole" items="${employee}">
+            <c:forEach var="employeeRole" items="${employees}">
                 <tr>
                     <td>${employeeRole.name}</td>
                     <td>${employeeRole.empNo}</td>
@@ -141,16 +156,59 @@
             </c:forEach>
             </tbody>
         </table>
+        <div>
+            <ul class="pagination">
+                <%
+                    int startPage = Math.max(1, currentpage - 2);
+                    int endPage = Math.min(totalpages, currentpage + 2);
+
+                    if (currentpage > 1) {
+                %>
+                <li class="page-item">
+                    <a class="page-link" href="generalManager.jsp?currentpage=<%= currentpage - 1 %>&section=viewEmployee">上一页</a>
+                </li>
+                <%
+                    }
+                    for (int i = startPage; i <= endPage; i++) {
+                %>
+                <li class="page-item <%= (i == currentpage) ? "active" : "" %>">
+                    <a class="page-link" href="generalManager.jsp?currentpage=<%= i %>&section=viewEmployee"><%= i %></a>
+                </li>
+                <%
+                    }
+                    if (currentpage < totalpages) {
+                %>
+                <li class="page-item">
+                    <a class="page-link" href="generalManager.jsp?currentpage=<%= currentpage + 1 %>&section=viewEmployee">下一页</a>
+                </li>
+                <%
+                    }
+                %>
+            </ul>
+        </div>
     </div>
 
     <div id="viewSalaries" class="container content-section">
         <h2>查看工资</h2>
         <br>
-        <% SalaryService salaryService = new SalaryService();
+        <%
+            int cpage = 1;
+            int totalpage = 0;
+            SalaryService salaryService = new SalaryService();
+            if (request.getParameter("cpage") != null) {
+                try {
+                    cpage = Integer.parseInt(request.getParameter("cpage"));
+                } catch (NumberFormatException e) {
+                    cpage = 1; // 如果参数不是有效的整数，默认显示第一页
+                }
+            }
             List<Salary> salary = salaryService.selectAll();
+            List<Salary> salarys = salaryService.selectByPage(cpage-1);
             Map<String, Double> salaryMap = salaryService.getSalaryStats();
             request.setAttribute("salaryMap", salaryMap);
+            request.setAttribute("salarys", salarys);
             request.setAttribute("salary", salary);
+            totalpage = (int) Math.ceil(salary.size() / (double) pagesize);
         %>
         <table class="table table-striped">
             <thead>
@@ -166,8 +224,7 @@
             </tr>
             </thead>
             <tbody id="salaryRolesTable">
-            <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal">显示工资分布饼状图</button>
-            <c:forEach var="salaryRole" items="${salary}">
+            <c:forEach var="salaryRole" items="${salarys}">
                 <tr>
                     <td>${salaryRole.empNo}</td>
                     <td>${salaryRole.year}</td>
@@ -181,7 +238,36 @@
             </c:forEach>
             </tbody>
         </table>
-        <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'">导出</button>
+        <div>
+            <ul class="pagination">
+                <%
+                    int startPage1 = Math.max(1, cpage - 2);
+                    int endPage1 = Math.min(totalpage, cpage + 2);
+
+                    if (cpage > 1) {
+                %>
+                <li class="page-item">
+                    <a class="page-link" href="generalManager.jsp?cpage=<%= cpage - 1 %>&section=viewSalaries">上一页</a>
+                </li>
+                <%
+                    }
+                    for (int i = startPage1; i <= endPage1; i++) {
+                %>
+                <li class="page-item <%= (i == cpage) ? "active" : "" %>">
+                    <a class="page-link" href="generalManager.jsp?cpage=<%= i %>&section=viewSalaries"><%= i %></a>
+                </li>
+                <%
+                    }
+                    if (cpage < totalpage) {
+                %>
+                <li class="page-item">
+                    <a class="page-link" href="generalManager.jsp?cpage=<%= cpage + 1 %>&section=viewSalaries">下一页</a>
+                </li>
+                <%
+                    }
+                %>
+            </ul>
+        </div>
     </div>
 
     <div id="changePassword" class="container content-section">
@@ -349,6 +435,20 @@
         var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
         chart.draw(data, options);
     }
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var section = getUrlParameter('section');
+        if (section) {
+            showSection(section);
+        }
+    });
 </script>
 </body>
 </html>

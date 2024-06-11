@@ -95,6 +95,11 @@
 <div class="sidebar">
     <a href="#" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
     <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
+    <button class="btn btn-success" data-toggle="modal" data-target="#addSalaryModal"><i class="fas fa-plus"></i> 添加记录</button>
+    <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal">
+        <i class="fas fa-chart-pie"></i> 显示工资分布饼状图
+    </button>
+    <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'"><i class="fas fa-file-export"></i> 导出</button>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#logoutModal">
         <i class="fas fa-sign-out-alt"></i> 退出登录
     </button>
@@ -123,6 +128,12 @@
         request.setAttribute("salary", salary);
         totalpages = (int) Math.ceil(salary.size() / (double) pagesize);
     %>
+    <div>
+        <form action="uploadExcelServlet" method="post" enctype="multipart/form-data">
+            <input type="file" name="file"/>
+            <button class="btn btn-primary">导入</button>
+        </form>
+    </div>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -138,7 +149,6 @@
         </tr>
         </thead>
         <tbody id="salaryRolesTable">
-        <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal">显示工资分布饼状图</button>
         <c:forEach var="salaryRole" items="${salarys}">
             <tr>
                 <td>${salaryRole.empNo}</td>
@@ -192,14 +202,6 @@
             %>
         </ul>
     </div>
-</div>
-    <button class="btn btn-success" data-toggle="modal" data-target="#addSalaryModal">添加记录</button>
-    <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'">导出</button>
-    <form action="uploadExcelServlet" method="post" enctype="multipart/form-data">
-        <input type="file" name="file"/>
-        <button class="btn btn-primary">导入</button>
-    </form>
-</div>
 
 <div id="changePassword" class="container content-section">
     <h2>修改密码</h2>

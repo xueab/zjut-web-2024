@@ -95,6 +95,9 @@
 <div class="sidebar">
     <a href="#" onclick="showSection('employeeManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
     <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
+    <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal"><i class="fas fa-chart-pie"></i>员工部门占比饼状图</button>
+    <button class="btn btn-success" data-toggle="modal" data-target="#addemployeeModal"><i class="fas fa-plus"></i>添加员工</button>
+
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#logoutModal">
         <i class="fas fa-sign-out-alt"></i> 退出登录
     </button>
@@ -103,9 +106,6 @@
     <div id="employeeManagement" class="container content-section active">
         <h2>员工管理</h2>
         <br><br>
-
-        <br><br>
-        <h3>所有员工</h3>
         <%
             int currentpage = 1;
             int pagesize = 10; // 每页显示10个员工
@@ -140,7 +140,6 @@
             </tr>
             </thead>
             <tbody id="employeeRolesTable">
-            <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal">显示饼状图</button>
             <c:forEach var="employeeRole" items="${employees}">
                 <tr>
                     <td>${employeeRole.name}</td>
@@ -197,7 +196,6 @@
                 %>
             </ul>
         </div>
-        <button class="btn btn-success" data-toggle="modal" data-target="#addemployeeModal">添加员工</button>
     </div>
 
     <div id="changePassword" class="container content-section">

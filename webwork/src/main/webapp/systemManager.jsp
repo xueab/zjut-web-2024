@@ -94,9 +94,13 @@
     String username = request.getParameter("username");
 %>
 <div class="sidebar">
-    <a href="#" onclick="showSection('roleManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
-    <a href="#" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
-    <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
+    <a href="systemManager.jsp?section=roleManagement" onclick="showSection('roleManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
+    <a href="systemManager.jsp?section=viewSalaries" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
+    <a href="systemManager.jsp?section=changePassword" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
+    <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal">
+        <i class="fas fa-chart-pie"></i>员工工资分布饼状图
+    </button>
+    <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'"><i class="fas fa-file-export"></i> 导出</button>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#logoutModal">
         <i class="fas fa-sign-out-alt"></i> 退出登录
     </button>
@@ -105,9 +109,22 @@
 <div class="main">
     <div id="roleManagement" class="container content-section active">
         <%
+            int currentpage = 1;
+            int pagesize = 10; // 每页显示10条记录
+            int totalpages = 0;
             UserService userService = new UserService();
+            if (request.getParameter("currentpage") != null) {
+                try {
+                    currentpage = Integer.parseInt(request.getParameter("currentpage"));
+                } catch (NumberFormatException e) {
+                    currentpage = 1; // 如果参数不是有效的整数，默认显示第一页
+                }
+            }
             List<model.User> user = userService.selectAll();
+            List<model.User> users = userService.selectByPage(currentpage-1);
+            request.setAttribute("users", users);
             request.setAttribute("user", user);
+            totalpages = (int) Math.ceil(user.size() / (double) pagesize);
         %>
         <h2>所有用户及其角色</h2>
         <table class="table table-striped">
@@ -119,7 +136,7 @@
             </tr>
             </thead>
             <tbody id="userRolesTable">
-            <c:forEach var="userRole" items="${user}">
+            <c:forEach var="userRole" items="${users}">
                 <tr>
                     <td>${userRole.username}</td>
                     <td>${userRole.role}</td>
@@ -131,16 +148,59 @@
             </c:forEach>
             </tbody>
         </table>
+        <div>
+            <ul class="pagination">
+                <%
+                    int startPage = Math.max(1, currentpage - 2);
+                    int endPage = Math.min(totalpages, currentpage + 2);
+
+                    if (currentpage > 1) {
+                %>
+                <li class="page-item">
+                    <a class="page-link" href="systemManager.jsp?currentpage=<%= currentpage - 1 %>">上一页</a>
+                </li>
+                <%
+                    }
+                    for (int i = startPage; i <= endPage; i++) {
+                %>
+                <li class="page-item <%= (i == currentpage) ? "active" : "" %>">
+                    <a class="page-link" href="systemManager.jsp?currentpage=<%= i %>"><%= i %></a>
+                </li>
+                <%
+                    }
+                    if (currentpage < totalpages) {
+                %>
+                <li class="page-item">
+                    <a class="page-link" href="systemManager.jsp?currentpage=<%= currentpage + 1 %>">下一页</a>
+                </li>
+                <%
+                    }
+                %>
+            </ul>
+        </div>
     </div>
 
     <div id="viewSalaries" class="container content-section">
         <h2>查看工资</h2>
         <br>
-        <% SalaryService salaryService = new SalaryService();
+        <%
+            int cpage = 1;
+            int totalpage = 0;
+            SalaryService salaryService = new SalaryService();
+            if (request.getParameter("cpage") != null) {
+                try {
+                    cpage = Integer.parseInt(request.getParameter("cpage"));
+                } catch (NumberFormatException e) {
+                    cpage = 1; // 如果参数不是有效的整数，默认显示第一页
+                }
+            }
             List<Salary> salary = salaryService.selectAll();
+            List<Salary> salarys = salaryService.selectByPage(cpage-1);
             Map<String, Double> salaryMap = salaryService.getSalaryStats();
             request.setAttribute("salaryMap", salaryMap);
+            request.setAttribute("salarys", salarys);
             request.setAttribute("salary", salary);
+            totalpage = (int) Math.ceil(salary.size() / (double) pagesize);
         %>
         <table class="table table-striped">
             <thead>
@@ -156,8 +216,7 @@
             </tr>
             </thead>
             <tbody id="salaryRolesTable">
-            <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal">显示工资分布饼状图</button>
-            <c:forEach var="salaryRole" items="${salary}">
+            <c:forEach var="salaryRole" items="${salarys}">
                 <tr>
                     <td>${salaryRole.empNo}</td>
                     <td>${salaryRole.year}</td>
@@ -171,7 +230,35 @@
             </c:forEach>
             </tbody>
         </table>
-        <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'">导出</button>
+        <div>
+            <ul class="pagination">
+                <%
+                    int startPage1 = Math.max(1, cpage - 2);
+                    int endPage1 = Math.min(totalpage, cpage + 2);
+                    if (cpage > 1) {
+                %>
+                <li class="page-item">
+                    <a class="page-link" href="systemManager.jsp?cpage=<%= cpage - 1 %>&section=viewSalaries">上一页</a>
+                </li>
+                <%
+                    }
+                    for (int i = startPage1; i <= endPage1; i++) {
+                %>
+                <li class="page-item <%= (i == cpage) ? "active" : "" %>">
+                    <a class="page-link" href="systemManager.jsp?cpage=<%= i %>&section=viewSalaries"><%= i %></a>
+                </li>
+                <%
+                    }
+                    if (cpage < totalpage) {
+                %>
+                <li class="page-item">
+                    <a class="page-link" href="systemManager.jsp?cpage=<%= cpage + 1 %>&section=viewSalaries">下一页</a>
+                </li>
+                <%
+                    }
+                %>
+            </ul>
+        </div>
     </div>
 
     <div id="changePassword" class="container content-section">
@@ -362,6 +449,20 @@
         var userId = button.data('userid');
         var modal = $(this);
         modal.find('#deleteUserId').val(userId);
+    });
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var section = getUrlParameter('section');
+        if (section) {
+            showSection(section);
+        }
     });
 </script>
 </body>
