@@ -33,6 +33,47 @@ public class SalaryService {
         return stats;
     }
 
+    public List<Salary> search(String keyword) {
+        return salaryDao.search(keyword);
+        /*
+        List<Salary> salaries = new ArrayList<>();
+        String sql = "SELECT * FROM Salary WHERE empNo LIKE ? OR year LIKE ? OR month LIKE ? " +
+                     "OR basicSalary LIKE ? OR overtimePay LIKE ? OR fullAttendanceBonus LIKE ? " +
+                     "OR personalTax LIKE ? OR netSalary LIKE ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            String likeKeyword = "%" + keyword + "%";
+            preparedStatement.setString(1, likeKeyword);
+            preparedStatement.setString(2, likeKeyword);
+            preparedStatement.setString(3, likeKeyword);
+            preparedStatement.setString(4, likeKeyword);
+            preparedStatement.setString(5, likeKeyword);
+            preparedStatement.setString(6, likeKeyword);
+            preparedStatement.setString(7, likeKeyword);
+            preparedStatement.setString(8, likeKeyword);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Salary salary = new Salary();
+                salary.setEmpNo(resultSet.getInt("empNo"));
+                salary.setYear(resultSet.getInt("year"));
+                salary.setMonth(resultSet.getInt("month"));
+                salary.setBasicSalary(resultSet.getBigDecimal("basicSalary"));
+                salary.setOvertimePay(resultSet.getBigDecimal("overtimePay"));
+                salary.setFullAttendanceBonus(resultSet.getBigDecimal("fullAttendanceBonus"));
+                salary.setPersonalTax(resultSet.getBigDecimal("personalTax"));
+                salary.setNetSalary(resultSet.getBigDecimal("netSalary"));
+                salaries.add(salary);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return salaries;
+         */
+    }
+
     public List<Salary> selectAll() {
         return salaryDao.selectAll();
     }
