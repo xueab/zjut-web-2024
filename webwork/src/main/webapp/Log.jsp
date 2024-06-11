@@ -1,9 +1,4 @@
-<%@ page import="service.EmployeeService" %>
-<%@ page import="model.Employee" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="model.Salary" %>
-<%@ page import="service.SalaryService" %>
 <%@ page import="service.LogService" %>
 <%@ page import="model.Log" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -37,17 +32,21 @@
             padding-top: 20px;
             color: white;
         }
-        .sidebar a {
+        .sidebar a, .sidebar button {
             padding: 10px 15px;
             text-decoration: none;
             font-size: 18px;
             color: white;
             display: block;
+            text-align: left;
+            background: none;
+            border: none;
+            cursor: pointer;
         }
-        .sidebar a i {
+        .sidebar a i, .sidebar button i {
             margin-right: 10px;
         }
-        .sidebar a:hover {
+        .sidebar a:hover, .sidebar button:hover {
             background-color: rgba(255, 255, 255, 0.2);
             color: white;
         }
@@ -67,10 +66,19 @@
         .active {
             display: block;
         }
-        .chart-container {
-            width: 100%;
-            height: 400px;
-            margin: 0 auto;
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .page-item.active .page-link {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .page-link {
+            color: #007bff;
+        }
+        .page-link:hover {
+            color: #0056b3;
         }
     </style>
 </head>
@@ -87,9 +95,22 @@
         <div id="logManagement" class="container content-section active">
             <h2>查看日志</h2>
             <%
+                int currentpage = 1;
+                int pagesize = 10; // 每页显示10个员工
+                int totalpages = 0;
                 LogService logService = new LogService();
+                if (request.getParameter("currentpage") != null) {
+                    try {
+                        currentpage = Integer.parseInt(request.getParameter("currentpage"));
+                    } catch (NumberFormatException e) {
+                        currentpage = 1; // 如果参数不是有效的整数，默认显示第一页
+                    }
+                }
                 List<Log> log = logService.selectAll();
+                List<Log> logs = logService.selectByPage(currentpage-1);
+                request.setAttribute("logs", logs);
                 request.setAttribute("log", log);
+                totalpages = (int) Math.ceil(log.size() / (double) pagesize);
             %>
             <table class="table table-striped">
                 <thead>
@@ -113,6 +134,37 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <div>
+                <ul class="pagination">
+                    <%
+                        int startPage = Math.max(1, currentpage - 2);
+                        int endPage = Math.min(totalpages, currentpage + 2);
+
+                        if (currentpage > 1) {
+                    %>
+                    <li class="page-item">
+                        <a class="page-link" href="Log.jsp?currentpage=<%= currentpage - 1 %>">上一页</a>
+                    </li>
+                    <%
+                        }
+                        for (int i = startPage; i <= endPage; i++) {
+                    %>
+                    <li class="page-item <%= (i == currentpage) ? "active" : "" %>">
+                        <a class="page-link" href="Log.jsp?currentpage=<%= i %>"><%= i %></a>
+                    </li>
+                    <%
+                        }
+                        if (currentpage < totalpages) {
+                    %>
+                    <li class="page-item">
+                        <a class="page-link" href="Log.jsp?currentpage=<%= currentpage + 1 %>">下一页</a>
+                    </li>
+                    <%
+                        }
+                    %>
+                </ul>
+            </div>
+        </div>
         </div>
 
         <div id="changePassword" class="container content-section">
