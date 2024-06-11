@@ -275,6 +275,8 @@
                 <label for="confirmPassword">确认新密码:</label>
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
             </div>
+            <input type="hidden" id="username" name="username">
+            <input type="hidden" id="role" name="systemManager">
             <button type="submit" class="btn btn-primary">提交</button>
         </form>
     </div>

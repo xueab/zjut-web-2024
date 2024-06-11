@@ -8,7 +8,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>人事管理员</title>
+    <title>审计管理员</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -16,7 +16,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -53,9 +52,6 @@
         .main {
             margin-left: 260px;
             padding: 20px;
-        }
-        .card {
-            margin-bottom: 20px;
         }
         .modal-content input {
             margin-bottom: 10px;
@@ -123,7 +119,7 @@
                 </tr>
                 </thead>
                 <tbody id="logRolesTable">
-                <c:forEach var="logRole" items="${log}">
+                <c:forEach var="logRole" items="${logs}">
                     <tr>
                         <td>${logRole.time}</td>
                         <td>${logRole.level}</td>
@@ -182,6 +178,8 @@
                     <label for="confirmPassword">确认新密码:</label>
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
                 </div>
+                <input type="hidden" id="username" name="username">
+                <input type="hidden" id="role" name="Log">
                 <button type="submit" class="btn btn-primary">修改密码</button>
             </form>
         </div>
