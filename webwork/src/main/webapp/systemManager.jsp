@@ -1,5 +1,4 @@
 <%@ page import="service.UserService" %>
-<%@ page import="org.apache.catalina.User" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="service.SalaryService" %>
