@@ -144,7 +144,7 @@ public class LoginServlet extends HttpServlet {
             }
 
         }
-        resp.sendRedirect(req.getContextPath() + "/login.jsp");
+        //resp.sendRedirect(req.getContextPath() + "/login.jsp");
 
     }
     @Override
