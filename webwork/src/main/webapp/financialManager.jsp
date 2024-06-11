@@ -95,6 +95,11 @@
 <div class="sidebar">
     <a href="#" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
     <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
+    <button class="btn btn-success" data-toggle="modal" data-target="#addSalaryModal"><i class="fas fa-plus"></i> 添加记录</button>
+    <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal">
+        <i class="fas fa-chart-pie"></i> 显示工资分布饼状图
+    </button>
+    <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'"><i class="fas fa-file-export"></i> 导出</button>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#logoutModal">
         <i class="fas fa-sign-out-alt"></i> 退出登录
     </button>
@@ -103,12 +108,32 @@
 <div id="viewSalaries" class="container content-section active">
     <h2>查看工资</h2>
     <br>
-    <% SalaryService salaryService = new SalaryService();
+    <%
+        int currentpage = 1;
+        int pagesize = 10; // 每页显示10条记录
+        int totalpages = 0;
+        SalaryService salaryService = new SalaryService();
+        if (request.getParameter("currentpage") != null) {
+            try {
+                currentpage = Integer.parseInt(request.getParameter("currentpage"));
+            } catch (NumberFormatException e) {
+                currentpage = 1; // 如果参数不是有效的整数，默认显示第一页
+            }
+        }
         List<Salary> salary = salaryService.selectAll();
+        List<Salary> salarys = salaryService.selectByPage(currentpage-1);
         Map<String, Double> salaryMap = salaryService.getSalaryStats();
         request.setAttribute("salaryMap", salaryMap);
+        request.setAttribute("salarys", salarys);
         request.setAttribute("salary", salary);
+        totalpages = (int) Math.ceil(salary.size() / (double) pagesize);
     %>
+    <div>
+        <form action="uploadExcelServlet" method="post" enctype="multipart/form-data">
+            <input type="file" name="file"/>
+            <button class="btn btn-primary">导入</button>
+        </form>
+    </div>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -124,8 +149,7 @@
         </tr>
         </thead>
         <tbody id="salaryRolesTable">
-        <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal">显示工资分布饼状图</button>
-        <c:forEach var="salaryRole" items="${salary}">
+        <c:forEach var="salaryRole" items="${salarys}">
             <tr>
                 <td>${salaryRole.empNo}</td>
                 <td>${salaryRole.year}</td>
@@ -148,14 +172,36 @@
         </c:forEach>
         </tbody>
     </table>
+    <div>
+        <ul class="pagination">
+            <%
+                int startPage = Math.max(1, currentpage - 2);
+                int endPage = Math.min(totalpages, currentpage + 2);
 
-    <button class="btn btn-success" data-toggle="modal" data-target="#addSalaryModal">添加记录</button>
-    <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'">导出</button>
-    <form action="uploadExcelServlet" method="post" enctype="multipart/form-data">
-        <input type="file" name="file"/>
-        <button class="btn btn-primary">导入</button>
-    </form>
-</div>
+                if (currentpage > 1) {
+            %>
+            <li class="page-item">
+                <a class="page-link" href="financialManager.jsp?currentpage=<%= currentpage - 1 %>">上一页</a>
+            </li>
+            <%
+                }
+                for (int i = startPage; i <= endPage; i++) {
+            %>
+            <li class="page-item <%= (i == currentpage) ? "active" : "" %>">
+                <a class="page-link" href="financialManager.jsp?currentpage=<%= i %>"><%= i %></a>
+            </li>
+            <%
+                }
+                if (currentpage < totalpages) {
+            %>
+            <li class="page-item">
+                <a class="page-link" href="financialManager.jsp?currentpage=<%= currentpage + 1 %>">下一页</a>
+            </li>
+            <%
+                }
+            %>
+        </ul>
+    </div>
 
 <div id="changePassword" class="container content-section">
     <h2>修改密码</h2>
