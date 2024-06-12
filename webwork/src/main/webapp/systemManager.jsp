@@ -90,7 +90,7 @@
 </head>
 <body>
 <%
-    String username = request.getParameter("username");
+    request.getParameter("username");
 %>
 <div class="sidebar">
     <a href="systemManager.jsp?section=roleManagement" onclick="showSection('roleManagement')"><i class="fas fa-user-shield"></i>角色管理</a>

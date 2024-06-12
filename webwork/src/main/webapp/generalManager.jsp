@@ -6,10 +6,11 @@
 <%@ page import="service.SalaryService" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri ="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head>d
     <meta charset="UTF-8">
     <title>总经理</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -92,14 +93,14 @@
 </head>
 <div>
 <%
-    String username = request.getParameter("username");
+    request.getParameter("username");
 %>
 <div class="sidebar">
     <a href="generalManager.jsp?section=viewEmployee" onclick="showSection('viewEmployee')"><i class="fas fa-user-shield"></i>查看员工</a>
     <a href="generalManager.jsp?section=viewSalaries" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
     <a href="generalManager.jsp?section=changePassword" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
-    <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal"><i class="fas chart-pie"></i>员工部门占比饼状图</button>
-    <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal"><i class="fas chart-pie"></i> 员工工资分布饼状图</button>
+    <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal"><i class="fas fa-chart-pie"></i>员工部门占比饼状图</button>
+    <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal"><i class="fas fa-chart-pie"></i> 员工工资分布饼状图</button>
     <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'"><i class="fas fa-file-export"></i> 导出</button>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#logoutModal">
         <i class="fas fa-sign-out-alt"></i> 退出登录
@@ -107,7 +108,7 @@
 </div>
 <div class="main">
     <div id="viewEmployee" class="container content-section active">
-        <h2>查看员工</h2>
+        <h2>所有员工</h2>
         <br>
         <%
             int currentpage = 1;
@@ -129,7 +130,6 @@
             request.setAttribute("employee", employee);
             totalpages = (int) Math.ceil(employee.size() / (double) pagesize);
         %>
-        <h3>所有员工</h3>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -149,8 +149,8 @@
                     <td>${employeeRole.empNo}</td>
                     <td>${employeeRole.depName}</td>
                     <td>${employeeRole.position}</td>
-                    <td>${employeeRole.idNumber}</td>
-                    <td>${employeeRole.phone}</td>
+                    <td>${fn:substring(employeeRole.idNumber, 0, 6)}********${fn:substring(employeeRole.idNumber, employeeRole.idNumber.length() - 4, employeeRole.idNumber.length())}</td>
+                    <td>${fn:substring(employeeRole.phone, 0, 3)}******${fn:substring(employeeRole.phone, 9, 11)}</td>
                     <td>${employeeRole.address}</td>
                 </tr>
             </c:forEach>
