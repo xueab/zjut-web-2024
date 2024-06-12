@@ -487,7 +487,6 @@
         var editovertimePay = button.data('overtimePay');
         var editfullAttendanceBonus = button.data('fullAttendanceBonus');
         var editpersonalTax = button.data('personalTax');
-        var editnetSalary = button.data('netSalary');
 
         var modal = $(this);
         modal.find('#editEmpNo').val(empNo);
@@ -497,7 +496,6 @@
         modal.find('#editovertimePay').val(editovertimePay);
         modal.find('#editfullAttendanceBonus').val(editfullAttendanceBonus);
         modal.find('#editpersonalTax').val(editpersonalTax);
-        modal.find('#editnetSalary').val(editnetSalary);
     });
     document.addEventListener("DOMContentLoaded", function() {
         const queryType = document.getElementById("queryType");
