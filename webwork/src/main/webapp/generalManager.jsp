@@ -101,6 +101,9 @@
     <a href="generalManager.jsp?section=changePassword" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
     <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal"><i class="fas fa-chart-pie"></i>员工部门占比饼状图</button>
     <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal"><i class="fas fa-chart-pie"></i> 员工工资分布饼状图</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#queryModal"><i class="fas fa-calendar-check"></i>
+        历史工资查询
+    </button>
     <button class="btn btn-primary" onclick="window.location.href='exportExcelServlet'"><i class="fas fa-file-export"></i> 导出</button>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#logoutModal">
         <i class="fas fa-sign-out-alt"></i> 退出登录
@@ -332,6 +335,49 @@
     </div>
 </div>
 
+<div class="modal fade" id="queryModal" tabindex="-1" aria-labelledby="queryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="queryModalLabel">历史工资查询</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="queryType">选择查询方式:</label>
+                        <select class="form-control" id="queryType">
+                            <option value="name">通过姓名</option>
+                            <option value="department">通过部门</option>
+                            <option value="dateRange">通过时间段</option>
+                        </select>
+                    </div>
+                    <div id="nameInput" class="form-group">
+                        <label for="name">姓名:</label>
+                        <input type="text" class="form-control" id="name">
+                    </div>
+                    <div id="departmentInput" class="form-group">
+                        <label for="department">部门:</label>
+                        <input type="text" class="form-control" id="department">
+                    </div>
+                    <div id="dateRangeInput" class="form-group">
+                        <label for="startDate">开始日期:</label>
+                        <input type="month" class="form-control" id="startDate">
+                        <label for="endDate" class="mt-2">结束日期:</label>
+                        <input type="month" class="form-control" id="endDate">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="salaryPieChartModal" tabindex="-1" role="dialog" aria-labelledby="salaryPieChartModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -364,22 +410,17 @@
         window.location.href = 'login.jsp';
     }
 
-    // Load the Visualization API and the corechart package.
     google.charts.load('current', {'packages':['corechart']});
 
-    // Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        // Create the data table.
         var data = google.visualization.arrayToDataTable([
             ['Department', 'Percentage'],
             <c:forEach var="entry" items="${employeeMap}">
             ['${entry.key}', ${entry.value}],
             </c:forEach>
         ]);
-
-        // Set chart options
         var options = {
             'title': '员工部门分布',
             'width': 600,
@@ -391,7 +432,6 @@
             }
         };
 
-        // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('piechart1'));
         chart.draw(data, options);
     }
@@ -406,14 +446,10 @@
         }, 1000); // 延迟1秒清空表单
     });
 
-    // Load the Visualization API and the corechart package.
     google.charts.load('current', {'packages':['corechart']});
-
-    // Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        // Create the data table.
         var data = google.visualization.arrayToDataTable([
             ['Salary', 'Percentage'],
             <c:forEach var="entry" items="${salaryMap}">
@@ -425,15 +461,11 @@
             $('#piechart').text('没有数据可显示');
             return;
         }
-
-        // Set chart options
         var options = {
             'title': '工资收入分布情况',
             'width': 400,
             'height': 300
         };
-
-        // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
         chart.draw(data, options);
     }
@@ -450,6 +482,29 @@
         if (section) {
             showSection(section);
         }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const queryType = document.getElementById("queryType");
+        const nameInput = document.getElementById("nameInput");
+        const departmentInput = document.getElementById("departmentInput");
+        const dateRangeInput = document.getElementById("dateRangeInput");
+
+        queryType.onchange = function() {
+            const value = queryType.value;
+            nameInput.style.display = "none";
+            departmentInput.style.display = "none";
+            dateRangeInput.style.display = "none";
+
+            if (value === "name") {
+                nameInput.style.display = "block";
+            } else if (value === "department") {
+                departmentInput.style.display = "block";
+            } else if (value === "dateRange") {
+                dateRangeInput.style.display = "block";
+            }
+        }
+        queryType.onchange();
     });
 </script>
 </body>
