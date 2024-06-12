@@ -261,10 +261,6 @@
                         <label for="addpersonalTax">个人所得税:</label>
                         <input type="text" class="form-control" id="addpersonalTax" name="addpersonalTax" required>
                     </div>
-                    <div class="form-group">
-                        <label for="addnetSalary">实发工资:</label>
-                        <input type="text" class="form-control" id="addnetSalary" name="addnetSalary" required>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
@@ -304,10 +300,6 @@
                     <div class="form-group">
                         <label for="editpersonalTax">个人所得税:</label>
                         <input type="text" class="form-control" id="editpersonalTax" name="editpersonalTax" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editnetSalary">实发工资:</label>
-                        <input type="text" class="form-control" id="editnetSalary" name="editnetSalary" required>
                     </div>
                 </div>
                 <div class="modal-footer">
