@@ -389,10 +389,7 @@
     }
 
     google.charts.load('current', {'packages':['corechart']});
-
-    // Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
-
     function drawChart() {
         // Create the data table.
         var data = google.visualization.arrayToDataTable([
@@ -401,20 +398,15 @@
             ['${entry.key}', ${entry.value}],
             </c:forEach>
         ]);
-
         if (data.getNumberOfRows() === 0) {
             $('#piechart').text('没有数据可显示');
             return;
         }
-
-        // Set chart options
         var options = {
             'title': '工资收入分布情况',
             'width': 400,
             'height': 300
         };
-
-        // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
         chart.draw(data, options);
     }

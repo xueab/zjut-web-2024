@@ -438,15 +438,10 @@
         }
         document.getElementById(sectionId).classList.add('active');
     }
-
-    // Load the Visualization API and the corechart package.
     google.charts.load('current', {'packages':['corechart']});
-
-    // Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        // Create the data table.
         var data = google.visualization.arrayToDataTable([
             ['Department', 'Percentage'],
             <c:forEach var="entry" items="${employeeMap}">
@@ -459,7 +454,6 @@
             return;
         }
 
-        // Set chart options
         var options = {
             'title': '员工部门分布',
             'width': 600,
@@ -470,8 +464,6 @@
                 'color': '#000000' // 字体颜色
             }
         };
-
-        // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
         chart.draw(data, options);
     }
