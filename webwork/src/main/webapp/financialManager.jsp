@@ -90,7 +90,7 @@
 </head>
 <body>
 <%
-    String username = request.getParameter("username");
+    request.getParameter("username");
 %>
 <div class="sidebar">
     <a href="#" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>

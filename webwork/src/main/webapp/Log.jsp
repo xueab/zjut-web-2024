@@ -81,7 +81,7 @@
 <body>
 <div>
     <%
-        String username = request.getParameter("username");
+        request.getParameter("username");
     %>
     <div class="sidebar">
         <a href="#" onclick="showSection('logManagement')"><i class="fas fa-log-shield"></i>查看日志</a>

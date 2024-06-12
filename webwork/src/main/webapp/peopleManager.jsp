@@ -5,6 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,7 +91,7 @@
 </head>
 <body>
 <%
-    String username = request.getParameter("username");
+    request.getParameter("username");
 %>
 <div class="sidebar">
     <a href="#" onclick="showSection('employeeManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
@@ -146,8 +147,8 @@
                     <td>${employeeRole.empNo}</td>
                     <td>${employeeRole.depName}</td>
                     <td>${employeeRole.position}</td>
-                    <td>${employeeRole.idNumber}</td>
-                    <td>${employeeRole.phone}</td>
+                    <td>${fn:substring(employeeRole.idNumber, 0, 6)}********${fn:substring(employeeRole.idNumber, employeeRole.idNumber.length() - 4, employeeRole.idNumber.length())}</td>
+                    <td>${fn:substring(employeeRole.phone, 0, 3)}******${fn:substring(employeeRole.phone, 9, 11)}</td>
                     <td>${employeeRole.address}</td>
                     <td>
                         <button class="btn btn-warning" data-toggle="modal" data-target="#editemployeeModal"
@@ -317,7 +318,7 @@
                         <input type="text" class="form-control" id="editdepName" name="editdepName" required>
                     </div>
                     <div class="form-group">
-                        <label for="editposition">岗位:</label>
+                        <label for="editposition">职务:</label>
                         <input type="text" class="form-control" id="editposition" name="editposition" required>
                     </div>
                     <div class="form-group">
