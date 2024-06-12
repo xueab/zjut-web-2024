@@ -22,6 +22,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
+            transition: background-color 0.5s ease;
         }
         .sidebar {
             height: 100%;
@@ -33,6 +34,7 @@
             background: linear-gradient(to bottom, #5F9EA0, #4682B4, #87CEEB, #B0E0E6, #E0FFFF);
             padding-top: 20px;
             color: white;
+            transition: width 0.5s ease;
         }
         .sidebar a, .sidebar button {
             padding: 10px 15px;
@@ -64,6 +66,7 @@
         }
         .content-section {
             display: none;
+            animation: fadeIn 1s ease-in-out;
         }
         .active {
             display: block;
@@ -87,6 +90,10 @@
         .page-link:hover {
             color: #0056b3;
         }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
     </style>
 </head>
 <body>
@@ -94,7 +101,7 @@
     request.getParameter("username");
 %>
 <div class="sidebar">
-    <a href="#" onclick="showSection('employeeManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
+    <a href="#" onclick="showSection('employeeManagement')"><i class="fas fa-user-shield"></i>员工管理</a>
     <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
     <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal"><i class="fas fa-chart-pie"></i>员工部门占比饼状图</button>
     <button class="btn btn-success" data-toggle="modal" data-target="#addemployeeModal"><i class="fas fa-plus"></i>添加员工</button>
@@ -106,7 +113,7 @@
 <div class="main">
     <div id="employeeManagement" class="container content-section active">
         <h2>员工管理</h2>
-        <br><br>
+        <br>
         <%
             int currentpage = 1;
             int pagesize = 10; // 每页显示10个员工
