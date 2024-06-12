@@ -21,6 +21,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
+            transition: background-color 0.5s ease;
         }
         .sidebar {
             height: 100%;
@@ -32,6 +33,7 @@
             background: linear-gradient(to bottom, #5F9EA0, #4682B4, #87CEEB, #B0E0E6, #E0FFFF);
             padding-top: 20px;
             color: white;
+            transition: width 0.5s ease;
         }
         .sidebar a, .sidebar button {
             padding: 10px 15px;
@@ -63,6 +65,7 @@
         }
         .content-section {
             display: none;
+            animation: fadeIn 1s ease-in-out;
         }
         .active {
             display: block;
@@ -85,6 +88,10 @@
         }
         .page-link:hover {
             color: #0056b3;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
         }
     </style>
 </head>
