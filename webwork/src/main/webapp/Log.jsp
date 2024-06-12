@@ -123,14 +123,14 @@
                 </tr>
                 </thead>
                 <tbody id="logRolesTable">
-                <c:forEach var="logRole" items="${log}">
+                <c:forEach var="logRole" items="${logs}">
                     <tr>
                         <td>${logRole.time}</td>
                         <td>${logRole.level}</td>
                         <td>${logRole.message}</td>
                         <td>${logRole.username}</td>
                         <td>${logRole.ipAddress}</td>
-                    </tr>
+                    </tr>z
                 </c:forEach>
                 </tbody>
             </table>
