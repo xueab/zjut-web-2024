@@ -8,7 +8,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>人事管理员</title>
+    <title>审计管理员</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -16,10 +16,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
     <style>
         body {
             font-family: 'Arial', sans-serif;
+            transition: background-color 0.5s ease;
         }
         .sidebar {
             height: 100%;
@@ -31,6 +31,7 @@
             background: linear-gradient(to bottom, #5F9EA0, #4682B4, #87CEEB, #B0E0E6, #E0FFFF);
             padding-top: 20px;
             color: white;
+            transition: width 0.5s ease;
         }
         .sidebar a, .sidebar button {
             padding: 10px 15px;
@@ -62,9 +63,15 @@
         }
         .content-section {
             display: none;
+            animation: fadeIn 1s ease-in-out;
         }
         .active {
             display: block;
+        }
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            margin: 0 auto;
         }
         .pagination {
             justify-content: center;
@@ -80,16 +87,23 @@
         .page-link:hover {
             color: #0056b3;
         }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
     </style>
 </head>
 <body>
 <div>
     <%
-        String username = request.getParameter("username");
+        request.getParameter("username");
     %>
     <div class="sidebar">
         <a href="#" onclick="showSection('logManagement')"><i class="fas fa-log-shield"></i>查看日志</a>
         <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#queryModal"><i class="fas fa-calendar-check"></i>
+            历史日志查询
+        </button>
     </div>
     <div class="main">
         <div id="logManagement" class="container content-section active">
@@ -182,9 +196,49 @@
                     <label for="confirmPassword">确认新密码:</label>
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
                 </div>
+                <input type="hidden" id="username" name="username">
+                <input type="hidden" id="role" name="Log">
                 <button type="submit" class="btn btn-primary">修改密码</button>
             </form>
         </div>
+
+    <div class="modal fade" id="queryModal" tabindex="-1" aria-labelledby="queryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="queryModalLabel">历史日志查询</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="queryType">选择查询方式:</label>
+                            <select class="form-control" id="queryType">
+                                <option value="name">通过用户名</option>
+                                <option value="dateRange">通过时间段</option>
+                            </select>
+                        </div>
+                        <div id="nameInput" class="form-group">
+                            <label for="name">姓名:</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div id="dateRangeInput" class="form-group">
+                            <label for="startDate">开始日期:</label>
+                            <input type="month" class="form-control" id="startDate">
+                            <label for="endDate" class="mt-2">结束日期:</label>
+                            <input type="month" class="form-control" id="endDate">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 </div>
 
@@ -196,6 +250,24 @@
         }
         document.getElementById(sectionId).classList.add('active');
     }
+    document.addEventListener("DOMContentLoaded", function() {
+        const queryType = document.getElementById("queryType");
+        const nameInput = document.getElementById("nameInput");
+        const dateRangeInput = document.getElementById("dateRangeInput");
+
+        queryType.onchange = function() {
+            const value = queryType.value;
+            nameInput.style.display = "none";
+            dateRangeInput.style.display = "none";
+
+            if (value === "name") {
+                nameInput.style.display = "block";
+            }else if (value === "dateRange") {
+                dateRangeInput.style.display = "block";
+            }
+        }
+        queryType.onchange();
+    });
 </script>
 </body>
 </html>
