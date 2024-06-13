@@ -141,6 +141,7 @@
         <div>
             <form action="uploadExcelServlet" method="post" enctype="multipart/form-data">
                 <input type="file" name="file"/>
+                <input type="hidden" name="username" value=<%=username%>>
                 <button class="btn btn-primary">导入</button>
             </form>
         </div>
@@ -228,8 +229,8 @@
                 <label for="confirmPassword">确认新密码:</label>
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
             </div>
-            <input type="hidden" id="username" name="username">
-            <input type="hidden" id="role" name="financialManager">
+            <input type="hidden" name="username" value=<%=username%>>
+            <input type="hidden" name="financialManager" value="financilaManager">
             <button type="submit" class="btn btn-primary">修改密码</button>
         </form>
     </div>
@@ -277,6 +278,7 @@
                         <label for="addnetSalary">实发工资:</label>
                         <input type="text" class="form-control" id="addnetSalary" name="addnetSalary" required>
                     </div>
+                    <input type="hidden" name="username" value=<%=username%>>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
@@ -325,6 +327,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                     <button type="submit" class="btn btn-primary">保存修改</button>
                 </div>
+                <input type="hidden" name="username" value=<%=username%>>
             </form>
         </div>
     </div>
@@ -335,7 +338,7 @@
         <div class="modal-content">
             <form action="deleteSalary.do" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteSalaryModalLabel">删除工资</h5>
+                    <h5 class="modal-title" id="deleteSalaryModalLabel">删除工资记录</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -350,6 +353,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                     <button type="submit" class="btn btn-danger">删除</button>
                 </div>
+                <input type="hidden" name="username" value=<%=username%>>
             </form>
         </div>
     </div>
