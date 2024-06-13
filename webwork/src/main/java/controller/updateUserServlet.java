@@ -33,7 +33,7 @@ public class updateUserServlet extends HttpServlet {
         user.update(userId, editusername, role);
 
         // 重定向
-        resp.sendRedirect(req.getContextPath() + "/systemManager.jsp" + "?username" + username);
+        resp.sendRedirect(req.getContextPath() + "/systemManager.jsp" + "?username=" + username);
     }
 
     @Override
