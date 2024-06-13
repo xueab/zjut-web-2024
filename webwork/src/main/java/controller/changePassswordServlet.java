@@ -28,7 +28,7 @@ public class changePassswordServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
         }
-        // 新密码和旧密码不相同或旧密码错误
+        // 新密码和confirmPassword不相同或旧密码错误
         if (role.equals("peopleManager")) {
             resp.sendRedirect(req.getContextPath() + "/peopleManager.jsp?" + "section=changePassword");
         }
