@@ -19,7 +19,8 @@ public class exportExcelServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SalaryService s = new SalaryService();
         s.exportExcel(resp);
-        resp.sendRedirect(req.getContextPath() + "/financialManager.jsp");
+        String username = req.getParameter("username");
+        resp.sendRedirect(req.getContextPath() + "/financialManager.jsp" + "username=" + username);
     }
 
     @Override

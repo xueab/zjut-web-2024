@@ -16,6 +16,7 @@ public class addEmployeeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EmployeeService e = new EmployeeService();
+        String username = req.getParameter("username");
         String name = req.getParameter("addname");
         int empNo = Integer.parseInt(req.getParameter("addempNo"));
         String depName = req.getParameter("adddepName");
@@ -28,7 +29,7 @@ public class addEmployeeServlet extends HttpServlet {
         e.addEmployee(employee);
 
         // 重定向
-        resp.sendRedirect(req.getContextPath() + "/peopleManager.jsp");
+        resp.sendRedirect(req.getContextPath() + "/peopleManager.jsp" + "?username" + username);
     }
 
     @Override
