@@ -6,6 +6,7 @@ import model.Salary;
 import util.BaseDao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class LogDao extends BaseDao {
@@ -60,4 +61,51 @@ public class LogDao extends BaseDao {
         }
         return list;
     }
+
+    public List<Log> searchByDate(Date beginTime, Date endTime) {
+        String sql = "select * from system_logs where timestamp >= ? and timestamp <= ?";
+        rs = this.executQuery(sql,beginTime,endTime);
+        List<Log> list = new ArrayList<Log>();
+        try {
+            while(rs.next())
+            {
+                Log log = new Log();
+                log.setTime(rs.getTimestamp("timestamp"));
+                log.setLevel(rs.getString("log_level"));
+                log.setMessage(rs.getString("message"));
+                log.setUsername(rs.getString("username"));
+                log.setIpAddress(rs.getString("ip_address"));
+                list.add(log);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+            this.closeAll(this.conn,this.pstmt,this.rs);
+        }
+        return list;
+    }
+
+    public List<Log> searchByName(String name) {
+        String sql = "select * from system_logs where username = ?";
+        rs = this.executQuery(sql,name);
+        List<Log> list = new ArrayList<Log>();
+        try {
+            while(rs.next())
+            {
+                Log log = new Log();
+                log.setTime(rs.getTimestamp("timestamp"));
+                log.setLevel(rs.getString("log_level"));
+                log.setMessage(rs.getString("message"));
+                log.setUsername(rs.getString("username"));
+                log.setIpAddress(rs.getString("ip_address"));
+                list.add(log);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+            this.closeAll(this.conn,this.pstmt,this.rs);
+        }
+        return list;
+    }
+
 }

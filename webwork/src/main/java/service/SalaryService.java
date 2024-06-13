@@ -12,10 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SalaryService {
     private SalaryDao salaryDao = new SalaryDao();
@@ -31,6 +28,15 @@ public class SalaryService {
         }
 
         return stats;
+    }
+
+    public List<Salary> searchByDeptName(String deptName) {
+        return salaryDao.searchByDeptName(deptName);
+
+    }
+
+    public List<Salary> searchByName(String name) {
+        return salaryDao.serchByName(name);
     }
 
     public List<Salary> selectAll() {
@@ -155,5 +161,24 @@ public class SalaryService {
         double a = salaryDao.selectSalary(low, high);
         double count = salaryDao.count();
         return a / count;
+    }
+
+    public List<Salary> searchByDate(Date beginTime, Date endTime) {
+        // 将Date转换成Calendar
+        // 创建一个 Calendar 对象并设置时间为当前 date
+        Calendar calendarBegin = Calendar.getInstance();
+        calendarBegin.setTime(beginTime);
+        Calendar calendarEnd = Calendar.getInstance();
+        calendarEnd.setTime(endTime);
+
+        // 获取年份
+        int beginYear = calendarBegin.get(Calendar.YEAR);
+        int endYear = calendarEnd.get(Calendar.YEAR);
+
+        // 获取月份
+        int beginMonth = calendarBegin.get(Calendar.MONTH) + 1;
+        int endMonth = calendarEnd.get(Calendar.MONTH) + 1;
+
+        return salaryDao.searchByDate(beginYear, beginMonth, endYear, endMonth);
     }
 }
