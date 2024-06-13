@@ -20,13 +20,17 @@ public class SpecialDeductionDao extends BaseDao {
         rs = this.executQuery(sql,empNo,year);
         BigDecimal bd = new BigDecimal(0);
         try {
-            bd = bd.add(rs.getBigDecimal("education_deduction"));
-            bd = bd.add(rs.getBigDecimal("continued_education_deduction"));
-            bd = bd.add(rs.getBigDecimal("serious_illness_deduction"));
-            bd = bd.add(rs.getBigDecimal("housing_loan_interest_deduction"));
-            bd = bd.add(rs.getBigDecimal("housing_rent_deduction"));
-            bd = bd.add(rs.getBigDecimal("elderly_support_deduction"));
-            bd = bd.add(rs.getBigDecimal("childcare_deduction"));
+            while (rs.next())
+            {
+                bd = bd.add(rs.getBigDecimal("education_deduction"));
+                bd = bd.add(rs.getBigDecimal("continued_education_deduction"));
+                bd = bd.add(rs.getBigDecimal("serious_illness_deduction"));
+                bd = bd.add(rs.getBigDecimal("housing_loan_interest_deduction"));
+                bd = bd.add(rs.getBigDecimal("housing_rent_deduction"));
+                bd = bd.add(rs.getBigDecimal("elderly_support_deduction"));
+                bd = bd.add(rs.getBigDecimal("childcare_deduction"));
+                break;
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

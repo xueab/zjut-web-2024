@@ -296,7 +296,7 @@
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
             </div>
             <input type="hidden" name="username" value=<%=username%>>
-            <input type="hidden" name="generalManager" value="generalManager">
+            <input type="hidden" name="role" value="generalManager">
             <button type="submit" class="btn btn-primary">修改密码</button>
         </form>
     </div>

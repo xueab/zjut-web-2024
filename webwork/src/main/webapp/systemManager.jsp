@@ -283,7 +283,7 @@
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
             </div>
             <input type="hidden" name="username" value=<%=username%>>
-            <input type="hidden" name="systemManager" value="systemManager">
+            <input type="hidden" name="role" value="systemManager">
             <button type="submit" class="btn btn-primary">提交</button>
         </form>
     </div>

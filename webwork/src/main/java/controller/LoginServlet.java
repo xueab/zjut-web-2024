@@ -83,7 +83,7 @@ public class LoginServlet extends HttpServlet {
                 log.setMessage(username + "logged in successfully");
                 logService.add(log);
                 // 重定向到日志管理员界面
-                redirectURL = "/logManager.jsp";
+                redirectURL = "/Log.jsp";
             }
 
             // 在重定向URL中附加username参数
@@ -100,7 +100,7 @@ public class LoginServlet extends HttpServlet {
             } else if (redirectURL.equals("/systemManager.jsp")) {
                 redirectURL += "?username=" + username;
                 resp.sendRedirect(req.getContextPath() + redirectURL);
-            } else if (redirectURL.equals("/logManager.jsp")) {
+            } else if (redirectURL.equals("/Log.jsp")) {
                 redirectURL += "?username=" + username;
                 resp.sendRedirect(req.getContextPath() + redirectURL);
             }
