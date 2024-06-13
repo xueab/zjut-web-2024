@@ -87,10 +87,10 @@
     }
 
     let errorMessage = getQueryParameter("errorMessage")
-    if(errorMessage == "Accountlock")
+    if(errorMessage === "Accountlock")
     {
         alert("账户锁定")
-    }else if(errorMessage == "Error"){
+    }else if(errorMessage === "Error"){
         alert("用户名或密码错误")
     }
 </script>

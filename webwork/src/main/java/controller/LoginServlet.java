@@ -23,6 +23,10 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+
+        req.setAttribute("usernamw", username);
+        req.setAttribute("password", password);
+
         String ipAddress = req.getRemoteAddr();   // 获取 ip 地址
 
         Log log = new Log();
@@ -62,43 +66,45 @@ public class LoginServlet extends HttpServlet {
 
                 logService.add(log);
                 // 重定向到人事管理员界面
-                redirectURL = "peopleManager.jsp";
+                redirectURL = "/peopleManager.jsp";
             } else if (role.equals("financialManager")) {
                 log.setMessage(username + "logged in successfully");
                 logService.add(log);
                 // 重定向到财务管理员界面
-                redirectURL = "financialManager.jsp";
+                redirectURL = "/financialManager.jsp";
             } else if (role.equals("generalManager")) {
                 log.setMessage(username + "logged in successfully");
                 logService.add(log);
                 // 重定向到总经理界面
-                redirectURL = "generalManager.jsp";
+                redirectURL = "/generalManager.jsp";
             } else if (role.equals("systemManager")) {
                 log.setMessage(username + "logged in successfully");
                 logService.add(log);
                 // 重定向到系统管理员界面
-                redirectURL = "systemManager.jsp";
+                redirectURL = "/systemManager.jsp";
             } else if (role.equals("logMananger")) {
                 log.setMessage(username + "logged in successfully");
                 logService.add(log);
                 // 重定向到日志管理员界面
-                redirectURL = "logManager.jsp";
+                redirectURL = "/logManager.jsp";
             }
 
             // 在重定向URL中附加username参数
-            if (redirectURL.equals("peopleManager.jsp")) {
-                redirectURL += "?username=" + username;
-                resp.sendRedirect(req.getContextPath() + "/" +  redirectURL);
-            }else if (redirectURL.equals("financialManager.jsp")) {
-                redirectURL += "?username=" + username;
-                resp.sendRedirect(req.getContextPath() + "/" +  redirectURL);
-            }else if (redirectURL.equals("generalManager.jsp")) {
-                redirectURL += "?username=" + username;
-                resp.sendRedirect(req.getContextPath() + "/" + redirectURL);
-            } else if (redirectURL.equals("systemManager.jsp")) {
-                redirectURL += "?username=" + username;
-                resp.sendRedirect(req.getContextPath() + "/" + redirectURL);
-            }
+//            if (redirectURL.equals("peopleManager.jsp")) {
+//                //redirectURL += "?username=" + username;
+//                // resp.sendRedirect(req.getContextPath() +  redirectURL);
+//
+//            }else if (redirectURL.equals("financialManager.jsp")) {
+//                //redirectURL += "?username=" + username;
+//                resp.sendRedirect(req.getContextPath() + redirectURL);
+//            }else if (redirectURL.equals("generalManager.jsp")) {
+//                //redirectURL += "?username=" + username;
+//                resp.sendRedirect(req.getContextPath() + redirectURL);
+//            } else if (redirectURL.equals("systemManager.jsp")) {
+//                //redirectURL += "?username=" + username;
+//                resp.sendRedirect(req.getContextPath() + redirectURL);
+//            }
+            req.getRequestDispatcher(redirectURL).forward(req, resp);
             return;
         }
         // 用户名错误

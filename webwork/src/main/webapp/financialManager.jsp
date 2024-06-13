@@ -97,11 +97,11 @@
 </head>
 <body>
 <%
-    String username =  request.getParameter("username");
+    String username = request.getParameter("username");
 %>
 <div class="sidebar">
-    <a href="#" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
-    <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
+    <a href="financialManager.jsp?section=viewSalaries&username=<%=username%>" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
+    <a href="financialManager.jsp?section=changePassword&username=<%=username%>" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
     <button class="btn btn-success" data-toggle="modal" data-target="#addSalaryModal"><i class="fas fa-plus"></i> 添加记录</button>
     <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal">
         <i class="fas fa-chart-pie"></i> 显示工资分布饼状图
@@ -118,26 +118,26 @@
     <div id="viewSalaries" class="container content-section active">
         <h2>查看工资</h2>
         <br>
-            <%
-        int currentpage = 1;
-        int pagesize = 10; // 每页显示10条记录
-        int totalpages = 0;
-        SalaryService salaryService = new SalaryService();
-        if (request.getParameter("currentpage") != null) {
-            try {
-                currentpage = Integer.parseInt(request.getParameter("currentpage"));
-            } catch (NumberFormatException e) {
-                currentpage = 1; // 如果参数不是有效的整数，默认显示第一页
+        <%
+            int currentpage = 1;
+            int pagesize = 10; // 每页显示10条记录
+            int totalpages = 0;
+            SalaryService salaryService = new SalaryService();
+            if (request.getParameter("currentpage") != null) {
+                try {
+                    currentpage = Integer.parseInt(request.getParameter("currentpage"));
+                } catch (NumberFormatException e) {
+                    currentpage = 1; // 如果参数不是有效的整数，默认显示第一页
+                }
             }
-        }
-        List<Salary> salary = salaryService.selectAll();
-        List<Salary> salarys = salaryService.selectByPage(currentpage-1);
-        Map<String, Double> salaryMap = salaryService.getSalaryStats();
-        request.setAttribute("salaryMap", salaryMap);
-        request.setAttribute("salarys", salarys);
-        request.setAttribute("salary", salary);
-        totalpages = (int) Math.ceil(salary.size() / (double) pagesize);
-    %>
+            List<Salary> salary = salaryService.selectAll();
+            List<Salary> salarys = salaryService.selectByPage(currentpage-1);
+            Map<String, Double> salaryMap = salaryService.getSalaryStats();
+            request.setAttribute("salaryMap", salaryMap);
+            request.setAttribute("salarys", salarys);
+            request.setAttribute("salary", salary);
+            totalpages = (int) Math.ceil(salary.size() / (double) pagesize);
+        %>
         <div>
             <form action="uploadExcelServlet" method="post" enctype="multipart/form-data">
                 <input type="file" name="file"/>
@@ -191,21 +191,21 @@
                     if (currentpage > 1) {
                 %>
                 <li class="page-item">
-                    <a class="page-link" href="financialManager.jsp?currentpage=<%= currentpage - 1 %>">上一页</a>
+                    <a class="page-link" href="financialManager.jsp?currentpage=<%= currentpage - 1 %>&username=<%=username%>">上一页</a>
                 </li>
                 <%
                     }
                     for (int i = startPage; i <= endPage; i++) {
                 %>
                 <li class="page-item <%= (i == currentpage) ? "active" : "" %>">
-                    <a class="page-link" href="financialManager.jsp?currentpage=<%= i %>"><%= i %></a>
+                    <a class="page-link" href="financialManager.jsp?currentpage=<%= i %>&username=<%=username%>"><%= i %></a>
                 </li>
                 <%
                     }
                     if (currentpage < totalpages) {
                 %>
                 <li class="page-item">
-                    <a class="page-link" href="financialManager.jsp?currentpage=<%= currentpage + 1 %>">下一页</a>
+                    <a class="page-link" href="financialManager.jsp?currentpage=<%= currentpage + 1 %>&username=<%=username%>">下一页</a>
                 </li>
                 <%
                     }
@@ -234,312 +234,323 @@
         </form>
     </div>
 </div>
-    <div class="modal fade" id="addSalaryModal" tabindex="-1" role="dialog" aria-labelledby="addSalaryModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form action="addSalary.do" method="post">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addSalaryModalLabel">添加工资记录</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="addempNo">员工编号:</label>
-                            <input type="text" class="form-control" id="addempNo" name="addempNo" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="addyear">工资所属年份</label>
-                            <input type="text" class="form-control" id="addyear" name="addyear" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="addmonth">工资所属月份:</label>
-                            <input type="text" class="form-control" id="addmonth" name="addmonth" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="addbasicSalary">基本工资:</label>
-                            <input type="text" class="form-control" id="addbasicSalary" name="addbasicSalary" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="addovertimePay">加班工资:</label>
-                            <input type="text" class="form-control" id="addovertimePay" name="addovertimePay" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="addfullAttendanceBonus">全勤奖:</label>
-                            <input type="text" class="form-control" id="addfullAttendanceBonus" name="addfullAttendanceBonus" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="addpersonalTax">个人所得税:</label>
-                            <input type="text" class="form-control" id="addpersonalTax" name="addpersonalTax" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="addnetSalary">实发工资:</label>
-                            <input type="text" class="form-control" id="addnetSalary" name="addnetSalary" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                        <button type="submit" class="btn btn-primary">保存</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="editSalaryModal" tabindex="-1" role="dialog" aria-labelledby="editSalaryModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form action="editSalary.do" method="post">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editSalaryModalLabel">编辑工资记录</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" id="editEmpNo" name="editempNo">
-                        <input type="hidden" id="editYear" name="edityear">
-                        <input type="hidden" id="editMonth" name="editmonth">
-                        <div class="form-group">
-                            <label for="editbasicSalary">基本工资:</label>
-                            <input type="text" class="form-control" id="editbasicSalary" name="editbasicSalary" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="editovertimePay">加班工资:</label>
-                            <input type="text" class="form-control" id="editovertimePay" name="editovertimePay" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="editfullAttendanceBonus">全勤奖:</label>
-                            <input type="text" class="form-control" id="editfullAttendanceBonus" name="editfullAttendanceBonus" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="editpersonalTax">个人所得税:</label>
-                            <input type="text" class="form-control" id="editpersonalTax" name="editpersonalTax" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="editnetSalary">实发工资:</label>
-                            <input type="text" class="form-control" id="editnetSalary" name="editnetSalary" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                        <button type="submit" class="btn btn-primary">保存修改</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="deleteSalaryModal" tabindex="-1" role="dialog" aria-labelledby="deleteSalaryModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form action="deleteSalary.do" method="post">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteSalaryModalLabel">删除工资</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>确定要删除该条的工资信息吗?</p>
-                        <input type="hidden" id="deleteEmpNo" name="deleteempNo">
-                        <input type="hidden" id="deleteYear" name="deleteyear">
-                        <input type="hidden" id="deleteMonth" name="deletemonth">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                        <button type="submit" class="btn btn-danger">删除</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="queryModal" tabindex="-1" aria-labelledby="queryModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+<div class="modal fade" id="addSalaryModal" tabindex="-1" role="dialog" aria-labelledby="addSalaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="addSalary.do" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="queryModalLabel">历史工资查询</h5>
+                    <h5 class="modal-title" id="addSalaryModalLabel">添加工资记录</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="queryType">选择查询方式:</label>
-                            <select class="form-control" id="queryType">
-                                <option value="name">通过姓名</option>
-                                <option value="department">通过部门</option>
-                                <option value="dateRange">通过时间段</option>
-                            </select>
-                        </div>
-                        <div id="nameInput" class="form-group">
-                            <label for="name">姓名:</label>
-                            <input type="text" class="form-control" id="name"></div>
-                            <div id="departmentInput" class="form-group">
-                                <label for="department">部门:</label>
-                                <input type="text" class="form-control" id="department">
-                            </div>
-                            <div id="dateRangeInput" class="form-group">
-                                <label for="startDate">开始日期:</label>
-                                <input type="month" class="form-control" id="startDate">
-                                <label for="endDate" class="mt-2">结束日期:</label>
-                                <input type="month" class="form-control" id="endDate">
-                            </div>
-                        </form>
+                    <div class="form-group">
+                        <label for="addempNo">员工编号:</label>
+                        <input type="text" class="form-control" id="addempNo" name="addempNo" required>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Submit</button>
+                    <div class="form-group">
+                        <label for="addyear">工资所属年份</label>
+                        <input type="text" class="form-control" id="addyear" name="addyear" required>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel">确认退出</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                            </button>
-                </div>
-                <div class="modal-body">
-                    你确定要退出登录吗？
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-danger" onclick="confirmLogout()">退出</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="salaryPieChartModal" tabindex="-1" role="dialog" aria-labelledby="salaryPieChartModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="salaryPieChartModalLabel">工资收入分布</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="piechart" style="width: 100%; height: 400px;"></div>
+                    <div class="form-group">
+                        <label for="addmonth">工资所属月份:</label>
+                        <input type="text" class="form-control" id="addmonth" name="addmonth" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addbasicSalary">基本工资:</label>
+                        <input type="text" class="form-control" id="addbasicSalary" name="addbasicSalary" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addovertimePay">加班工资:</label>
+                        <input type="text" class="form-control" id="addovertimePay" name="addovertimePay" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addfullAttendanceBonus">全勤奖:</label>
+                        <input type="text" class="form-control" id="addfullAttendanceBonus" name="addfullAttendanceBonus" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addpersonalTax">个人所得税:</label>
+                        <input type="text" class="form-control" id="addpersonalTax" name="addpersonalTax" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addnetSalary">实发工资:</label>
+                        <input type="text" class="form-control" id="addnetSalary" name="addnetSalary" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editSalaryModal" tabindex="-1" role="dialog" aria-labelledby="editSalaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="editSalary.do" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editSalaryModalLabel">编辑工资记录</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="editempNo">
+                    <input type="hidden" name="edityear">
+                    <input type="hidden" name="editmonth">
+                    <div class="form-group">
+                        <label for="editbasicSalary">基本工资:</label>
+                        <input type="text" class="form-control" id="editbasicSalary" name="editbasicSalary" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editovertimePay">加班工资:</label>
+                        <input type="text" class="form-control" id="editovertimePay" name="editovertimePay" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editfullAttendanceBonus">全勤奖:</label>
+                        <input type="text" class="form-control" id="editfullAttendanceBonus" name="editfullAttendanceBonus" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editpersonalTax">个人所得税:</label>
+                        <input type="text" class="form-control" id="editpersonalTax" name="editpersonalTax" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editnetSalary">实发工资:</label>
+                        <input type="text" class="form-control" id="editnetSalary" name="editnetSalary" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">保存修改</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteSalaryModal" tabindex="-1" role="dialog" aria-labelledby="deleteSalaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="deleteSalary.do" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteSalaryModalLabel">删除工资</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>确定要删除该条的工资信息吗?</p>
+                    <input type="hidden" name="deleteempNo">
+                    <input type="hidden" name="deleteyear">
+                    <input type="hidden" name="deletemonth">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-danger">删除</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="queryModal" tabindex="-1" aria-labelledby="queryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="queryModalLabel">历史工资查询</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="queryType">选择查询方式:</label>
+                        <select class="form-control" id="queryType">
+                            <option value="name">通过姓名</option>
+                            <option value="department">通过部门</option>
+                            <option value="date">通过时间段</option>
+                        </select>
+                    </div>
+                    <div id="nameInput" class="form-group">
+                        <label for="name">姓名:</label>
+                        <input type="text" class="form-control" id="name">
+                    </div>
+                    <div id="departmentInput" class="form-group">
+                        <label for="department">部门:</label>
+                        <input type="text" class="form-control" id="department">
+                    </div>
+                    <div id="dateRangeInput" class="form-group">
+                        <label for="startDate">开始日期:</label>
+                        <input type="month" class="form-control" id="startDate">
+                        <label for="endDate" class="mt-2">结束日期:</label>
+                        <input type="month" class="form-control" id="endDate">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </div>
+</div>
 
-        <script type="text/javascript">
-            $('form').on('submit', function () {
-                var form = $(this);
-                // 延迟清空表单，确保表单提交完成
-                setTimeout(function () {
-                    form.find('input').val('');
-                }, 1000); // 延迟1秒清空表单
-            });
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">确认退出</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                你确定要退出登录吗？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-danger" onclick="confirmLogout()">退出</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-            function showSection(sectionId) {
-                var sections = document.getElementsByClassName('content-section');
-                for (var i = 0; i < sections.length; i++) {
-                    sections[i].classList.remove('active');
-                }
-                document.getElementById(sectionId).classList.add('active');
+<div class="modal fade" id="salaryPieChartModal" tabindex="-1" role="dialog" aria-labelledby="salaryPieChartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="salaryPieChartModalLabel">工资收入分布</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="piechart" style="width: 100%; height: 400px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('form').on('submit', function () {
+        var form = $(this);
+        // 延迟清空表单，确保表单提交完成
+        setTimeout(function () {
+            form.find('input').val('');
+        }, 1000); // 延迟1秒清空表单
+    });
+
+    function showSection(sectionId) {
+        var sections = document.getElementsByClassName('content-section');
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].classList.remove('active');
+        }
+        document.getElementById(sectionId).classList.add('active');
+    }
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        // Create the data table.
+        var data = google.visualization.arrayToDataTable([
+            ['Salary', 'Percentage'],
+            <c:forEach var="entry" items="${salaryMap}">
+            ['${entry.key}', ${entry.value}],
+            </c:forEach>
+        ]);
+
+        if (data.getNumberOfRows() === 0) {
+            $('#piechart').text('没有数据可显示');
+            return;
+        }
+        var options = {
+            'title': '工资收入分布情况',
+            'width': 400,
+            'height': 300
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
+</script>
+
+<script>
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var section = getUrlParameter('section');
+        if (section) {
+            showSection(section);
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const queryType = document.getElementById("queryType");
+        const nameInput = document.getElementById("nameInput");
+        const departmentInput = document.getElementById("departmentInput");
+        const dateRangeInput = document.getElementById("dateRangeInput");
+
+        queryType.onchange = function() {
+            const value = queryType.value;
+            nameInput.style.display = "none";
+            departmentInput.style.display = "none";
+            dateRangeInput.style.display = "none";
+
+            if (value === "name") {
+                nameInput.style.display = "block";
+            } else if (value === "department") {
+                departmentInput.style.display = "block";
+            } else if (value === "dateRange") {
+                dateRangeInput.style.display = "block";
             }
+        }
+        queryType.onchange();
+    });
 
-            google.charts.load('current', {'packages':['corechart']});
-            google.charts.setOnLoadCallback(drawChart);
+    $('#deleteSalaryModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var empNo = button.data('empno');
+        var year = button.data('year');
+        var month = button.data('month');
 
-            function drawChart() {
-                // Create the data table.
-                var data = google.visualization.arrayToDataTable([
-                    ['Salary', 'Percentage'],
-                    <c:forEach var="entry" items="${salaryMap}">
-                    ['${entry.key}', ${entry.value}],
-                    </c:forEach>
-                ]);
+        var modal = $(this);
+        modal.find('#deleteEmpNo').val(empNo);
+        modal.find('#deleteYear').val(year);
+        modal.find('#deleteMonth').val(month);
+    });
 
-                if (data.getNumberOfRows() === 0) {
-                    $('#piechart').text('没有数据可显示');
-                    return;
-                }
-                var options = {
-                    'title': '工资收入分布情况',
-                    'width': 400,
-                    'height': 300
-                };
-                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-                chart.draw(data, options);
-            }
-        </script>
+    $('#editSalaryModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var empNo = button.data('empno');
+        var year = button.data('year');
+        var month = button.data('month');
+        var editbasicSalary = button.data('basicSalary');
+        var editovertimePay = button.data('overtimePay');
+        var editfullAttendanceBonus = button.data('fullAttendanceBonus');
+        var editpersonalTax = button.data('personalTax');
+        var editnetSalary = button.data('netSalary');
 
-        <script>
-            function confirmLogout() {
-                window.location.href = 'login.jsp';
-            }
-
-            $('#deleteSalaryModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                var empNo = button.data('empno');
-                var year = button.data('year');
-                var month = button.data('month');
-
-                var modal = $(this);
-                modal.find('#deleteEmpNo').val(empNo);
-                modal.find('#deleteYear').val(year);
-                modal.find('#deleteMonth').val(month);
-            });
-
-            $('#editSalaryModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                var empNo = button.data('empno');
-                var year = button.data('year');
-                var month = button.data('month');
-                var editbasicSalary = button.data('basicSalary');
-                var editovertimePay = button.data('overtimePay');
-                var editfullAttendanceBonus = button.data('fullAttendanceBonus');
-                var editpersonalTax = button.data('personalTax');
-                var editnetSalary = button.data('netSalary');
-
-                var modal = $(this);
-                modal.find('#editEmpNo').val(empNo);
-                modal.find('#editYear').val(year);
-                modal.find('#editMonth').val(month);
-                modal.find('#editbasicSalary').val(editbasicSalary);
-                modal.find('#editovertimePay').val(editovertimePay);
-                modal.find('#editfullAttendanceBonus').val(editfullAttendanceBonus);
-                modal.find('#editpersonalTax').val(editpersonalTax);
-                modal.find('#editnetSalary').val(editnetSalary);
-            });
-            document.addEventListener("DOMContentLoaded", function() {
-                const queryType = document.getElementById("queryType");
-                const nameInput = document.getElementById("nameInput");
-                const departmentInput = document.getElementById("departmentInput");
-                const dateRangeInput = document.getElementById("dateRangeInput");
-
-                queryType.onchange = function() {
-                    const value = queryType.value;
-                    nameInput.style.display = "none";
-                    departmentInput.style.display = "none";
-                    dateRangeInput.style.display = "none";
-
-                    if (value === "name") {
-                        nameInput.style.display = "block";
-                    } else if (value === "department") {
-                        departmentInput.style.display = "block";
-                    } else if (value === "dateRange") {
-                        dateRangeInput.style.display = "block";
-                    }
-                }
-                queryType.onchange();
-            });
-        </script>
+        var modal = $(this);
+        modal.find('#editEmpNo').val(empNo);
+        modal.find('#editYear').val(year);
+        modal.find('#editMonth').val(month);
+        modal.find('#editbasicSalary').val(editbasicSalary);
+        modal.find('#editovertimePay').val(editovertimePay);
+        modal.find('#editfullAttendanceBonus').val(editfullAttendanceBonus);
+        modal.find('#editpersonalTax').val(editpersonalTax);
+        modal.find('#editnetSalary').val(editnetSalary);
+    });
+</script>
 </body>
 </html>
