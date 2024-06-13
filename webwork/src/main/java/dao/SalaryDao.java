@@ -118,8 +118,88 @@ public class SalaryDao extends BaseDao {
         return list;
     }
 
-/*    public List<Salary> seleceByName(String name)
-    {
-        String sql = "select * from salary where name like '%"+name+"%'";
-    }*/
+    public List<Salary> serchByName(String name) {
+        String sql = "SELECT salary.emp_no,salary.year,salary.month,salary.basic_salary,salary.overtime_pay," +
+                "salary.full_attendance_bonus,salary.personal_tax,salary.net_salary FROM salary,employee " +
+                "WHERE salary.emp_no = employee.emp_no AND employee.name = ?";
+        rs=this.executQuery(sql,name);
+        List<Salary> list = new ArrayList<Salary>();
+        try {
+            while(rs.next())
+            {
+                Salary salary = new Salary();
+                salary.setEmpNo(rs.getInt("emp_no"));
+                salary.setYear(rs.getInt("year"));
+                salary.setMonth(rs.getInt("month"));
+                salary.setBasicSalary(rs.getBigDecimal("basic_salary"));
+                salary.setOvertimePay(rs.getBigDecimal("overtime_pay"));
+                salary.setFullAttendanceBonus(rs.getBigDecimal("full_attendance_bonus"));
+                salary.setPersonalTax(rs.getBigDecimal("personal_tax"));
+                salary.setNetSalary(rs.getBigDecimal("net_salary"));
+                list.add(salary);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+            this.closeAll(this.conn,this.pstmt,this.rs);
+        }
+        return list;
+    }
+
+    public List<Salary> searchByDeptName(String deptName) {
+        String sql = "SELECT salary.emp_no,salary.year,salary.month,salary.basic_salary,salary.overtime_pay," +
+                "salary.full_attendance_bonus,salary.personal_tax,salary.net_salary FROM salary,employee " +
+                "WHERE salary.emp_no = employee.emp_no AND employee.dept_name = ?";
+        rs=this.executQuery(sql,deptName);
+        List<Salary> list = new ArrayList<Salary>();
+        try {
+            while(rs.next())
+            {
+                Salary salary = new Salary();
+                salary.setEmpNo(rs.getInt("emp_no"));
+                salary.setYear(rs.getInt("year"));
+                salary.setMonth(rs.getInt("month"));
+                salary.setBasicSalary(rs.getBigDecimal("basic_salary"));
+                salary.setOvertimePay(rs.getBigDecimal("overtime_pay"));
+                salary.setFullAttendanceBonus(rs.getBigDecimal("full_attendance_bonus"));
+                salary.setPersonalTax(rs.getBigDecimal("personal_tax"));
+                salary.setNetSalary(rs.getBigDecimal("net_salary"));
+                list.add(salary);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+            this.closeAll(this.conn,this.pstmt,this.rs);
+        }
+        return list;
+    }
+
+    public List<Salary> searchByDate(int beginYear, int beginMonth, int endYear, int endMonth) {
+        String sql = "SELECT * FROM Salary WHERE (year > ? OR (year = ? AND month >= ?)) " +
+                "AND (year < ? OR (year = ? AND month <= ?))";
+        rs = this.executQuery(sql,beginYear,beginYear,beginMonth,endYear,endYear,endMonth);
+        List<Salary> list = new ArrayList<Salary>();
+        try {
+            while(rs.next())
+            {
+                Salary salary = new Salary();
+                salary.setEmpNo(rs.getInt("emp_no"));
+                salary.setYear(rs.getInt("year"));
+                salary.setMonth(rs.getInt("month"));
+                salary.setBasicSalary(rs.getBigDecimal("basic_salary"));
+                salary.setOvertimePay(rs.getBigDecimal("overtime_pay"));
+                salary.setFullAttendanceBonus(rs.getBigDecimal("full_attendance_bonus"));
+                salary.setPersonalTax(rs.getBigDecimal("personal_tax"));
+                salary.setNetSalary(rs.getBigDecimal("net_salary"));
+                list.add(salary);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+            this.closeAll(this.conn,this.pstmt,this.rs);
+        }
+        return list;
+    }
+
+
 }

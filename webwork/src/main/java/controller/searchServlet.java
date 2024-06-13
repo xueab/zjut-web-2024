@@ -49,7 +49,6 @@ public class searchServlet extends HttpServlet {
         }
         else if (username.equals("Log")) {
             LogService logService = new LogService();
-            logService.search(keyword);
             if (keyword.equals("name")) {
                 String name = req.getParameter("name");
                 List<Log> list = logService.searchByName(name);
@@ -60,7 +59,7 @@ public class searchServlet extends HttpServlet {
                 // 按时间查询
                 Date beginTime = new Date(req.getParameter("startDate"));
                 Date endTime = new Date(req.getParameter("endDate"));
-                List<Salary> list = logService.searchByDate(beginTime, endTime);
+                List<Log> list = logService.searchByDate(beginTime, endTime);
                 req.setAttribute("list", list);
                 req.getRequestDispatcher("/Log.jsp").forward(req, resp);
             }

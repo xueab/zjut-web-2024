@@ -179,6 +179,6 @@ public class SalaryService {
         int beginMonth = calendarBegin.get(Calendar.MONTH) + 1;
         int endMonth = calendarEnd.get(Calendar.MONTH) + 1;
 
-        salaryDao.searchByDate(beginYear, beginMonth, endYear, endMonth);
+        return salaryDao.searchByDate(beginYear, beginMonth, endYear, endMonth);
     }
 }
