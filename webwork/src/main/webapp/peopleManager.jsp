@@ -327,10 +327,7 @@
                         <label for="editname">员工姓名:</label>
                         <input type="text" class="form-control" id="editname" name="editname" required>
                     </div>
-                    <div class="form-group">
-                        <label for="editempNo">员工编号:</label>
-                        <input type="text" class="form-control" id="editempNo" name="editempNo" required>
-                    </div>
+                    <input type="hidden" id="editempNo" name="editempNo" required>
                     <div class="form-group">
                         <label for="editdepName">部门名称:</label>
                         <input type="text" class="form-control" id="editdepName" name="editdepName" required>
