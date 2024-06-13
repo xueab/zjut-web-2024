@@ -21,6 +21,9 @@ public class searchServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String keyword = req.getParameter("keyword");
+        System.out.println(username);
+
+        System.out.println(keyword);
         if (username.equals("Salary")) {
             SalaryService salaryService = new SalaryService();
             if (keyword.equals("deptName")) {
@@ -28,12 +31,22 @@ public class searchServlet extends HttpServlet {
                 String deptName = req.getParameter("deptName");
                 List<Salary> list = salaryService.searchByDeptName(deptName);
                 req.setAttribute("list", list);
+                for (Salary salary : list) {
+                    System.out.println("----");
+                    System.out.println(salary);
+                }
                 req.getRequestDispatcher("/financialManager.jsp").forward(req, resp);
             }
             else if (keyword.equals("name")) {
                 // 按员工姓名查询
-                String name = req.getParameter("name");
+                String name = new String(req.getParameter("name").getBytes("ISO-8859-1"), "utf-8");
+                System.out.println("--------------------------------------------");
+                System.out.println(name);
                 List<Salary> list = salaryService.searchByName(name);
+                for (Salary salary : list) {
+                    System.out.println("----");
+                    System.out.println(salary);
+                }
                 req.setAttribute("list", list);
                 req.getRequestDispatcher("/financialManager.jsp").forward(req, resp);
             }

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import static java.time.temporal.WeekFields.ISO;
 
@@ -19,12 +20,10 @@ public class updateEmployeeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EmployeeService e = new EmployeeService();
 
-
+        String username = new String(req.getParameter("username").getBytes("ISO-8859-1"),"utf-8");
         int empNo = Integer.parseInt(req.getParameter("editempNo"));
-        String username = req.getParameter("editname");
-        String name = new String(username.getBytes("ISO-8859-1"),"utf-8");
-        //String name = req.getParameter("editname");
-        String depName = req.getParameter("editdepName");
+        String name = new String(req.getParameter("editname").getBytes("ISO-8859-1"), "utf-8");
+        String depName = new String(req.getParameter("editdepName").getBytes("ISO-8859-1"), "utf-8");
         String position = req.getParameter("editposition");
         String idNumber = req.getParameter("editidNumber");
         String phone = req.getParameter("editphone");
@@ -47,7 +46,7 @@ public class updateEmployeeServlet extends HttpServlet {
 
 
         // 重定向
-        resp.sendRedirect(req.getContextPath() + "/peopleManager.jsp");
+        resp.sendRedirect(req.getContextPath() + "/peopleManager.jsp" + "?username=" + username);
     }
 
     @Override

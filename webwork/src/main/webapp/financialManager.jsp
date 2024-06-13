@@ -230,7 +230,7 @@
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
             </div>
             <input type="hidden" name="username" value=<%=username%>>
-            <input type="hidden" name="financialManager" value="financilaManager">
+            <input type="hidden" name="role" value="financialManager">
             <button type="submit" class="btn btn-primary">修改密码</button>
         </form>
     </div>
@@ -291,9 +291,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="editempNo" name="editempNo">
-                    <input type="hidden" id="edityear" name="edityear">
-                    <input type="hidden" id="editmonth" name="editmonth">
+                    <input type="hidden" id="editEmpNo" name="editempNo">
+                    <input type="hidden" id="editYear" name="edityear">
+                    <input type="hidden" id="editMonth" name="editmonth">
                     <div class="form-group">
                         <label for="editbasicSalary">基本工资:</label>
                         <input type="text" class="form-control" id="editbasicSalary" name="editbasicSalary" required>
