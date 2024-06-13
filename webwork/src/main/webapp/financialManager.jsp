@@ -270,14 +270,6 @@
                         <label for="addfullAttendanceBonus">全勤奖:</label>
                         <input type="text" class="form-control" id="addfullAttendanceBonus" name="addfullAttendanceBonus" required>
                     </div>
-                    <div class="form-group">
-                        <label for="addpersonalTax">个人所得税:</label>
-                        <input type="text" class="form-control" id="addpersonalTax" name="addpersonalTax" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="addnetSalary">实发工资:</label>
-                        <input type="text" class="form-control" id="addnetSalary" name="addnetSalary" required>
-                    </div>
                     <input type="hidden" name="username" value=<%=username%>>
                 </div>
                 <div class="modal-footer">
@@ -313,14 +305,6 @@
                     <div class="form-group">
                         <label for="editfullAttendanceBonus">全勤奖:</label>
                         <input type="text" class="form-control" id="editfullAttendanceBonus" name="editfullAttendanceBonus" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editpersonalTax">个人所得税:</label>
-                        <input type="text" class="form-control" id="editpersonalTax" name="editpersonalTax" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editnetSalary">实发工资:</label>
-                        <input type="text" class="form-control" id="editnetSalary" name="editnetSalary" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -543,7 +527,6 @@
         var editovertimePay = button.data('overtimePay');
         var editfullAttendanceBonus = button.data('fullAttendanceBonus');
         var editpersonalTax = button.data('personalTax');
-        var editnetSalary = button.data('netSalary');
 
         var modal = $(this);
         modal.find('#editEmpNo').val(empNo);
@@ -553,7 +536,6 @@
         modal.find('#editovertimePay').val(editovertimePay);
         modal.find('#editfullAttendanceBonus').val(editfullAttendanceBonus);
         modal.find('#editpersonalTax').val(editpersonalTax);
-        modal.find('#editnetSalary').val(editnetSalary);
     });
 </script>
 </body>
