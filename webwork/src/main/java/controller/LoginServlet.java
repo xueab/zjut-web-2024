@@ -90,21 +90,21 @@ public class LoginServlet extends HttpServlet {
             }
 
             // 在重定向URL中附加username参数
-//            if (redirectURL.equals("peopleManager.jsp")) {
-//                //redirectURL += "?username=" + username;
-//                // resp.sendRedirect(req.getContextPath() +  redirectURL);
-//
-//            }else if (redirectURL.equals("financialManager.jsp")) {
-//                //redirectURL += "?username=" + username;
-//                resp.sendRedirect(req.getContextPath() + redirectURL);
-//            }else if (redirectURL.equals("generalManager.jsp")) {
-//                //redirectURL += "?username=" + username;
-//                resp.sendRedirect(req.getContextPath() + redirectURL);
-//            } else if (redirectURL.equals("systemManager.jsp")) {
-//                //redirectURL += "?username=" + username;
-//                resp.sendRedirect(req.getContextPath() + redirectURL);
-//            }
-            req.getRequestDispatcher(redirectURL).forward(req, resp);
+            if (redirectURL.equals("/peopleManager.jsp")) {
+                redirectURL += "?username=" + username;
+                resp.sendRedirect(req.getContextPath() +  redirectURL);
+
+            }else if (redirectURL.equals("/financialManager.jsp")) {
+                redirectURL += "?username=" + username;
+                resp.sendRedirect(req.getContextPath() + redirectURL);
+            }else if (redirectURL.equals("/generalManager.jsp")) {
+                redirectURL += "?username=" + username;
+                resp.sendRedirect(req.getContextPath() + redirectURL);
+            } else if (redirectURL.equals("/systemManager.jsp")) {
+                redirectURL += "?username=" + username;
+                resp.sendRedirect(req.getContextPath() + redirectURL);
+            }
+            //req.getRequestDispatcher(redirectURL).forward(req, resp);
             return;
         }
         // 用户名错误
