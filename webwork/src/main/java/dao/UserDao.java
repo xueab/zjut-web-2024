@@ -135,4 +135,10 @@ public class UserDao extends BaseDao {
         }
         return list;
     }
+
+    public void changePassword(String username, String newPassword) {
+        String sql = "update user set password = ? where username = ?";
+        this.executeUpdate(sql,newPassword,username);
+        return ;
+    }
 }

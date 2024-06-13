@@ -145,7 +145,7 @@
                         <td>${logRole.message}</td>
                         <td>${logRole.username}</td>
                         <td>${logRole.ipAddress}</td>
-                    </tr>
+                    </tr>z
                 </c:forEach>
                 </tbody>
             </table>
