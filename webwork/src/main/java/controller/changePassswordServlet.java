@@ -22,10 +22,12 @@ public class changePassswordServlet extends HttpServlet {
         String confirmPassword = req.getParameter("confirmPassword");
 
         ChangePasswordService changePasswordService = new ChangePasswordService();
-        if (newPassword.equals(confirmPassword) && changePasswordService.checkPassword(newPassword)) {
+        if (newPassword.equals(confirmPassword) && changePasswordService.checkPassword(newPassword)
+            && changePasswordService.checkOldPassword(username, oldPassword)) {
             changePasswordService.changePassword(username, newPassword);
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
         }
+        // 新密码和旧密码不相同或旧密码错误
         if (role.equals("peopleManager")) {
             resp.sendRedirect(req.getContextPath() + "/peopleManager.jsp?" + "section=changePassword");
         }

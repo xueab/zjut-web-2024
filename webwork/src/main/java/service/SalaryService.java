@@ -12,11 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SalaryService {
     private SalaryDao salaryDao = new SalaryDao();
@@ -34,46 +30,14 @@ public class SalaryService {
         return stats;
     }
 
-/*    public List<Salary> search(String keyword) {
-        return salaryDao.search(keyword);
+    public List<Salary> searchByDeptName(String deptName) {
+        return salaryDao.searchByDeptName(deptName);
 
-        List<Salary> salaries = new ArrayList<>();
-        String sql = "SELECT * FROM Salary WHERE empNo LIKE ? OR year LIKE ? OR month LIKE ? " +
-                     "OR basicSalary LIKE ? OR overtimePay LIKE ? OR fullAttendanceBonus LIKE ? " +
-                     "OR personalTax LIKE ? OR netSalary LIKE ?";
+    }
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            String likeKeyword = "%" + keyword + "%";
-            preparedStatement.setString(1, likeKeyword);
-            preparedStatement.setString(2, likeKeyword);
-            preparedStatement.setString(3, likeKeyword);
-            preparedStatement.setString(4, likeKeyword);
-            preparedStatement.setString(5, likeKeyword);
-            preparedStatement.setString(6, likeKeyword);
-            preparedStatement.setString(7, likeKeyword);
-            preparedStatement.setString(8, likeKeyword);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                Salary salary = new Salary();
-                salary.setEmpNo(resultSet.getInt("empNo"));
-                salary.setYear(resultSet.getInt("year"));
-                salary.setMonth(resultSet.getInt("month"));
-                salary.setBasicSalary(resultSet.getBigDecimal("basicSalary"));
-                salary.setOvertimePay(resultSet.getBigDecimal("overtimePay"));
-                salary.setFullAttendanceBonus(resultSet.getBigDecimal("fullAttendanceBonus"));
-                salary.setPersonalTax(resultSet.getBigDecimal("personalTax"));
-                salary.setNetSalary(resultSet.getBigDecimal("netSalary"));
-                salaries.add(salary);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return salaries;
-
-    }*/
+    public List<Salary> searchByName(String name) {
+        return salaryDao.serchByName(name);
+    }
 
     public List<Salary> selectAll() {
         return salaryDao.selectAll();
@@ -197,5 +161,24 @@ public class SalaryService {
         double a = salaryDao.selectSalary(low, high);
         double count = salaryDao.count();
         return a / count;
+    }
+
+    public List<Salary> searchByDate(Date beginTime, Date endTime) {
+        // 将Date转换成Calendar
+        // 创建一个 Calendar 对象并设置时间为当前 date
+        Calendar calendarBegin = Calendar.getInstance();
+        calendarBegin.setTime(beginTime);
+        Calendar calendarEnd = Calendar.getInstance();
+        calendarEnd.setTime(endTime);
+
+        // 获取年份
+        int beginYear = calendarBegin.get(Calendar.YEAR);
+        int endYear = calendarEnd.get(Calendar.YEAR);
+
+        // 获取月份
+        int beginMonth = calendarBegin.get(Calendar.MONTH) + 1;
+        int endMonth = calendarEnd.get(Calendar.MONTH) + 1;
+
+        salaryDao.searchByDate(beginYear, beginMonth, endYear, endMonth);
     }
 }

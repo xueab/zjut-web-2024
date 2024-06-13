@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 
@@ -18,21 +19,53 @@ import java.util.List;
 public class searchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-/*        String name = req.getParameter("name");
+        String username = req.getParameter("username");
         String keyword = req.getParameter("keyword");
-        if (name.equals("Salary")) {
+        if (username.equals("Salary")) {
             SalaryService salaryService = new SalaryService();
-            List<Salary> list = salaryService.search(keyword);
-            req.setAttribute("list", list);
-            req.getRequestDispatcher("/financialManager.jsp").forward(req, resp);
+            if (keyword.equals("deptName")) {
+                // 按部门名查询
+                String deptName = req.getParameter("deptName");
+                List<Salary> list = salaryService.searchByDeptName(deptName);
+                req.setAttribute("list", list);
+                req.getRequestDispatcher("/financialManager.jsp").forward(req, resp);
+            }
+            else if (keyword.equals("name")) {
+                // 按员工姓名查询
+                String name = req.getParameter("name");
+                List<Salary> list = salaryService.searchByName(name);
+                req.setAttribute("list", list);
+                req.getRequestDispatcher("/financialManager.jsp").forward(req, resp);
+            }
+            else if (keyword.equals("date")) {
+                // 按时间查询
+                Date beginTime = new Date(req.getParameter("startDate"));
+                Date endTime = new Date(req.getParameter("endDate"));
+                List<Salary> list = salaryService.searchByDate(beginTime, endTime);
+                req.setAttribute("list", list);
+                req.getRequestDispatcher("/financialManager.jsp").forward(req, resp);
+            }
+
         }
-        else if (name.equals("Log")) {
+        else if (username.equals("Log")) {
             LogService logService = new LogService();
             logService.search(keyword);
-            List<Log> list = logService.search(keyword);
-            req.setAttribute("list", list);
-            req.getRequestDispatcher("/Log.jsp").forward(req, resp);
-        }*/
+            if (keyword.equals("name")) {
+                String name = req.getParameter("name");
+                List<Log> list = logService.searchByName(name);
+                req.setAttribute("list", list);
+                req.getRequestDispatcher("/Log.jsp").forward(req, resp);
+            }
+            else if (keyword.equals("date")) {
+                // 按时间查询
+                Date beginTime = new Date(req.getParameter("startDate"));
+                Date endTime = new Date(req.getParameter("endDate"));
+                List<Salary> list = logService.searchByDate(beginTime, endTime);
+                req.setAttribute("list", list);
+                req.getRequestDispatcher("/Log.jsp").forward(req, resp);
+            }
+
+        }
     }
 
     @Override

@@ -1,11 +1,13 @@
 package service;
 
 import dao.UserDao;
+import model.User;
 import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.digests.SM3Digest;
 import org.bouncycastle.util.encoders.Hex;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +31,8 @@ public class ChangePasswordService {
         return matcher.matches();
     }
 
+
+
     public void changePassword(String username, String newPassword) throws UnsupportedEncodingException {
         newPassword = encrypt(newPassword);
         UserDao userDao = new UserDao();
@@ -44,5 +48,20 @@ public class ChangePasswordService {
         digest.doFinal(outputBytes, 0);
         // 将字节数组转换为十六进制字符串
         return Hex.toHexString(outputBytes);
+    }
+
+    public boolean checkOldPassword(String username, String oldPassword) throws UnsupportedEncodingException {
+        UserService userService = new UserService();
+        List<User> list = userService.selectAll();
+        oldPassword = encrypt(oldPassword);
+        for (User user : list) {
+            if (user.getUsername().equals(username)) {
+                if (user.getPassword().equals(oldPassword)) {
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
     }
 }

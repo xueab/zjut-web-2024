@@ -87,22 +87,16 @@ public class LoginServlet extends HttpServlet {
 
             // 在重定向URL中附加username参数
             if (redirectURL.equals("peopleManager.jsp")) {
-                //resp.sendRedirect(redirectURL + "?username=" + username);
                 redirectURL += "?username=" + username;
                 resp.sendRedirect(req.getContextPath() + "/" +  redirectURL);
             }else if (redirectURL.equals("financialManager.jsp")) {
-
-                //resp.sendRedirect(redirectURL + "?username=" + username);
                 redirectURL += "?username=" + username;
-
                 resp.sendRedirect(req.getContextPath() + "/" +  redirectURL);
             }else if (redirectURL.equals("generalManager.jsp")) {
                 redirectURL += "?username=" + username;
-
                 resp.sendRedirect(req.getContextPath() + "/" + redirectURL);
             } else if (redirectURL.equals("systemManager.jsp")) {
                 redirectURL += "?username=" + username;
-
                 resp.sendRedirect(req.getContextPath() + "/" + redirectURL);
             }
             return;
