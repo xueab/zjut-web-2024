@@ -1,5 +1,4 @@
 <%@ page import="service.UserService" %>
-<%@ page import="org.apache.catalina.User" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="service.SalaryService" %>
@@ -22,6 +21,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
+            transition: background-color 0.5s ease;
         }
         .sidebar {
             height: 100%;
@@ -33,6 +33,7 @@
             background: linear-gradient(to bottom, #5F9EA0, #4682B4, #87CEEB, #B0E0E6, #E0FFFF);
             padding-top: 20px;
             color: white;
+            transition: width 0.5s ease;
         }
         .sidebar a, .sidebar button {
             padding: 10px 15px;
@@ -64,6 +65,7 @@
         }
         .content-section {
             display: none;
+            animation: fadeIn 1s ease-in-out;
         }
         .active {
             display: block;
@@ -87,11 +89,15 @@
         .page-link:hover {
             color: #0056b3;
         }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
     </style>
 </head>
 <body>
 <%
-    String username = request.getParameter("username");
+    request.getParameter("username");
 %>
 <div class="sidebar">
     <a href="systemManager.jsp?section=roleManagement" onclick="showSection('roleManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
@@ -276,6 +282,8 @@
                 <label for="confirmPassword">确认新密码:</label>
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
             </div>
+            <input type="hidden" id="username" name="username">
+            <input type="hidden" id="role" name="systemManager">
             <button type="submit" class="btn btn-primary">提交</button>
         </form>
     </div>
@@ -388,10 +396,7 @@
     }
 
     google.charts.load('current', {'packages':['corechart']});
-
-    // Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
-
     function drawChart() {
         // Create the data table.
         var data = google.visualization.arrayToDataTable([
@@ -400,20 +405,15 @@
             ['${entry.key}', ${entry.value}],
             </c:forEach>
         ]);
-
         if (data.getNumberOfRows() === 0) {
             $('#piechart').text('没有数据可显示');
             return;
         }
-
-        // Set chart options
         var options = {
             'title': '工资收入分布情况',
             'width': 400,
             'height': 300
         };
-
-        // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
         chart.draw(data, options);
     }

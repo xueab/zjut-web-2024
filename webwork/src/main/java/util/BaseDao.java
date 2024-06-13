@@ -25,9 +25,9 @@ public class BaseDao {
         dataSource = new DruidDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/db1");
         dataSource.setUsername("root");
-        dataSource.setPassword("chx200466");
-        //dataSource.setPassword("xyk200406");
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        //dataSource.setPassword("chx200466");
+        dataSource.setPassword("xyk200406");
+        //dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setInitialSize(5); // 初始化时建立物理连接的个数
         dataSource.setMaxActive(13); // 最大连接池数量
         dataSource.setMinIdle(5); // 最小连接池数量

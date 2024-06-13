@@ -5,6 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +22,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
+            transition: background-color 0.5s ease;
         }
         .sidebar {
             height: 100%;
@@ -32,6 +34,7 @@
             background: linear-gradient(to bottom, #5F9EA0, #4682B4, #87CEEB, #B0E0E6, #E0FFFF);
             padding-top: 20px;
             color: white;
+            transition: width 0.5s ease;
         }
         .sidebar a, .sidebar button {
             padding: 10px 15px;
@@ -63,6 +66,7 @@
         }
         .content-section {
             display: none;
+            animation: fadeIn 1s ease-in-out;
         }
         .active {
             display: block;
@@ -86,14 +90,18 @@
         .page-link:hover {
             color: #0056b3;
         }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
     </style>
 </head>
 <body>
 <%
-    String username = request.getParameter("username");
+    request.getParameter("username");
 %>
 <div class="sidebar">
-    <a href="#" onclick="showSection('employeeManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
+    <a href="#" onclick="showSection('employeeManagement')"><i class="fas fa-user-shield"></i>员工管理</a>
     <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
     <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal"><i class="fas fa-chart-pie"></i>员工部门占比饼状图</button>
     <button class="btn btn-success" data-toggle="modal" data-target="#addemployeeModal"><i class="fas fa-plus"></i>添加员工</button>
@@ -105,7 +113,7 @@
 <div class="main">
     <div id="employeeManagement" class="container content-section active">
         <h2>员工管理</h2>
-        <br><br>
+        <br>
         <%
             int currentpage = 1;
             int pagesize = 10; // 每页显示10个员工
@@ -146,8 +154,8 @@
                     <td>${employeeRole.empNo}</td>
                     <td>${employeeRole.depName}</td>
                     <td>${employeeRole.position}</td>
-                    <td>${employeeRole.idNumber}</td>
-                    <td>${employeeRole.phone}</td>
+                    <td>${fn:substring(employeeRole.idNumber, 0, 6)}********${fn:substring(employeeRole.idNumber, employeeRole.idNumber.length() - 4, employeeRole.idNumber.length())}</td>
+                    <td>${fn:substring(employeeRole.phone, 0, 3)}******${fn:substring(employeeRole.phone, 9, 11)}</td>
                     <td>${employeeRole.address}</td>
                     <td>
                         <button class="btn btn-warning" data-toggle="modal" data-target="#editemployeeModal"
@@ -213,6 +221,8 @@
                 <label for="confirmPassword">确认新密码:</label>
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
             </div>
+            <input type="hidden" id="username" name="username">
+            <input type="hidden" id="role" name="peopleManager">
             <button type="submit" class="btn btn-primary">修改密码</button>
         </form>
     </div>
@@ -315,7 +325,7 @@
                         <input type="text" class="form-control" id="editdepName" name="editdepName" required>
                     </div>
                     <div class="form-group">
-                        <label for="editposition">岗位:</label>
+                        <label for="editposition">职务:</label>
                         <input type="text" class="form-control" id="editposition" name="editposition" required>
                     </div>
                     <div class="form-group">
@@ -435,15 +445,10 @@
         }
         document.getElementById(sectionId).classList.add('active');
     }
-
-    // Load the Visualization API and the corechart package.
     google.charts.load('current', {'packages':['corechart']});
-
-    // Set a callback to run when the Google Visualization API is loaded.
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        // Create the data table.
         var data = google.visualization.arrayToDataTable([
             ['Department', 'Percentage'],
             <c:forEach var="entry" items="${employeeMap}">
@@ -456,7 +461,6 @@
             return;
         }
 
-        // Set chart options
         var options = {
             'title': '员工部门分布',
             'width': 600,
@@ -467,8 +471,6 @@
                 'color': '#000000' // 字体颜色
             }
         };
-
-        // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
         chart.draw(data, options);
     }

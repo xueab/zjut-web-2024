@@ -14,9 +14,9 @@ public class LogService {
         logDao.add(log);
     }
 
-//    public List<Log> selectAll() {
-//        //return logDao.selectAll();
-//    }
+    public List<Log> selectAll() {
+        return logDao.selectAll();
+    }
 
     public List<Log> search(String keyword) {
         return logDao.search(keyword);
