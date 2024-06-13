@@ -228,8 +228,8 @@
                 <label for="confirmPassword">确认新密码:</label>
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
             </div>
-            <input type="hidden" id="username" name="username">
-            <input type="hidden" id="role" name="peopleManager" value='<%=username%>'>
+            <input type="hidden" name="username" value=<%=username%>>
+            <input type="hidden" name="peopleManager" value="peopleManager">
             <button type="submit" class="btn btn-primary">修改密码</button>
         </form>
     </div>
@@ -281,6 +281,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                     <button type="submit" class="btn btn-primary">添加</button>
                 </div>
+                <input type="hidden" name="username" value=<%=username%>>
             </form>
         </div>
     </div>
@@ -305,6 +306,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                     <button type="submit" class="btn btn-danger">删除</button>
                 </div>
+                <input type="hidden" name="username" value=<%=username%>>
             </form>
         </div>
     </div>
@@ -356,6 +358,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                     <button type="submit" class="btn btn-primary">保存</button>
                 </div>
+                <input type="hidden" name="username" value=<%=username%>>
             </form>
         </div>
     </div>
