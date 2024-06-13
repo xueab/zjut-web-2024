@@ -100,7 +100,7 @@
 </head>
 <div>
 <%
-    request.getParameter("username");
+    String username = request.getParameter("username");
 %>
 <div class="sidebar">
     <a href="generalManager.jsp?section=viewEmployee" onclick="showSection('viewEmployee')"><i class="fas fa-user-shield"></i>查看员工</a>
