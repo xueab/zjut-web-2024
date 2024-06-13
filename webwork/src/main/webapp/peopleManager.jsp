@@ -238,7 +238,7 @@
 <div class="modal fade" id="addemployeeModal" tabindex="-1" role="dialog" aria-labelledby="addemployeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="addemployee.do" method="post">
+            <form action="addemployee.do" method="post" accept-charset="UTF-8">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addemployeeModalLabel">添加员工</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -290,7 +290,7 @@
 <div class="modal fade" id="deleteemployeeModal" tabindex="-1" role="dialog" aria-labelledby="deleteemployeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="deleteemployee.do" method="post">
+            <form action="deleteemployee.do" method="post" accept-charset="UTF-8">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteemployeeModalLabel">删除员工</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -315,7 +315,7 @@
 <div class="modal fade" id="editemployeeModal" tabindex="-1" role="dialog" aria-labelledby="editemployeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="updateemployee.do" method="post">
+            <form action="updateemployee.do" method="post" accept-charset="UTF-8">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editemployeeModalLabel">修改员工信息</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
