@@ -18,6 +18,7 @@ public class updateSalaryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SalaryService s = new SalaryService();
+
         String username = req.getParameter("username");
         int empNo = Integer.parseInt(req.getParameter("editempNo"));
         int year = Integer.parseInt(req.getParameter("edityear"));
@@ -25,11 +26,12 @@ public class updateSalaryServlet extends HttpServlet {
         BigDecimal basicSalary = new BigDecimal(req.getParameter("editbasicSalary"));
         BigDecimal overtimePay = new BigDecimal(req.getParameter("editovertimePay"));
         BigDecimal fullAttendanceBonus = new BigDecimal(req.getParameter("editfullAttendanceBonus"));
-        BigDecimal personalTax = new BigDecimal(req.getParameter("editpersonalTax"));
-        BigDecimal netSalary = new BigDecimal(req.getParameter("editnetSalary"));
+        BigDecimal personalTax = BigDecimal.valueOf(0);
+        BigDecimal netSalary = BigDecimal.valueOf(0);
 
         Salary salary = new Salary(empNo, year, month, basicSalary, overtimePay, fullAttendanceBonus, personalTax, netSalary);
-
+        salary.setPersonalTax(salary.calculatePersonalTax());
+        salary.setNetSalary(salary.calculateNetSalary());
         s.update(salary);
 
         resp.sendRedirect(req.getContextPath() + "/financialManager.jsp" + "?username=" + username);

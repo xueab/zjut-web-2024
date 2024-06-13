@@ -30,19 +30,19 @@ public class changePassswordServlet extends HttpServlet {
         }
         // 新密码和confirmPassword不相同或旧密码错误
         if (role.equals("peopleManager")) {
-            resp.sendRedirect(req.getContextPath() + "/peopleManager.jsp?" + "section=changePassword" + "&username" + username);
+            resp.sendRedirect(req.getContextPath() + "/peopleManager.jsp?" + "section=changePassword" + "&username=" + username);
         }
         else if (role.equals("financialManager")) {
-            resp.sendRedirect(req.getContextPath() + "/financialManager.jsp?section=changePassword" + "&username" + username);
+            resp.sendRedirect(req.getContextPath() + "/financialManager.jsp?section=changePassword" + "&username=" + username);
         }
         else if (role.equals("generalManager")) {
-            resp.sendRedirect(req.getContextPath() + "/generalManager.jsp?section=changePassword" + "&username" + username);
+            resp.sendRedirect(req.getContextPath() + "/generalManager.jsp?section=changePassword" + "&username=" + username);
         }
         else if (role.equals("systemManager")) {
-            resp.sendRedirect(req.getContextPath() + "/systemManager.jsp?section=changePassword" + "&username" + username);
+            resp.sendRedirect(req.getContextPath() + "/systemManager.jsp?section=changePassword" + "&username=" + username);
         }
         else if (role.equals("logManager")) {
-            resp.sendRedirect(req.getContextPath() + "/logManager.jsp?section=changePassword" + "&username" + username);
+            resp.sendRedirect(req.getContextPath() + "/logManager.jsp?section=changePassword" + "&username=" + username);
         }
 
     }
