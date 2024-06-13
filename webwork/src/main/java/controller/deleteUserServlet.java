@@ -18,12 +18,12 @@ public class deleteUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserService user = new UserService();
-
+        String username = req.getParameter("username");
         int userId = Integer.parseInt(req.getParameter("deleteuserId"));
         user.delete(userId);
 
         // 重定向
-        resp.sendRedirect(req.getContextPath() + "/systemManager.jsp");
+        resp.sendRedirect(req.getContextPath() + "/systemManager.jsp" + "?username=" + username);
 
     }
 

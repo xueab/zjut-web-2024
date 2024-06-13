@@ -18,7 +18,7 @@ public class updateSalaryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SalaryService s = new SalaryService();
-
+        String username = req.getParameter("username");
         int empNo = Integer.parseInt(req.getParameter("editempNo"));
         int year = Integer.parseInt(req.getParameter("edityear"));
         int month = Integer.parseInt(req.getParameter("editmonth"));
@@ -32,7 +32,7 @@ public class updateSalaryServlet extends HttpServlet {
 
         s.update(salary);
 
-        resp.sendRedirect(req.getContextPath() + "/financialManager.jsp");
+        resp.sendRedirect(req.getContextPath() + "/financialManager.jsp" + "?username=" + username);
     }
 
     @Override

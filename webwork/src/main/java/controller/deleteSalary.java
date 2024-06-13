@@ -18,20 +18,16 @@ public class deleteSalary extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SalaryService s = new SalaryService();
-
+        String username = req.getParameter("username");
         int empNo = Integer.parseInt(req.getParameter("deleteempNo"));
         int year = Integer.parseInt(req.getParameter("deleteyear"));
         int month = Integer.parseInt(req.getParameter("deletemonth"));
-//        BigDecimal basicSalary = new BigDecimal(req.getParameter("deletebasicSalary"));
-//        BigDecimal overtimePay = new BigDecimal(req.getParameter("deleteovertimePay"));
-//        BigDecimal fullAttendanceBonus = new BigDecimal(req.getParameter("deletefullAttendanceBonus"));
-//        BigDecimal personalTax = new BigDecimal(req.getParameter("deletepersonalTax"));
-//        BigDecimal netSalary = new BigDecimal(req.getParameter("deletenetSalary"));
+
 
 
         s.delete(empNo, year, month);
 
-        resp.sendRedirect(req.getContextPath() + "/financialManager.jsp");
+        resp.sendRedirect(req.getContextPath() + "/financialManager.jsp" + "?username=" + username);
     }
 
     @Override
