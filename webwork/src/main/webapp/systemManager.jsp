@@ -97,12 +97,12 @@
 </head>
 <body>
 <%
-    request.getParameter("username");
+    String username = request.getParameter("username");
 %>
 <div class="sidebar">
-    <a href="systemManager.jsp?section=roleManagement" onclick="showSection('roleManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
-    <a href="systemManager.jsp?section=viewSalaries" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
-    <a href="systemManager.jsp?section=changePassword" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
+    <a href="systemManager.jsp?section=roleManagement&username=<%=username%>" onclick="showSection('roleManagement')"><i class="fas fa-user-shield"></i>角色管理</a>
+    <a href="systemManager.jsp?section=viewSalaries&username=<%=username%>" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
+    <a href="systemManager.jsp?section=changePassword&username=<%=username%>" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
     <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal">
         <i class="fas fa-chart-pie"></i>员工工资分布饼状图
     </button>
@@ -163,21 +163,21 @@
                     if (currentpage > 1) {
                 %>
                 <li class="page-item">
-                    <a class="page-link" href="systemManager.jsp?currentpage=<%= currentpage - 1 %>">上一页</a>
+                    <a class="page-link" href="systemManager.jsp?currentpage=<%= currentpage - 1 %>&username=<%=username%>">上一页</a>
                 </li>
                 <%
                     }
                     for (int i = startPage; i <= endPage; i++) {
                 %>
                 <li class="page-item <%= (i == currentpage) ? "active" : "" %>">
-                    <a class="page-link" href="systemManager.jsp?currentpage=<%= i %>"><%= i %></a>
+                    <a class="page-link" href="systemManager.jsp?currentpage=<%= i %>&username=<%=username%>"><%= i %></a>
                 </li>
                 <%
                     }
                     if (currentpage < totalpages) {
                 %>
                 <li class="page-item">
-                    <a class="page-link" href="systemManager.jsp?currentpage=<%= currentpage + 1 %>">下一页</a>
+                    <a class="page-link" href="systemManager.jsp?currentpage=<%= currentpage + 1 %>&username=<%=username%>">下一页</a>
                 </li>
                 <%
                     }
