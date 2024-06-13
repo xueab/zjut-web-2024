@@ -117,4 +117,9 @@ public class SalaryDao extends BaseDao {
         }
         return list;
     }
+
+/*    public List<Salary> seleceByName(String name)
+    {
+        String sql = "select * from salary where name like '%"+name+"%'";
+    }*/
 }

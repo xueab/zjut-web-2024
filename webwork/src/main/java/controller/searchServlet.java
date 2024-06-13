@@ -18,7 +18,7 @@ import java.util.List;
 public class searchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("name");
+/*        String name = req.getParameter("name");
         String keyword = req.getParameter("keyword");
         if (name.equals("Salary")) {
             SalaryService salaryService = new SalaryService();
@@ -32,7 +32,7 @@ public class searchServlet extends HttpServlet {
             List<Log> list = logService.search(keyword);
             req.setAttribute("list", list);
             req.getRequestDispatcher("/Log.jsp").forward(req, resp);
-        }
+        }*/
     }
 
     @Override

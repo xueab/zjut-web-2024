@@ -15,9 +15,9 @@ public class LogService {
         return logDao.selectAll();
     }
 
-    public List<Log> search(String keyword) {
+/*    public List<Log> search(String keyword) {
         return logDao.search(keyword);
-    }
+    }*/
 
     public List<Log> selectByPage(int page) {
         return logDao.selectByPage(page * 10);

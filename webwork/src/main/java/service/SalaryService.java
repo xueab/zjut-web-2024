@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,9 +34,9 @@ public class SalaryService {
         return stats;
     }
 
-    public List<Salary> search(String keyword) {
+/*    public List<Salary> search(String keyword) {
         return salaryDao.search(keyword);
-        /*
+
         List<Salary> salaries = new ArrayList<>();
         String sql = "SELECT * FROM Salary WHERE empNo LIKE ? OR year LIKE ? OR month LIKE ? " +
                      "OR basicSalary LIKE ? OR overtimePay LIKE ? OR fullAttendanceBonus LIKE ? " +
@@ -71,8 +72,8 @@ public class SalaryService {
             e.printStackTrace();
         }
         return salaries;
-         */
-    }
+
+    }*/
 
     public List<Salary> selectAll() {
         return salaryDao.selectAll();

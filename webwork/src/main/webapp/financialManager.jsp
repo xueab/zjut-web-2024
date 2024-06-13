@@ -97,7 +97,7 @@
 </head>
 <body>
 <%
-    request.getParameter("username");
+    String username =  request.getParameter("username");
 %>
 <div class="sidebar">
     <a href="#" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
@@ -228,8 +228,8 @@
                 <label for="confirmPassword">确认新密码:</label>
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
             </div>
-            <input type="hidden" id="username" name="username">
-            <input type="hidden" id="role" name="financialManager">
+            <input type="hidden" id="username" name="username" value="${username}">
+            <input type="hidden" id="role" name="role" value="financialManager">
             <button type="submit" class="btn btn-primary">修改密码</button>
         </form>
     </div>
