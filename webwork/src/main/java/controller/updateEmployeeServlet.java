@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static java.time.temporal.WeekFields.ISO;
+
 // 修改员工信息
 @WebServlet("/updateemployee.do")
 public class updateEmployeeServlet extends HttpServlet {
@@ -17,8 +19,11 @@ public class updateEmployeeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EmployeeService e = new EmployeeService();
 
+
         int empNo = Integer.parseInt(req.getParameter("editempNo"));
-        String name = req.getParameter("editname");
+        String username = req.getParameter("editname");
+        String name = new String(username.getBytes("ISO-8859-1"),"utf-8");
+        //String name = req.getParameter("editname");
         String depName = req.getParameter("editdepName");
         String position = req.getParameter("editposition");
         String idNumber = req.getParameter("editidNumber");
@@ -28,9 +33,13 @@ public class updateEmployeeServlet extends HttpServlet {
 
         Employee employee = new Employee(empNo, name, depName, position, idNumber, phone, address);
 
-//        System.out.println(empNo);
-//        System.out.println(name);
-//        System.out.println(depName);
+        System.out.println(empNo);
+        System.out.println(name);
+        System.out.println(depName);
+        System.out.println(position);
+        System.out.println(idNumber);
+        System.out.println(phone);
+        System.out.println(address);
 
 
         e.updateEmployee(employee);
