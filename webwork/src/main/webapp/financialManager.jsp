@@ -270,14 +270,6 @@
                         <label for="addfullAttendanceBonus">全勤奖:</label>
                         <input type="text" class="form-control" id="addfullAttendanceBonus" name="addfullAttendanceBonus" required>
                     </div>
-                    <div class="form-group">
-                        <label for="addpersonalTax">个人所得税:</label>
-                        <input type="text" class="form-control" id="addpersonalTax" name="addpersonalTax" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="addnetSalary">实发工资:</label>
-                        <input type="text" class="form-control" id="addnetSalary" name="addnetSalary" required>
-                    </div>
                     <input type="hidden" name="username" value=<%=username%>>
                 </div>
                 <div class="modal-footer">
@@ -299,9 +291,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="editempNo">
-                    <input type="hidden" name="edityear">
-                    <input type="hidden" name="editmonth">
+                    <input type="hidden" id="editempNo" name="editempNo">
+                    <input type="hidden" id="edityear" name="edityear">
+                    <input type="hidden" id="editmonth" name="editmonth">
                     <div class="form-group">
                         <label for="editbasicSalary">基本工资:</label>
                         <input type="text" class="form-control" id="editbasicSalary" name="editbasicSalary" required>
@@ -313,14 +305,6 @@
                     <div class="form-group">
                         <label for="editfullAttendanceBonus">全勤奖:</label>
                         <input type="text" class="form-control" id="editfullAttendanceBonus" name="editfullAttendanceBonus" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editpersonalTax">个人所得税:</label>
-                        <input type="text" class="form-control" id="editpersonalTax" name="editpersonalTax" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editnetSalary">实发工资:</label>
-                        <input type="text" class="form-control" id="editnetSalary" name="editnetSalary" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -345,9 +329,9 @@
                 </div>
                 <div class="modal-body">
                     <p>确定要删除该条的工资信息吗?</p>
-                    <input type="hidden" name="deleteempNo">
-                    <input type="hidden" name="deleteyear">
-                    <input type="hidden" name="deletemonth">
+                    <input type="hidden" id="deleteEmpNo" name="deleteempNo">
+                    <input type="hidden" id="deleteYear" name="deleteyear">
+                    <input type="hidden" id="deleteMonth" name="deletemonth">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
@@ -362,14 +346,15 @@
 <div class="modal fade" id="queryModal" tabindex="-1" aria-labelledby="queryModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+            <form action="searchServlet" method="post">
+                <input type="hidden" name="username" value="Salary">
             <div class="modal-header">
                 <h5 class="modal-title" id="queryModalLabel">历史工资查询</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form>
+                <div class="modal-body">
                     <div class="form-group">
                         <label for="queryType">选择查询方式:</label>
                         <select class="form-control" id="queryType">
@@ -379,25 +364,28 @@
                         </select>
                     </div>
                     <div id="nameInput" class="form-group">
+                        <input type="hidden" name="keyword" value="name">
                         <label for="name">姓名:</label>
-                        <input type="text" class="form-control" id="name">
+                        <input type="text" class="form-control" id="name" name="name">
                     </div>
                     <div id="departmentInput" class="form-group">
+                        <input type="hidden" name="keyword" value="department">
                         <label for="department">部门:</label>
-                        <input type="text" class="form-control" id="department">
+                        <input type="text" class="form-control" id="department" name="department">
                     </div>
                     <div id="dateRangeInput" class="form-group">
+                        <input type="hidden" name="keyword" value="date">
                         <label for="startDate">开始日期:</label>
-                        <input type="month" class="form-control" id="startDate">
+                        <input type="month" class="form-control" id="startDate" name="startDate">
                         <label for="endDate" class="mt-2">结束日期:</label>
-                        <input type="month" class="form-control" id="endDate">
+                        <input type="month" class="form-control" id="endDate" name="endDate">
                     </div>
-                </form>
-            </div>
+                </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary">查询</button>
             </div>
+            </form>
         </div>
     </div>
 </div>
@@ -515,7 +503,7 @@
                 nameInput.style.display = "block";
             } else if (value === "department") {
                 departmentInput.style.display = "block";
-            } else if (value === "dateRange") {
+            } else if (value === "date") {
                 dateRangeInput.style.display = "block";
             }
         }
@@ -543,7 +531,6 @@
         var editovertimePay = button.data('overtimePay');
         var editfullAttendanceBonus = button.data('fullAttendanceBonus');
         var editpersonalTax = button.data('personalTax');
-        var editnetSalary = button.data('netSalary');
 
         var modal = $(this);
         modal.find('#editEmpNo').val(empNo);
@@ -553,7 +540,20 @@
         modal.find('#editovertimePay').val(editovertimePay);
         modal.find('#editfullAttendanceBonus').val(editfullAttendanceBonus);
         modal.find('#editpersonalTax').val(editpersonalTax);
-        modal.find('#editnetSalary').val(editnetSalary);
+    });
+
+    $('queryModal').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget);
+        var name = button.data('name');
+        var department = button.data('department');
+        var startDate = button.data('startDate');
+        var endDate = button.data('endDate');
+
+        var modal = $(this);
+        modal.find('#name').val(name);
+        modal.find('#department').val(department);
+        modal.find('#startDate').val(startDate);
+        modal.find('#endDate').val(endDate);
     });
 </script>
 </body>
