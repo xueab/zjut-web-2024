@@ -23,17 +23,17 @@ public class updateUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserService user = new UserService();
-
+        String username = req.getParameter("username");
         int userId = Integer.parseInt(req.getParameter("edituserId"));
-        String username = req.getParameter("editusername");
+        String editusername = req.getParameter("editusername");
 
         String role = req.getParameter("editrole");
 
 
-        user.update(userId, username, role);
+        user.update(userId, editusername, role);
 
         // 重定向
-        resp.sendRedirect(req.getContextPath() + "/systemManager.jsp");
+        resp.sendRedirect(req.getContextPath() + "/systemManager.jsp" + "?username" + username);
     }
 
     @Override

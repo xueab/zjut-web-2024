@@ -24,9 +24,6 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        req.setAttribute("usernamw", username);
-        req.setAttribute("password", password);
-
         String ipAddress = req.getRemoteAddr();   // 获取 ip 地址
 
         Log log = new Log();
@@ -92,7 +89,7 @@ public class LoginServlet extends HttpServlet {
             // 在重定向URL中附加username参数
             if (redirectURL.equals("/peopleManager.jsp")) {
                 redirectURL += "?username=" + username;
-                resp.sendRedirect(req.getContextPath() +  redirectURL);
+                 resp.sendRedirect(req.getContextPath() +  redirectURL);
 
             }else if (redirectURL.equals("/financialManager.jsp")) {
                 redirectURL += "?username=" + username;
@@ -103,8 +100,11 @@ public class LoginServlet extends HttpServlet {
             } else if (redirectURL.equals("/systemManager.jsp")) {
                 redirectURL += "?username=" + username;
                 resp.sendRedirect(req.getContextPath() + redirectURL);
+            } else if (redirectURL.equals("/logManager.jsp")) {
+                redirectURL += "?username=" + username;
+                resp.sendRedirect(req.getContextPath() + redirectURL);
             }
-            //req.getRequestDispatcher(redirectURL).forward(req, resp);
+
             return;
         }
         // 用户名错误

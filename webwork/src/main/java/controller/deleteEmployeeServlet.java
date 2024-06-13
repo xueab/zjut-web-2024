@@ -17,6 +17,7 @@ public class deleteEmployeeServlet extends HttpServlet {
         EmployeeService e = new EmployeeService();
         int empNo = Integer.parseInt(req.getParameter("deleteempNo"));
         String name = req.getParameter("deletename");
+        String username = req.getParameter("username");
 
         e.deleteEmployee(empNo, name);
 
@@ -24,7 +25,7 @@ public class deleteEmployeeServlet extends HttpServlet {
         System.out.println(name);
 
         // 重定向
-        resp.sendRedirect(req.getContextPath() + "/peopleManager.jsp");
+        resp.sendRedirect(req.getContextPath() + "/peopleManager.jsp" + "?username=" + username);
     }
 
     @Override
