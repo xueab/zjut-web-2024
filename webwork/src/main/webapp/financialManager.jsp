@@ -130,6 +130,7 @@
                     currentpage = 1; // 如果参数不是有效的整数，默认显示第一页
                 }
             }
+            List<Salary> list = (List<Salary>) request.getAttribute("list");
             List<Salary> salary = salaryService.selectAll();
             List<Salary> salarys = salaryService.selectByPage(currentpage-1);
             Map<String, Double> salaryMap = salaryService.getSalaryStats();
@@ -160,6 +161,9 @@
             </tr>
             </thead>
             <tbody id="salaryRolesTable">
+            <%
+                if (list == null) {
+            %>
             <c:forEach var="salaryRole" items="${salarys}">
                 <tr>
                     <td>${salaryRole.empNo}</td>
@@ -213,6 +217,37 @@
                 %>
             </ul>
         </div>
+        <%
+            }else {
+        %>
+        <table class="table table-striped">
+            <tbody id="salaryTable">
+            <c:forEach var="salaryRole" items="${list}">
+                <tr>
+                    <td>${salaryRole.empNo}</td>
+                    <td>${salaryRole.year}</td>
+                    <td>${salaryRole.month}</td>
+                    <td>${salaryRole.basicSalary}</td>
+                    <td>${salaryRole.overtimePay}</td>
+                    <td>${salaryRole.fullAttendanceBonus}</td>
+                    <td>${salaryRole.personalTax}</td>
+                    <td>${salaryRole.netSalary}</td>
+                    <td>
+                        <button class="btn btn-warning" data-toggle="modal" data-target="#editSalaryModal"
+                                data-empNo="${salaryRole.empNo}" data-year="${salaryRole.year}" data-month="${salaryRole.month}"
+                                data-basicSalary="${salaryRole.basicSalary}" data-overtimePay="${salaryRole.overtimePay}"
+                                data-fullAttendanceBonus="${salaryRole.fullAttendanceBonus}" data-personTax="${salaryRole.personalTax}"
+                                data-netSalary="${salaryRole.netSalary}">编辑</button>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteSalaryModal"
+                                data-empNo="${salaryRole.empNo}" data-year="${salaryRole.year}" data-month="${salaryRole.month}">删除</button>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <%
+            }
+            %>
     </div>
     <div id="changePassword" class="container content-section">
         <h2>修改密码</h2>
@@ -358,30 +393,29 @@
                     <div class="form-group">
                         <label for="queryType">选择查询方式:</label>
                         <select class="form-control" id="queryType">
+                            <option value="" selected>请选择</option>
                             <option value="name">通过姓名</option>
-                            <option value="department">通过部门</option>
+                            <option value="deptName">通过部门</option>
                             <option value="date">通过时间段</option>
                         </select>
                     </div>
-                    <div id="nameInput" class="form-group">
-                        <input type="hidden" name="keyword" value="name">
+                    <div id="nameInput" class="form-group" style="display:none;">
                         <label for="name">姓名:</label>
                         <input type="text" class="form-control" id="name" name="name">
                     </div>
-                    <div id="departmentInput" class="form-group">
-                        <input type="hidden" name="keyword" value="department">
-                        <label for="department">部门:</label>
-                        <input type="text" class="form-control" id="department" name="department">
+                    <div id="deptNameInput" class="form-group" style="display:none;">
+                        <label for="deptName">部门:</label>
+                        <input type="text" class="form-control" id="deptName" name="deptName">
                     </div>
-                    <div id="dateRangeInput" class="form-group">
-                        <input type="hidden" name="keyword" value="date">
+                    <div id="dateRangeInput" class="form-group" style="display:none;">
                         <label for="startDate">开始日期:</label>
                         <input type="month" class="form-control" id="startDate" name="startDate">
                         <label for="endDate" class="mt-2">结束日期:</label>
                         <input type="month" class="form-control" id="endDate" name="endDate">
                     </div>
+                    <input type="hidden" id="keyword" name="keyword">
                 </div>
-            <div class="modal-footer">
+                <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                 <button type="submit" class="btn btn-primary">查询</button>
             </div>
@@ -542,18 +576,47 @@
         modal.find('#editpersonalTax').val(editpersonalTax);
     });
 
-    $('queryModal').on('show.bs.modal', function (event){
-        var button = $(event.relatedTarget);
-        var name = button.data('name');
-        var department = button.data('department');
-        var startDate = button.data('startDate');
-        var endDate = button.data('endDate');
+    $(document).ready(function() {
+        $('#queryType').change(function() {
+            var queryType = $(this).val();
+            $('#keyword').val(queryType);
 
-        var modal = $(this);
-        modal.find('#name').val(name);
-        modal.find('#department').val(department);
-        modal.find('#startDate').val(startDate);
-        modal.find('#endDate').val(endDate);
+            $('#nameInput').hide();
+            $('#deptNameInput').hide();
+            $('#dateRangeInput').hide();
+
+            if (queryType === 'name') {
+                $('#nameInput').show();
+            } else if (queryType === 'deptName') {
+                $('#deptNameInput').show();
+            } else if (queryType === 'date') {
+                $('#dateRangeInput').show();
+            }
+
+            // 移除“请选择”选项
+            if (queryType !== "") {
+                $('#queryType option[value=""]').remove();
+            }
+        });
+
+        $('#queryModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var name = button.data('name');
+            var deptName = button.data('deptname');
+            var startDate = button.data('startdate');
+            var endDate = button.data('enddate');
+
+            var modal = $(this);
+            modal.find('#name').val(name);
+            modal.find('#deptName').val(deptName);
+            modal.find('#startDate').val(startDate);
+            modal.find('#endDate').val(endDate);
+
+            // 默认隐藏所有输入框
+            $('#nameInput').hide();
+            $('#deptNameInput').hide();
+            $('#dateRangeInput').hide();
+        });
     });
 </script>
 </body>
