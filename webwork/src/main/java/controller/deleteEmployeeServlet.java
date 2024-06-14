@@ -16,8 +16,8 @@ public class deleteEmployeeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EmployeeService e = new EmployeeService();
         int empNo = Integer.parseInt(req.getParameter("deleteempNo"));
-        String name = req.getParameter("deletename");
-        String username = req.getParameter("username");
+        String name = new String(req.getParameter("deletename").getBytes("ISO-8859-1"), "utf-8");
+        String username = new String(req.getParameter("username").getBytes("ISO-8859-1"), "utf-8");
 
         e.deleteEmployee(empNo, name);
 

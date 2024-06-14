@@ -21,7 +21,8 @@ import java.util.Map;
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("username");
+        String username = new String(req.getParameter("username").getBytes("ISO-8859-1"),"utf-8");
+
         String password = req.getParameter("password");
 
         String ipAddress = req.getRemoteAddr();   // 获取 ip 地址

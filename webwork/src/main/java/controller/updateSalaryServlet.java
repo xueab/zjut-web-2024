@@ -19,7 +19,8 @@ public class updateSalaryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SalaryService s = new SalaryService();
 
-        String username = req.getParameter("username");
+        String username = new String(req.getParameter("username").getBytes("ISO-8859-1"),"utf-8");
+
         int empNo = Integer.parseInt(req.getParameter("editempNo"));
         int year = Integer.parseInt(req.getParameter("edityear"));
         int month = Integer.parseInt(req.getParameter("editmonth"));
