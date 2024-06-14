@@ -31,19 +31,7 @@ public class updateEmployeeServlet extends HttpServlet {
 
 
         Employee employee = new Employee(empNo, name, depName, position, idNumber, phone, address);
-
-        System.out.println(empNo);
-        System.out.println(name);
-        System.out.println(depName);
-        System.out.println(position);
-        System.out.println(idNumber);
-        System.out.println(phone);
-        System.out.println(address);
-
-
         e.updateEmployee(employee);
-
-
 
         // 重定向
         resp.sendRedirect(req.getContextPath() + "/peopleManager.jsp" + "?username=" + username);

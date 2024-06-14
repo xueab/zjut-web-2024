@@ -50,12 +50,15 @@ public class LoginService {
     }
 
     public String encrypt(String password) throws UnsupportedEncodingException {
+        // 创建SM3哈希算法实例
         Digest digest = new SM3Digest();
-        // 对输入进行编码，SM3需要一个字节序列
+        // 将密码转换成字节数组
         byte[] inputBytes = password.getBytes("UTF-8");
-        // 进行摘要
+        // 创建输出字节数组,长度等于SM3算法输出摘要的大小
         byte[] outputBytes = new byte[digest.getDigestSize()];
+        // 将输入字节数组给SM3算法进行处理
         digest.update(inputBytes, 0, inputBytes.length);
+        // 进行哈希计算,结果存储在输出数组中
         digest.doFinal(outputBytes, 0);
         // 将字节数组转换为十六进制字符串
         return Hex.toHexString(outputBytes);

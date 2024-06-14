@@ -49,10 +49,10 @@ public class SalaryService {
     public void uploadExcel(InputStream excelFileStream) throws IOException {
         // 读取Excel文件
         // 传入的excelFileStream创建了一个Workbook实例，这个实例代表了整个Excel工作簿（即Excel文件）
-        // XSSFWorkbook是Apache POI中用于处理XLSX格式（Office Open XML Spreadsheet）的类
+        // XSSFWorkbook是Apache POI中用于处理XLSX格式的类
         Workbook workbook = new XSSFWorkbook(excelFileStream);
 
-        // 这行代码从工作簿中获取第一个工作表（Sheet），索引从0开始
+        // 从工作簿中获取第一个工作表（Sheet），索引从0开始
         Sheet sheet = workbook.getSheetAt(0);
 
         List<Salary> list = new ArrayList<>();
@@ -62,6 +62,7 @@ public class SalaryService {
             // Excel的列分别是员工编号,工资所属年份,工资所属月份,基本工资,
             // 加班工资,全勤奖,个人所得税,实发工资
 
+            // 获取单元格数据
 
             // 获取员工编号
             int empNo = (int)row.getCell(0).getNumericCellValue();
@@ -97,11 +98,13 @@ public class SalaryService {
     }
     public void exportExcel(HttpServletResponse resp) throws IOException {
         List<Salary> list = salaryDao.selectAll();
-
+        // 创建excel文件
         Workbook workbook = new XSSFWorkbook();
+        // 创建工作簿
         Sheet sheet = workbook.createSheet("Salaries");
 
         // 添加表头
+        // 创建第一行作为表头
         Row headerRow = sheet.createRow(0);
         headerRow.createCell(0).setCellValue("员工编号");
         headerRow.createCell(1).setCellValue("工资所属年份");
@@ -116,6 +119,7 @@ public class SalaryService {
         // 添加数据
         int rowNum = 1;
         for (Salary salary : list) {
+            // 为每条记录创建新行，并递增行号
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(salary.getEmpNo());
             row.createCell(1).setCellValue(salary.getYear());
@@ -129,10 +133,8 @@ public class SalaryService {
         }
 
         // 设置响应头信息
-        // response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        // 设置响应的内容类型为 Excel 文件（.xlsx）的 MIME 类型。这告诉浏览器响应的内容是一个 Excel 文件
-        // response.setHeader("Content-Disposition", "attachment; filename=salaries.xlsx"):
-        // 设置 Content-Disposition 头为 attachment并指定下载文件的名称为 salaries.xlsx。这将触发浏览器弹出下载对话框，并显示文件名
+        // 设置响应的内容类型为 Excel 文件的 MIME 类型,告诉浏览器响应的内容是一个 Excel 文件
+        // 设置 Content-Disposition 头为 attachment(附件)并指定下载文件的名称为 salaries.xlsx
         resp.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         resp.setHeader("Content-Disposition", "attachment; filename=salaries.xlsx");
         
