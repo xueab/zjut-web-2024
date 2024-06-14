@@ -393,7 +393,7 @@
                     <div class="form-group">
                         <label for="queryType">选择查询方式:</label>
                         <select class="form-control" id="queryType">
-                            <option value="" selected>请选择</option>
+                            <option value="selected">请选择</option>
                             <option value="name">通过姓名</option>
                             <option value="deptName">通过部门</option>
                             <option value="date">通过时间段</option>
