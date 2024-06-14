@@ -121,6 +121,7 @@
                         currentpage = 1; // 如果参数不是有效的整数，默认显示第一页
                     }
                 }
+                List<Log> list = (List<Log>) request.getAttribute("list");
                 List<Log> log = logService.selectAll();
                 List<Log> logs = logService.selectByPage(currentpage-1);
                 request.setAttribute("logs", logs);
@@ -138,6 +139,9 @@
                 </tr>
                 </thead>
                 <tbody id="logRolesTable">
+                <%
+                    if (list == null) {
+                %>
                 <c:forEach var="logRole" items="${logs}">
                     <tr>
                         <td>${logRole.time}</td>
@@ -179,6 +183,23 @@
                     %>
                 </ul>
             </div>
+            <%
+            }else {
+            %>
+            <tbody id="logTable">
+            <c:forEach var="logRole" items="${list}">
+                <tr>
+                    <td>${logRole.time}</td>
+                    <td>${logRole.level}</td>
+                    <td>${logRole.message}</td>
+                    <td>${logRole.username}</td>
+                    <td>${logRole.ipAddress}</td>
+                </tr>z
+            </c:forEach>
+            </tbody>
+            <%
+                }
+            %>
         </div>
         </div>
 
@@ -206,40 +227,42 @@
     <div class="modal fade" id="queryModal" tabindex="-1" aria-labelledby="queryModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="queryModalLabel">历史日志查询</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
+                <form action="searchServlet" method="post">
+                    <input type="hidden" name="username" value="Log">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="queryModalLabel">历史日志查询</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-group">
                             <label for="queryType">选择查询方式:</label>
                             <select class="form-control" id="queryType">
+                                <option value="selected">请选择</option>
                                 <option value="name">通过用户名</option>
-                                <option value="dateRange">通过时间段</option>
+                                <option value="date">通过时间段</option>
                             </select>
                         </div>
-                        <div id="nameInput" class="form-group">
-                            <label for="name">姓名:</label>
-                            <input type="text" class="form-control" id="name">
+                        <div id="nameInput" class="form-group" style="display:none;">
+                            <label for="name">用户名:</label>
+                            <input type="text" class="form-control" id="name" name="name">
                         </div>
-                        <div id="dateRangeInput" class="form-group">
+                        <div id="dateRangeInput" class="form-group" style="display:none;">
                             <label for="startDate">开始日期:</label>
-                            <input type="month" class="form-control" id="startDate">
+                            <input type="month" class="form-control" id="startDate" name="startDate">
                             <label for="endDate" class="mt-2">结束日期:</label>
-                            <input type="month" class="form-control" id="endDate">
+                            <input type="month" class="form-control" id="endDate" name="endDate">
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Submit</button>
-                </div>
+                        <input type="hidden" id="keyword" name="keyword">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">查询</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
     </div>
 </div>
 
@@ -306,6 +329,43 @@
         }
         queryType.onchange();
     });
+    $(document).ready(function() {
+        $('#queryType').change(function() {
+            var queryType = $(this).val();
+            $('#keyword').val(queryType);
+
+            $('#nameInput').hide();
+            $('#dateRangeInput').hide();
+
+            if (queryType === 'name') {
+                $('#nameInput').show();
+            }else if (queryType === 'date') {
+                $('#dateRangeInput').show();
+            }
+
+            // 移除“请选择”选项
+            if (queryType !== "") {
+                $('#queryType option[value=""]').remove();
+            }
+        });
+
+        $('#queryModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var name = button.data('name');
+            var startDate = button.data('startdate');
+            var endDate = button.data('enddate');
+
+            var modal = $(this);
+            modal.find('#name').val(name);
+            modal.find('#startDate').val(startDate);
+            modal.find('#endDate').val(endDate);
+
+            // 默认隐藏所有输入框
+            $('#nameInput').hide();
+            $('#dateRangeInput').hide();
+        });
+    });
+
 </script>
 </body>
 </html>
