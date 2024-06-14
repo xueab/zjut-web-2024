@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 
 
 @WebServlet("/searchServlet")
@@ -53,8 +56,21 @@ public class searchServlet extends HttpServlet {
             }
             else if (keyword.equals("date")) {
                 // 按时间查询
-                Date beginTime = new Date(req.getParameter("startDate"));
-                Date endTime = new Date(req.getParameter("endDate"));
+                String beginTimeStr = req.getParameter("startDate");
+                String endTimeStr = req.getParameter("endDate");
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+
+                Date beginTime = null;
+                Date endTime = null;
+                try {
+                    beginTime = dateFormat.parse(beginTimeStr);
+                    endTime =  dateFormat.parse(endTimeStr);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
                 List<Salary> list = salaryService.searchByDate(beginTime, endTime);
                 req.setAttribute("list", list);
                 req.getRequestDispatcher("/financialManager.jsp").forward(req, resp);
@@ -71,8 +87,19 @@ public class searchServlet extends HttpServlet {
             }
             else if (keyword.equals("date")) {
                 // 按时间查询
-                Date beginTime = new Date(req.getParameter("startDate"));
-                Date endTime = new Date(req.getParameter("endDate"));
+                String beginTimeStr = req.getParameter("startDate");
+                String endTimeStr = req.getParameter("endDate");
+                // 定义日期格式
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                
+                Date beginTime = null;
+                Date endTime = null;
+                try {
+                    beginTime = dateFormat.parse(beginTimeStr);
+                    endTime =  dateFormat.parse(endTimeStr);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
                 List<Log> list = logService.searchByDate(beginTime, endTime);
                 req.setAttribute("list", list);
                 req.getRequestDispatcher("/Log.jsp").forward(req, resp);
