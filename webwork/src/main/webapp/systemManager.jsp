@@ -312,6 +312,7 @@
                             <option value="financialManager">财务管理员</option>
                             <option value="generalManager">总经理</option>
                             <option value="systemManager">系统管理员</option>
+                            <option value="Log">日志管理员</option>
                         </select>
                     </div>
                 </div>

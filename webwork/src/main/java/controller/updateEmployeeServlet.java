@@ -11,12 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import static java.time.temporal.WeekFields.ISO;
+
 // 修改员工信息
 @WebServlet("/updateemployee.do")
 public class updateEmployeeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EmployeeService e = new EmployeeService();
+
         String username = new String(req.getParameter("username").getBytes("ISO-8859-1"),"utf-8");
         int empNo = Integer.parseInt(req.getParameter("editempNo"));
         String name = new String(req.getParameter("editname").getBytes("ISO-8859-1"), "utf-8");
@@ -28,7 +31,6 @@ public class updateEmployeeServlet extends HttpServlet {
 
 
         Employee employee = new Employee(empNo, name, depName, position, idNumber, phone, address);
-
         e.updateEmployee(employee);
 
         // 重定向
