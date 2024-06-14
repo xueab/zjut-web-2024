@@ -20,6 +20,7 @@ public class searchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
+
         String keyword = req.getParameter("keyword");
         System.out.println(username);
 
@@ -28,7 +29,7 @@ public class searchServlet extends HttpServlet {
             SalaryService salaryService = new SalaryService();
             if (keyword.equals("deptName")) {
                 // 按部门名查询
-                String deptName = req.getParameter("deptName");
+                String deptName = new String(req.getParameter("deptName").getBytes("ISO-8859-1"), "utf-8");
                 List<Salary> list = salaryService.searchByDeptName(deptName);
                 req.setAttribute("list", list);
                 for (Salary salary : list) {

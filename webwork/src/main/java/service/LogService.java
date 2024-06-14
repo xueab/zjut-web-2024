@@ -31,9 +31,6 @@ public class LogService {
     }*/
 
     public List<Log> searchByDate(Date beginTime, Date endTime) {
-        // 将Date转换成Calendar
-        // 创建一个 Calendar 对象并设置时间为当前 date
-
         return logDao.searchByDate(beginTime,endTime);
     }
 

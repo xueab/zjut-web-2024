@@ -18,7 +18,8 @@ public class deleteSalary extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SalaryService s = new SalaryService();
-        String username = req.getParameter("username");
+
+        String username = new String(req.getParameter("username").getBytes("ISO-8859-1"),"utf-8");
         int empNo = Integer.parseInt(req.getParameter("deleteempNo"));
         int year = Integer.parseInt(req.getParameter("deleteyear"));
         int month = Integer.parseInt(req.getParameter("deletemonth"));
