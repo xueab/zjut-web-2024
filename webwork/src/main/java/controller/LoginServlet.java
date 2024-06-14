@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
             String role = s.getUserRole(username, password);
             String redirectURL = "";
 
-            log.setUsername(role);
+            log.setUsername(username);
             log.setTime(new Date());
             log.setLevel("INFO");
             log.setIpAddress(ipAddress);

@@ -33,6 +33,7 @@ public class registerServlet extends HttpServlet {
         // 判断用户名是否存在
         if (reg.checkUserExist(username)) {
             resp.sendRedirect(req.getContextPath() + "/register.jsp");
+            return;
         }
 
 
@@ -50,6 +51,7 @@ public class registerServlet extends HttpServlet {
         else {
             // 密码不符合要求
             resp.sendRedirect(req.getContextPath() + "/register.jsp");
+            return;
         }
 
         // 重定向到登录界面

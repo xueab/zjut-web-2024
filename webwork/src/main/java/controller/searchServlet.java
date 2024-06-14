@@ -39,7 +39,7 @@ public class searchServlet extends HttpServlet {
                     System.out.println("----");
                     System.out.println(salary);
                 }
-                req.getRequestDispatcher("/financialManager.jsp").forward(req, resp);
+                req.getRequestDispatcher("/financialManager.jsp"+"?section=viewSalary").forward(req, resp);
             }
             else if (keyword.equals("name")) {
                 // 按员工姓名查询
@@ -58,8 +58,9 @@ public class searchServlet extends HttpServlet {
                 // 按时间查询
                 String beginTimeStr = req.getParameter("startDate");
                 String endTimeStr = req.getParameter("endDate");
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                System.out.println(beginTimeStr);
+                System.out.println(endTimeStr);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
 
 
                 Date beginTime = null;
@@ -90,7 +91,7 @@ public class searchServlet extends HttpServlet {
                 String beginTimeStr = req.getParameter("startDate");
                 String endTimeStr = req.getParameter("endDate");
                 // 定义日期格式
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
                 
                 Date beginTime = null;
                 Date endTime = null;
@@ -106,6 +107,57 @@ public class searchServlet extends HttpServlet {
             }
 
         }
+        else if (username.equals("general")) {
+            SalaryService salaryService = new SalaryService();
+            if (keyword.equals("deptName")) {
+                // 按部门名查询
+                String deptName = new String(req.getParameter("deptName").getBytes("ISO-8859-1"), "utf-8");
+                List<Salary> list = salaryService.searchByDeptName(deptName);
+                req.setAttribute("list", list);
+                for (Salary salary : list) {
+                    System.out.println("----");
+                    System.out.println(salary);
+                }
+                req.getRequestDispatcher("/generalManager.jsp").forward(req, resp);
+            }
+            else if (keyword.equals("name")) {
+                // 按员工姓名查询
+                String name = new String(req.getParameter("name").getBytes("ISO-8859-1"), "utf-8");
+                System.out.println("--------------------------------------------");
+                System.out.println(name);
+                List<Salary> list = salaryService.searchByName(name);
+                for (Salary salary : list) {
+                    System.out.println("----");
+                    System.out.println(salary);
+                }
+                req.setAttribute("list", list);
+                req.getRequestDispatcher("/generalManager.jsp").forward(req, resp);
+            }
+            else if (keyword.equals("date")) {
+                // 按时间查询
+                String beginTimeStr = req.getParameter("startDate");
+                String endTimeStr = req.getParameter("endDate");
+                System.out.println(beginTimeStr);
+                System.out.println(endTimeStr);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+
+
+                Date beginTime = null;
+                Date endTime = null;
+                try {
+                    beginTime = dateFormat.parse(beginTimeStr);
+                    endTime =  dateFormat.parse(endTimeStr);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
+                List<Salary> list = salaryService.searchByDate(beginTime, endTime);
+                req.setAttribute("list", list);
+                req.getRequestDispatcher("/generalManager.jsp").forward(req, resp);
+            }
+
+        }
+
     }
 
     @Override

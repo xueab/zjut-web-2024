@@ -24,10 +24,10 @@ public class updateEmployeeServlet extends HttpServlet {
         int empNo = Integer.parseInt(req.getParameter("editempNo"));
         String name = new String(req.getParameter("editname").getBytes("ISO-8859-1"), "utf-8");
         String depName = new String(req.getParameter("editdepName").getBytes("ISO-8859-1"), "utf-8");
-        String position = req.getParameter("editposition");
+        String position = new String(req.getParameter("editposition").getBytes("ISO-8859-1"), "utf-8");
         String idNumber = req.getParameter("editidNumber");
         String phone = req.getParameter("editphone");
-        String address = req.getParameter("editaddress");
+        String address = new String(req.getParameter("editaddress").getBytes("ISO-8859-1"), "utf-8");
 
 
         Employee employee = new Employee(empNo, name, depName, position, idNumber, phone, address);

@@ -105,6 +105,9 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#queryModal"><i class="fas fa-calendar-check"></i>
             历史日志查询
         </button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#logoutModal">
+            <i class="fas fa-sign-out-alt"></i> 退出登录
+        </button>
     </div>
     <div class="main">
         <div id="logManagement" class="container content-section active">
@@ -149,7 +152,7 @@
                         <td>${logRole.message}</td>
                         <td>${logRole.username}</td>
                         <td>${logRole.ipAddress}</td>
-                    </tr>z
+                    </tr>
                 </c:forEach>
                 </tbody>
             </table>
@@ -194,7 +197,7 @@
                     <td>${logRole.message}</td>
                     <td>${logRole.username}</td>
                     <td>${logRole.ipAddress}</td>
-                </tr>z
+                </tr>
             </c:forEach>
             </tbody>
             <%
@@ -202,7 +205,6 @@
             %>
         </div>
         </div>
-
         <div id="changePassword" class="container content-section">
             <h2>修改密码</h2>
             <form action="changePassword.do" method="post">
@@ -223,6 +225,26 @@
                 <button type="submit" class="btn btn-primary">修改密码</button>
             </form>
         </div>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">确认退出</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    你确定要退出登录吗？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmLogout()">退出</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="queryModal" tabindex="-1" aria-labelledby="queryModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -366,6 +388,9 @@
         });
     });
 
+    function confirmLogout() {
+        window.location.href = 'login.jsp';
+    }
 </script>
 </body>
 </html>

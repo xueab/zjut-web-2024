@@ -103,8 +103,8 @@
     String username = request.getParameter("username");
 %>
 <div class="sidebar">
-    <a href="generalManager.jsp?section=viewEmployee&username=<%=username%>" onclick="showSection('viewEmployee')"><i class="fas fa-user-shield"></i>查看员工</a>
     <a href="generalManager.jsp?section=viewSalaries&username=<%=username%>" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
+    <a href="generalManager.jsp?section=viewEmployee&username=<%=username%>" onclick="showSection('viewEmployee')"><i class="fas fa-user-shield"></i>查看员工</a>
     <a href="generalManager.jsp?section=changePassword&username=<%=username%>" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
     <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal"><i class="fas fa-chart-pie"></i>员工部门占比饼状图</button>
     <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal"><i class="fas fa-chart-pie"></i> 员工工资分布饼状图</button>
@@ -117,7 +117,7 @@
     </button>
 </div>
 <div class="main">
-    <div id="viewEmployee" class="container content-section active">
+    <div id="viewEmployee" class="container content-section">
         <h2>所有员工</h2>
         <br>
         <%
@@ -198,7 +198,7 @@
         </div>
     </div>
 
-    <div id="viewSalaries" class="container content-section">
+    <div id="viewSalaries" class="container content-section active">
         <h2>查看工资</h2>
         <br>
         <%

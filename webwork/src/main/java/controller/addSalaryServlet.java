@@ -30,10 +30,11 @@ public class addSalaryServlet extends HttpServlet {
         BigDecimal basicSalary = new BigDecimal(req.getParameter("addbasicSalary"));
         BigDecimal overtimePay = new BigDecimal(req.getParameter("addovertimePay"));
         BigDecimal fullAttendanceBonus = new BigDecimal(req.getParameter("addfullAttendanceBonus"));
-        BigDecimal personalTax = new BigDecimal(req.getParameter("addpersonalTax"));
-        BigDecimal netSalary = new BigDecimal(req.getParameter("addnetSalary"));
-
+        BigDecimal personalTax = BigDecimal.valueOf(0);
+        BigDecimal netSalary = BigDecimal.valueOf(0);
         Salary salary = new Salary(empNo, year, month, basicSalary, overtimePay, fullAttendanceBonus, personalTax, netSalary);
+        salary.setPersonalTax(salary.calculatePersonalTax());
+        salary.setNetSalary(salary.calculateNetSalary());
 
         s.add(salary);
 

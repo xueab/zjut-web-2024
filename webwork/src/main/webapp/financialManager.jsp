@@ -618,6 +618,10 @@
             $('#dateRangeInput').hide();
         });
     });
+
+    function confirmLogout() {
+        window.location.href = 'login.jsp';
+    }
 </script>
 </body>
 </html>
