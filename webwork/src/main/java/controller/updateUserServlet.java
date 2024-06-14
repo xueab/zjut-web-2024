@@ -23,9 +23,9 @@ public class updateUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserService user = new UserService();
-        String username = req.getParameter("username");
+        String username = new String(req.getParameter("username").getBytes("ISO-8859-1"),"utf-8");
         int userId = Integer.parseInt(req.getParameter("edituserId"));
-        String editusername = req.getParameter("editusername");
+        String editusername = new String(req.getParameter("editusername").getBytes("ISO-8859-1"), "utf-8");
 
         String role = req.getParameter("editrole");
 

@@ -25,7 +25,8 @@ public class uploadExcelServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SalaryService s = new SalaryService();
-        String username = req.getParameter("username");
+        String username = new String(req.getParameter("username").getBytes("ISO-8859-1"),"utf-8");
+
         // 从HTTP请求中获取名为 "file" 的 Part 对象。 Part 对象代表上传的文件或表单字段。
         // req.getPart("file") 是从 HttpServletRequest 对象 req 中获取 file 字段对应的 Part
         // file 是前端表单中文件上传控件的名称
@@ -45,14 +46,4 @@ public class uploadExcelServlet extends HttpServlet {
         doGet(req, resp);
     }
 
-    private String getFileName(Part part) {
-        // 从上传文件的Part中提取文件名。它通过解析HTTP请求头中的content-disposition字段来获取文件名。
-        String contentDisposition = part.getHeader("content-disposition");
-        for (String content : contentDisposition.split(";")) {
-            if (content.trim().startsWith("filename")) {
-                return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
-            }
-        }
-        return null;
-    }
 }
