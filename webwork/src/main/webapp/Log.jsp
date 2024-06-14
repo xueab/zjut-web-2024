@@ -96,11 +96,12 @@
 <body>
 <div>
     <%
-        request.getParameter("username");
+        String username = request.getParameter("username");
+
     %>
     <div class="sidebar">
-        <a href="#" onclick="showSection('logManagement')"><i class="fas fa-log-shield"></i>查看日志</a>
-        <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
+        <a href="Log.jsp?section=logManagement&username=<%=username%>" onclick="showSection('logManagement')"><i class="fas fa-user-shield"></i>查看日志</a>
+        <a href="Log.jsp?section=changePassword&username=<%=username%>" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#queryModal"><i class="fas fa-calendar-check"></i>
             历史日志查询
         </button>
@@ -157,21 +158,21 @@
                         if (currentpage > 1) {
                     %>
                     <li class="page-item">
-                        <a class="page-link" href="Log.jsp?currentpage=<%= currentpage - 1 %>">上一页</a>
+                        <a class="page-link" href="Log.jsp?currentpage=<%= currentpage - 1 %>&username=<%=username%>">上一页</a>
                     </li>
                     <%
                         }
                         for (int i = startPage; i <= endPage; i++) {
                     %>
                     <li class="page-item <%= (i == currentpage) ? "active" : "" %>">
-                        <a class="page-link" href="Log.jsp?currentpage=<%= i %>"><%= i %></a>
+                        <a class="page-link" href="Log.jsp?currentpage=<%= i %>&username=<%=username%>"><%= i %></a>
                     </li>
                     <%
                         }
                         if (currentpage < totalpages) {
                     %>
                     <li class="page-item">
-                        <a class="page-link" href="Log.jsp?currentpage=<%= currentpage + 1 %>">下一页</a>
+                        <a class="page-link" href="Log.jsp?currentpage=<%= currentpage + 1 %>&username=<%=username%>">下一页</a>
                     </li>
                     <%
                         }
@@ -196,8 +197,8 @@
                     <label for="confirmPassword">确认新密码:</label>
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
                 </div>
-                <input type="hidden" id="username" name="username">
-                <input type="hidden" id="role" name="Log">
+                <input type="hidden" name="username" value=<%=username%>>
+                <input type="hidden" name="Log" value="Log">
                 <button type="submit" class="btn btn-primary">修改密码</button>
             </form>
         </div>
@@ -263,6 +264,43 @@
             if (value === "name") {
                 nameInput.style.display = "block";
             }else if (value === "dateRange") {
+                dateRangeInput.style.display = "block";
+            }
+        }
+        queryType.onchange();
+    });
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var section = getUrlParameter('section');
+        if (section) {
+            showSection(section);
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const queryType = document.getElementById("queryType");
+        const nameInput = document.getElementById("nameInput");
+        const departmentInput = document.getElementById("departmentInput");
+        const dateRangeInput = document.getElementById("dateRangeInput");
+
+        queryType.onchange = function() {
+            const value = queryType.value;
+            nameInput.style.display = "none";
+            departmentInput.style.display = "none";
+            dateRangeInput.style.display = "none";
+
+            if (value === "name") {
+                nameInput.style.display = "block";
+            } else if (value === "department") {
+                departmentInput.style.display = "block";
+            } else if (value === "dateRange") {
                 dateRangeInput.style.display = "block";
             }
         }

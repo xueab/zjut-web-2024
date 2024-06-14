@@ -140,4 +140,10 @@ public class    Salary {
 
         return tax.setScale(2, RoundingMode.HALF_UP);
     }
+
+    public BigDecimal calculateNetSalary()
+    {
+        BigDecimal ans = basicSalary.add(overtimePay).add(fullAttendanceBonus).subtract(personalTax);
+        return ans.setScale(2, RoundingMode.HALF_UP);
+    }
 }

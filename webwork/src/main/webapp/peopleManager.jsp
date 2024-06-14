@@ -94,15 +94,22 @@
             from {opacity: 0;}
             to {opacity: 1;}
         }
+        .error {
+            border-color: red;
+        }
+        .error-message {
+            color: red;
+            display: none;
+        }
     </style>
 </head>
 <body>
 <%
-    request.getParameter("username");
+    String username = request.getParameter("username");
 %>
 <div class="sidebar">
-    <a href="#" onclick="showSection('employeeManagement')"><i class="fas fa-user-shield"></i>员工管理</a>
-    <a href="#" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
+    <a href="peopleManager.jsp?section=employeeManagement&username=<%=username%>" onclick="showSection('employeeManagement')"><i class="fas fa-user-shield"></i>修改员工信息</a>
+    <a href="peopleManager.jsp?section=changePassword&username=<%=username%>" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
     <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal"><i class="fas fa-chart-pie"></i>员工部门占比饼状图</button>
     <button class="btn btn-success" data-toggle="modal" data-target="#addemployeeModal"><i class="fas fa-plus"></i>添加员工</button>
 
@@ -112,7 +119,7 @@
 </div>
 <div class="main">
     <div id="employeeManagement" class="container content-section active">
-        <h2>员工管理</h2>
+        <h2>修改员工信息</h2>
         <br>
         <%
             int currentpage = 1;
@@ -183,21 +190,21 @@
                     if (currentpage > 1) {
                 %>
                 <li class="page-item">
-                    <a class="page-link" href="peopleManager.jsp?currentpage=<%= currentpage - 1 %>">上一页</a>
+                    <a class="page-link" href="peopleManager.jsp?currentpage=<%= currentpage - 1 %>&username=<%=username%>">上一页</a>
                 </li>
                 <%
                     }
                     for (int i = startPage; i <= endPage; i++) {
                 %>
                 <li class="page-item <%= (i == currentpage) ? "active" : "" %>">
-                    <a class="page-link" href="peopleManager.jsp?currentpage=<%= i %>"><%= i %></a>
+                    <a class="page-link" href="peopleManager.jsp?currentpage=<%= i %>&username=<%=username%>"><%= i %></a>
                 </li>
                 <%
                     }
                     if (currentpage < totalpages) {
                 %>
                 <li class="page-item">
-                    <a class="page-link" href="peopleManager.jsp?currentpage=<%= currentpage + 1 %>">下一页</a>
+                    <a class="page-link" href="peopleManager.jsp?currentpage=<%= currentpage + 1 %>&username=<%=username%>">下一页</a>
                 </li>
                 <%
                     }
@@ -221,8 +228,8 @@
                 <label for="confirmPassword">确认新密码:</label>
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
             </div>
-            <input type="hidden" id="username" name="username">
-            <input type="hidden" id="role" name="peopleManager">
+            <input type="hidden" name="username" value=<%=username%>>
+            <input type="hidden" name="role" value="peopleManager">
             <button type="submit" class="btn btn-primary">修改密码</button>
         </form>
     </div>
@@ -231,7 +238,7 @@
 <div class="modal fade" id="addemployeeModal" tabindex="-1" role="dialog" aria-labelledby="addemployeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="addemployee.do" method="post">
+            <form action="addemployee.do" method="post" accept-charset="UTF-8">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addemployeeModalLabel">添加员工</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -257,11 +264,13 @@
                     </div>
                     <div class="form-group">
                         <label for="addidNumber">身份证号:</label>
-                        <input type="text" class="form-control" id="addidNumber" name="addidNumber" required>
+                        <input type="text" class="form-control" id="addidNumber" name="addidNumber" required onblur="checkAddIdNumber()">
+                        <small id="add-id-error-message" class="error-message">请输入有效的身份证号</small>
                     </div>
                     <div class="form-group">
                         <label for="addphone">手机号:</label>
-                        <input type="text" class="form-control" id="addphone" name="addphone" required>
+                        <input type="text" class="form-control" id="addphone" name="addphone" required onblur="checkAddPhoneNumber()">
+                        <small id="add-phone-error-message" class="error-message">请输入有效的手机号</small>
                     </div>
                     <div class="form-group">
                         <label for="addaddress">住址:</label>
@@ -272,6 +281,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                     <button type="submit" class="btn btn-primary">添加</button>
                 </div>
+                <input type="hidden" name="username" value=<%=username%>>
             </form>
         </div>
     </div>
@@ -280,7 +290,7 @@
 <div class="modal fade" id="deleteemployeeModal" tabindex="-1" role="dialog" aria-labelledby="deleteemployeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="deleteemployee.do" method="post">
+            <form action="deleteemployee.do" method="post" accept-charset="UTF-8">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteemployeeModalLabel">删除员工</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -296,6 +306,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                     <button type="submit" class="btn btn-danger">删除</button>
                 </div>
+                <input type="hidden" name="username" value=<%=username%>>
             </form>
         </div>
     </div>
@@ -304,7 +315,7 @@
 <div class="modal fade" id="editemployeeModal" tabindex="-1" role="dialog" aria-labelledby="editemployeeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="updateemployee.do" method="post">
+            <form action="updateemployee.do" method="post" accept-charset="UTF-8">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editemployeeModalLabel">修改员工信息</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -316,10 +327,7 @@
                         <label for="editname">员工姓名:</label>
                         <input type="text" class="form-control" id="editname" name="editname" required>
                     </div>
-                    <div class="form-group">
-                        <label for="editempNo">员工编号:</label>
-                        <input type="text" class="form-control" id="editempNo" name="editempNo" required>
-                    </div>
+                    <input type="hidden" id="editempNo" name="editempNo" required>
                     <div class="form-group">
                         <label for="editdepName">部门名称:</label>
                         <input type="text" class="form-control" id="editdepName" name="editdepName" required>
@@ -330,11 +338,13 @@
                     </div>
                     <div class="form-group">
                         <label for="editidNumber">身份证号:</label>
-                        <input type="text" class="form-control" id="editidNumber" name="editidNumber" required>
+                        <input type="text" class="form-control" id="editidNumber" name="editidNumber" required onblur="checkEditIdNumber()">
+                        <small id="edit-id-error-message" class="error-message">请输入有效的身份证号</small>
                     </div>
                     <div class="form-group">
                         <label for="editphone">手机号:</label>
-                        <input type="text" class="form-control" id="editphone" name="editphone" required>
+                        <input type="text" class="form-control" id="editphone" name="editphone" required onblur="checkEditPhoneNumber()">
+                        <small id="edit-phone-error-message" class="error-message">请输入有效的手机号</small>
                     </div>
                     <div class="form-group">
                         <label for="editaddress">住址:</label>
@@ -345,6 +355,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                     <button type="submit" class="btn btn-primary">保存</button>
                 </div>
+                <input type="hidden" name="username" value=<%=username%>>
             </form>
         </div>
     </div>
@@ -389,6 +400,84 @@
     </div>
 </div>
 
+<style>
+    .error {
+        border-color: red;
+    }
+    .error-message {
+        color: red;
+        display: none;
+    }
+</style>
+<script>
+    function validateIdNumber(idNumber) {
+        const idPattern = /(^\d{15}$)|(^\d{17}(\d|X|x)$)/;
+        return idPattern.test(idNumber);
+    }
+
+    function validatePhoneNumber(phoneNumber) {
+        const phonePattern = /^1[3-9]\d{9}$/;
+        return phonePattern.test(phoneNumber);
+    }
+
+    function checkAddIdNumber() {
+        const idNumberInput = document.getElementById('addidNumber');
+        const idNumber = idNumberInput.value;
+        const idErrorMessage = document.getElementById('add-id-error-message');
+
+        if (!validateIdNumber(idNumber)) {
+            idNumberInput.classList.add('error');
+            idErrorMessage.style.display = 'block';
+        } else {
+            idNumberInput.classList.remove('error');
+            idErrorMessage.style.display = 'none';
+        }
+    }
+
+    function checkAddPhoneNumber() {
+        const phoneNumberInput = document.getElementById('addphone');
+        const phoneNumber = phoneNumberInput.value;
+        const phoneErrorMessage = document.getElementById('add-phone-error-message');
+
+        if (!validatePhoneNumber(phoneNumber)) {
+            phoneNumberInput.classList.add('error');
+            phoneErrorMessage.style.display = 'block';
+        } else {
+            phoneNumberInput.classList.remove('error');
+            phoneErrorMessage.style.display = 'none';
+        }
+    }
+
+    function checkEditIdNumber() {
+        const idNumberInput = document.getElementById('editidNumber');
+        const idNumber = idNumberInput.value;
+        const idErrorMessage = document.getElementById('edit-id-error-message');
+
+        if (!validateIdNumber(idNumber)) {
+            idNumberInput.classList.add('error');
+            idErrorMessage.style.display = 'block';
+        } else {
+            idNumberInput.classList.remove('error');
+            idErrorMessage.style.display = 'none';
+        }
+    }
+
+    function checkEditPhoneNumber() {
+        const phoneNumberInput = document.getElementById('editphone');
+        const phoneNumber = phoneNumberInput.value;
+        const phoneErrorMessage = document.getElementById('edit-phone-error-message');
+
+        if (!validatePhoneNumber(phoneNumber)) {
+            phoneNumberInput.classList.add('error');
+            phoneErrorMessage.style.display = 'block';
+        } else {
+            phoneNumberInput.classList.remove('error');
+            phoneErrorMessage.style.display = 'none';
+        }
+    }
+
+</script>
+
 <script>
     $('form').on('submit', function () {
         var form = $(this);
@@ -407,6 +496,9 @@
         $(this).find('#addidNumber').val('');
         $(this).find('#addphone').val('');
         $(this).find('#addaddress').val('');
+
+        $(this).find('.error').removeClass('error');
+        $(this).find('.error-message').hide();
     });
     $('#deleteemployeeModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // 触发事件的按钮
@@ -438,6 +530,7 @@
 </script>
 
 <script type="text/javascript">
+
     function showSection(sectionId) {
         var sections = document.getElementsByClassName('content-section');
         for (var i = 0; i < sections.length; i++) {
@@ -445,6 +538,7 @@
         }
         document.getElementById(sectionId).classList.add('active');
     }
+
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
@@ -474,6 +568,43 @@
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
         chart.draw(data, options);
     }
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var section = getUrlParameter('section');
+        if (section) {
+            showSection(section);
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const queryType = document.getElementById("queryType");
+        const nameInput = document.getElementById("nameInput");
+        const departmentInput = document.getElementById("departmentInput");
+        const dateRangeInput = document.getElementById("dateRangeInput");
+
+        queryType.onchange = function() {
+            const value = queryType.value;
+            nameInput.style.display = "none";
+            departmentInput.style.display = "none";
+            dateRangeInput.style.display = "none";
+
+            if (value === "name") {
+                nameInput.style.display = "block";
+            } else if (value === "department") {
+                departmentInput.style.display = "block";
+            } else if (value === "dateRange") {
+                dateRangeInput.style.display = "block";
+            }
+        }
+        queryType.onchange();
+    });
 
     function confirmLogout() {
         window.location.href = 'login.jsp';

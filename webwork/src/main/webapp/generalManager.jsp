@@ -100,12 +100,12 @@
 </head>
 <div>
 <%
-    request.getParameter("username");
+    String username = request.getParameter("username");
 %>
 <div class="sidebar">
-    <a href="generalManager.jsp?section=viewEmployee" onclick="showSection('viewEmployee')"><i class="fas fa-user-shield"></i>查看员工</a>
-    <a href="generalManager.jsp?section=viewSalaries" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
-    <a href="generalManager.jsp?section=changePassword" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
+    <a href="generalManager.jsp?section=viewEmployee&username=<%=username%>" onclick="showSection('viewEmployee')"><i class="fas fa-user-shield"></i>查看员工</a>
+    <a href="generalManager.jsp?section=viewSalaries&username=<%=username%>" onclick="showSection('viewSalaries')"><i class="fas fa-money-check-alt"></i>查看工资</a>
+    <a href="generalManager.jsp?section=changePassword&username=<%=username%>" onclick="showSection('changePassword')"><i class="fas fa-key"></i>修改密码</a>
     <button class="btn btn-info" data-toggle="modal" data-target="#employeePieChartModal"><i class="fas fa-chart-pie"></i>员工部门占比饼状图</button>
     <button class="btn btn-info" data-toggle="modal" data-target="#salaryPieChartModal"><i class="fas fa-chart-pie"></i> 员工工资分布饼状图</button>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#queryModal"><i class="fas fa-calendar-check"></i>
@@ -257,21 +257,21 @@
                     if (cpage > 1) {
                 %>
                 <li class="page-item">
-                    <a class="page-link" href="generalManager.jsp?cpage=<%= cpage - 1 %>&section=viewSalaries">上一页</a>
+                    <a class="page-link" href="generalManager.jsp?cpage=<%= cpage - 1 %>&section=viewSalaries&username=<%=username%>">上一页</a>
                 </li>
                 <%
                     }
                     for (int i = startPage1; i <= endPage1; i++) {
                 %>
                 <li class="page-item <%= (i == cpage) ? "active" : "" %>">
-                    <a class="page-link" href="generalManager.jsp?cpage=<%= i %>&section=viewSalaries"><%= i %></a>
+                    <a class="page-link" href="generalManager.jsp?cpage=<%= i %>&section=viewSalaries&username=<%=username%>"><%= i %></a>
                 </li>
                 <%
                     }
                     if (cpage < totalpage) {
                 %>
                 <li class="page-item">
-                    <a class="page-link" href="generalManager.jsp?cpage=<%= cpage + 1 %>&section=viewSalaries">下一页</a>
+                    <a class="page-link" href="generalManager.jsp?cpage=<%= cpage + 1 %>&section=viewSalaries&username=<%=username%>">下一页</a>
                 </li>
                 <%
                     }
@@ -295,8 +295,8 @@
                 <label for="confirmPassword">确认新密码:</label>
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
             </div>
-            <input type="hidden" id="username" name="username">
-            <input type="hidden" id="role" name="generalManager">
+            <input type="hidden" name="username" value=<%=username%>>
+            <input type="hidden" name="role" value="generalManager">
             <button type="submit" class="btn btn-primary">修改密码</button>
         </form>
     </div>
